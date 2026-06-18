@@ -135,37 +135,20 @@ export default function Home() {
           ))}
         </div>
         
-        <div className="relative z-10 flex flex-col items-center text-center px-6 mt-16 w-full">
-          <motion.div 
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            transition={{ duration: 1, ease: "easeOut" }}
-            className="w-12 h-12 mb-6 rounded-full border border-[#c9a84c] flex items-center justify-center text-[#e8d090] text-[8px] tracking-[0.2em]"
-            style={{ boxShadow: "0 0 20px rgba(201,168,76,0.15)" }}
-          >
-            EST. 2024
-          </motion.div>
-          
-          <motion.h1 
-            initial={{ opacity: 0, y: 10 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ delay: 0.3, duration: 1, ease: "easeOut" }}
-            className="text-[64px] font-serif leading-none mb-2"
-            style={{ 
-              background: "linear-gradient(180deg, #e8d090 0%, #c9a84c 50%, #8a6a1f 100%)",
-              WebkitBackgroundClip: "text",
-              WebkitTextFillColor: "transparent",
-              textTransform: "none",
-              letterSpacing: "normal"
-            }}
-          >
-            Maison Élite
-          </motion.h1>
+        <div className="relative z-10 flex flex-col items-center text-center px-6 w-full">
+          <motion.img
+            src="/images/logo.png"
+            alt="Hotel Vescera"
+            initial={{ opacity: 0, scale: 0.85 }}
+            animate={{ opacity: 1, scale: 1 }}
+            transition={{ duration: 1.2, ease: "easeOut" }}
+            className="w-[220px] mb-4 drop-shadow-[0_0_40px_rgba(201,168,76,0.35)]"
+          />
 
           <motion.div
              initial={{ opacity: 0, scaleX: 0 }}
              animate={{ opacity: 1, scaleX: 1 }}
-             transition={{ delay: 0.6, duration: 1, ease: "easeInOut" }}
+             transition={{ delay: 0.5, duration: 1, ease: "easeInOut" }}
              className="w-full"
           >
             <GoldDivider />
@@ -174,8 +157,8 @@ export default function Home() {
           <motion.p 
             initial={{ opacity: 0, y: 10 }}
             animate={{ opacity: 1, y: 0 }}
-            transition={{ delay: 0.9, duration: 1 }}
-            className="font-arabic text-[22px] text-[#b8aa88] mb-6"
+            transition={{ delay: 0.8, duration: 1 }}
+            className="font-arabic text-[22px] text-[#b8aa88] mb-5"
             dir="rtl"
           >
             فخامة تتجاوز التوقعات
@@ -184,7 +167,7 @@ export default function Home() {
           <motion.p 
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
-            transition={{ delay: 1.2, duration: 1 }}
+            transition={{ delay: 1.1, duration: 1 }}
             className="text-[9px] tracking-[0.4em] uppercase text-[#c9a84c]"
           >
             Where every moment is a memory
@@ -210,10 +193,10 @@ export default function Home() {
         
         <div className="px-8 text-center relative z-10">
           <p className="font-serif italic text-[#e8d090] text-[20px] leading-relaxed mb-4 normal-case tracking-normal">
-            "Since 2024, Maison Élite has defined the new language of luxury hospitality across the Middle East."
+            "Since 2024, Hotel Vescera has defined the new language of luxury hospitality across the Middle East."
           </p>
           <p className="font-arabic text-[#b8aa88] text-[16px] leading-relaxed mb-10" dir="rtl">
-            منذ عام ٢٠٢٤، رسمت ميزون إيليت لغة جديدة لضيافة الرفاهية في جميع أنحاء الشرق الأوسط.
+            منذ عام ٢٠٢٤، رسم فندق فيسيرة لغة جديدة لضيافة الرفاهية في جميع أنحاء الشرق الأوسط.
           </p>
 
           <div className="flex justify-center items-center gap-4">
@@ -401,19 +384,19 @@ export default function Home() {
 
       {/* SECTION 6 — FOOTER */}
       <footer className="w-full py-16 px-6 flex flex-col items-center text-center relative">
-        <h2 className="text-[32px] font-serif normal-case tracking-normal text-[#e8d090] mb-0">Maison Élite</h2>
+        <img src="/images/logo.png" alt="Hotel Vescera" className="w-[160px] mb-2 opacity-90" />
         <div className="w-1/2 -my-2"><GoldDivider /></div>
-        <p className="font-arabic text-[18px] text-[#b8aa88] mb-10">فخامة لا تُضاهى</p>
+        <p className="font-arabic text-[18px] text-[#b8aa88] mb-10">فخامة تتجاوز التوقعات</p>
         
         <div className="flex flex-col gap-2 mb-12">
           <p className="text-[10px] text-[#8a6a1f] uppercase tracking-widest">1 Royal Palace Ave, Riyadh, KSA</p>
           <p className="text-[10px] text-[#8a6a1f] uppercase tracking-widest">+966 50 000 0000</p>
-          <p className="text-[10px] text-[#8a6a1f] uppercase tracking-widest">reservations@maisonelite.com</p>
+          <p className="text-[10px] text-[#8a6a1f] uppercase tracking-widest">reservations@hotelvescera.com</p>
         </div>
 
         <div className="w-full border-t border-[#c9a84c]/10 pt-8 flex flex-col gap-2">
           <p className="text-[9px] text-[#8a6a1f]/60 uppercase tracking-[0.3em]">
-            © {new Date().getFullYear()} Maison Élite. All Rights Reserved.
+            © {new Date().getFullYear()} Hotel Vescera. All Rights Reserved.
           </p>
           <p className="text-[9px] text-[#8a6a1f]/60 uppercase tracking-[0.3em] font-serif italic normal-case">
             Crafted with devotion
