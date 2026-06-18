@@ -5,34 +5,34 @@ outputs = []
 id = "zDGeJHr5kBpBiR4OMIDol"
 uri = "file://artifacts/hotel/public/images/hero.png"
 type = "image"
-title = "Hero background of luxury hotel"
+title = "Hero Lobby"
 
 [[generated]]
 id = "MjXHPlwjqb5m4psnzaGGb"
 uri = "file://artifacts/hotel/public/images/room-deluxe.png"
 type = "image"
-title = "Deluxe Room luxury photography"
+title = "Deluxe Room"
 
 [[generated]]
 id = "-J3zqEUoons0Z0opFX_2v"
 uri = "file://artifacts/hotel/public/images/room-junior.png"
 type = "image"
-title = "Junior Suite luxury photography"
+title = "Junior Suite"
 
 [[generated]]
 id = "8gsyRPQkL2MmF1W8t93Um"
 uri = "file://artifacts/hotel/public/images/room-executive.png"
 type = "image"
-title = "Executive Suite luxury photography"
+title = "Executive Suite"
 
 [[generated]]
 id = "zhRBbjHmD51FOIXZ93tFf"
 uri = "file://artifacts/hotel/public/images/room-royal.png"
 type = "image"
-title = "Royal Suite luxury photography"
+title = "Royal Suite"
 
 [[generated]]
 id = "ILoMlJxFUCieqMT8lWKpo"
 uri = "file://artifacts/hotel/public/images/room-presidential.png"
 type = "image"
-title = "Presidential Suite luxury photography"
+title = "Presidential Suite"

@@ -1,6 +1,7 @@
-import React, { useState } from "react";
+import React from "react";
 import { motion } from "framer-motion";
-import { ChevronDown, Waves, Wine, UtensilsCrossed, ConciergeBell, Phone, MessageCircle, BedDouble, Users, Maximize } from "lucide-react";
+import { Phone } from "lucide-react";
+import { FaWhatsapp } from "react-icons/fa";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
@@ -8,62 +9,88 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@
 import { Textarea } from "@/components/ui/textarea";
 import { useToast } from "@/hooks/use-toast";
 
+function GoldDivider() {
+  return (
+    <div className="flex items-center justify-center w-full py-6 px-8">
+      <svg width="240" height="16" viewBox="0 0 240 16">
+        <line x1="0" y1="8" x2="100" y2="8" stroke="#c9a84c" strokeWidth="0.5" opacity="0.6"/>
+        <polygon points="120,2 127,8 120,14 113,8" fill="none" stroke="#c9a84c" strokeWidth="0.8" opacity="0.8"/>
+        <line x1="140" y1="8" x2="240" y2="8" stroke="#c9a84c" strokeWidth="0.5" opacity="0.6"/>
+      </svg>
+    </div>
+  );
+}
+
 const ROOMS = [
   {
     id: "deluxe",
+    num: "01",
     name: "Deluxe Room",
     nameAr: "غرفة ديلوكس",
     size: "45m²",
     guests: 2,
-    bed: "King bed",
+    bed: "King",
     price: "1,200",
     desc: "ملاذ هادئ بتصميم عصري وأناقة لا مثيل لها.",
     img: "/images/room-deluxe.png"
   },
   {
     id: "junior",
+    num: "02",
     name: "Junior Suite",
     nameAr: "جونيور سويت",
     size: "70m²",
     guests: 2,
-    bed: "King bed",
+    bed: "King",
     price: "2,400",
     desc: "مساحة رحبة تدمج بين الرفاهية والراحة المطلقة.",
     img: "/images/room-junior.png"
   },
   {
     id: "executive",
+    num: "03",
     name: "Executive Suite",
     nameAr: "سويت تنفيذية",
     size: "110m²",
     guests: 4,
-    bed: "King + sofa bed",
+    bed: "King + Sofa",
     price: "4,800",
     desc: "أجنحة فاخرة مصممة خصيصاً لتلبية تطلعات ضيوفنا النخبة.",
     img: "/images/room-executive.png"
   },
   {
     id: "royal",
+    num: "04",
     name: "Royal Suite",
     nameAr: "السويت الملكي",
     size: "220m²",
     guests: 6,
-    bed: "2 King beds",
+    bed: "2 King",
     price: "12,000",
     desc: "فخامة ملكية وتفاصيل استثنائية لإقامة لا تُنسى.",
     img: "/images/room-royal.png"
   },
   {
     id: "presidential",
+    num: "05",
     name: "Presidential Suite",
     nameAr: "السويت الرئاسي",
     size: "400m²",
     guests: 8,
-    bed: "Full floor",
+    bed: "Full Floor",
     price: "25,000",
     desc: "ذروة الرفاهية في مساحة بانورامية تعانق السحاب.",
     img: "/images/room-presidential.png"
   }
+];
+
+const EXPERIENCES = [
+  { num: "01", en: "The Spa", ar: "المنتجع الصحي" },
+  { num: "02", en: "Fine Dining", ar: "المطبخ العالمي" },
+  { num: "03", en: "Private Butler", ar: "الخدمة الشخصية" },
+  { num: "04", en: "Rooftop Lounge", ar: "جلسات السطح" },
+  { num: "05", en: "Curated Journeys", ar: "رحلات مميزة" },
+  { num: "06", en: "In-Suite Wellness", ar: "عافية الأجنحة" }
 ];
 
 export default function Home() {
@@ -79,167 +106,261 @@ export default function Home() {
   };
 
   return (
-    <div className="min-h-[100dvh] w-full max-w-[430px] mx-auto bg-background overflow-x-hidden text-foreground selection:bg-primary/30 relative shadow-2xl">
+    <div className="min-h-[100dvh] w-full max-w-[430px] mx-auto overflow-x-hidden selection:bg-primary/30 relative shadow-2xl" style={{ background: "radial-gradient(ellipse at top, #1a1208 0%, #0a0905 40%, #050300 100%)" }}>
       
-      {/* HERO SECTION */}
+      {/* SECTION 1 — HERO */}
       <section className="relative h-[100dvh] w-full flex flex-col items-center justify-center overflow-hidden">
         <div className="absolute inset-0 z-0">
           <img 
             src="/images/hero.png" 
             alt="Maison Élite Lobby" 
-            className="w-full h-full object-cover opacity-60 mix-blend-overlay"
+            className="w-full h-full object-cover opacity-50 mix-blend-overlay"
           />
-          <div className="absolute inset-0 bg-gradient-to-t from-background via-background/40 to-background/20" />
+          {/* Layered effects */}
+          <div className="absolute inset-0" style={{ background: "radial-gradient(circle at center, transparent 20%, #050300 100%)" }} />
+          <div className="absolute h-[200%] w-[1px] bg-primary opacity-15" style={{ animation: "shimmer-scan 8s infinite linear" }} />
+          
+          {/* Particles */}
+          {Array.from({ length: 12 }).map((_, i) => (
+            <div 
+              key={i} 
+              className="absolute w-[2px] h-[2px] bg-primary rounded-full opacity-30"
+              style={{
+                left: `${Math.random() * 100}%`,
+                top: `${Math.random() * 100}%`,
+                animation: `float-particle ${5 + Math.random() * 7}s infinite ease-in-out`,
+                animationDelay: `${Math.random() * 5}s`
+              }}
+            />
+          ))}
         </div>
         
-        <motion.div 
-          initial={{ opacity: 0, y: 30 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 1.5, ease: "easeOut" }}
-          className="relative z-10 flex flex-col items-center text-center px-6 mt-16"
-        >
-          <div className="w-12 h-12 mb-8 border border-primary/40 rounded-full flex items-center justify-center">
-             {/* Fake QR code representation for aesthetic */}
-             <div className="w-6 h-6 bg-primary/20 border border-primary/50" />
-          </div>
+        <div className="relative z-10 flex flex-col items-center text-center px-6 mt-16 w-full">
+          <motion.div 
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            transition={{ duration: 1, ease: "easeOut" }}
+            className="w-12 h-12 mb-6 rounded-full border border-[#c9a84c] flex items-center justify-center text-[#e8d090] text-[8px] tracking-[0.2em]"
+            style={{ boxShadow: "0 0 20px rgba(201,168,76,0.15)" }}
+          >
+            EST. 2024
+          </motion.div>
           
-          <h1 className="text-5xl md:text-6xl font-serif font-semibold tracking-wider text-primary mb-4 drop-shadow-[0_0_15px_rgba(201,168,76,0.3)]">
+          <motion.h1 
+            initial={{ opacity: 0, y: 10 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ delay: 0.3, duration: 1, ease: "easeOut" }}
+            className="text-[64px] font-serif leading-none mb-2"
+            style={{ 
+              background: "linear-gradient(180deg, #e8d090 0%, #c9a84c 50%, #8a6a1f 100%)",
+              WebkitBackgroundClip: "text",
+              WebkitTextFillColor: "transparent",
+              textTransform: "none",
+              letterSpacing: "normal"
+            }}
+          >
             Maison Élite
-          </h1>
-          <p className="font-arabic text-xl text-primary/80 mb-2 font-medium tracking-wide">
-            فخامة لا تُضاهى
-          </p>
-          <p className="text-sm tracking-[0.3em] uppercase text-muted-foreground">
-            A Palace-Grade Experience
-          </p>
-        </motion.div>
+          </motion.h1>
+
+          <motion.div
+             initial={{ opacity: 0, scaleX: 0 }}
+             animate={{ opacity: 1, scaleX: 1 }}
+             transition={{ delay: 0.6, duration: 1, ease: "easeInOut" }}
+             className="w-full"
+          >
+            <GoldDivider />
+          </motion.div>
+          
+          <motion.p 
+            initial={{ opacity: 0, y: 10 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ delay: 0.9, duration: 1 }}
+            className="font-arabic text-[22px] text-[#b8aa88] mb-6"
+            dir="rtl"
+          >
+            فخامة تتجاوز التوقعات
+          </motion.p>
+
+          <motion.p 
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            transition={{ delay: 1.2, duration: 1 }}
+            className="text-[9px] tracking-[0.4em] uppercase text-[#c9a84c]"
+          >
+            Where every moment is a memory
+          </motion.p>
+        </div>
 
         <motion.div 
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
           transition={{ delay: 2, duration: 1 }}
-          className="absolute bottom-12 flex flex-col items-center gap-3"
+          className="absolute bottom-12 flex flex-col items-center h-[60px] overflow-hidden"
         >
-          <span className="text-[10px] uppercase tracking-[0.2em] text-primary/60">Discover</span>
-          <ChevronDown className="w-4 h-4 text-primary/60 animate-bounce" />
+          <div className="w-[1px] h-full border-l border-dashed border-[#c9a84c]/30 relative">
+            <div className="absolute top-0 left-[-2px] w-[3px] h-[3px] bg-[#e8d090] rounded-full" style={{ animation: "drip 2s infinite" }} />
+          </div>
         </motion.div>
       </section>
 
-      {/* ROOMS SECTION */}
-      <section className="w-full px-4 py-16 flex flex-col gap-12" id="rooms">
-        <div className="text-center mb-6">
-          <h2 className="text-2xl font-serif text-primary mb-2">Our Suites</h2>
-          <p className="font-arabic text-muted-foreground text-sm">مجموعة الأجنحة والغرف</p>
-          <div className="w-12 h-[1px] bg-primary/30 mx-auto mt-6" />
-        </div>
+      {/* SECTION 2 — INTRODUCTION STRIP */}
+      <section className="w-full relative overflow-hidden bg-[#080604] py-14">
+        {/* Subtle texture */}
+        <div className="absolute inset-0 opacity-5 pointer-events-none" style={{ backgroundImage: "repeating-linear-gradient(0deg, transparent, transparent 1px, #c9a84c 1px, #c9a84c 2px)", backgroundSize: "100% 4px" }} />
+        
+        <div className="px-8 text-center relative z-10">
+          <p className="font-serif italic text-[#e8d090] text-[20px] leading-relaxed mb-4 normal-case tracking-normal">
+            "Since 2024, Maison Élite has defined the new language of luxury hospitality across the Middle East."
+          </p>
+          <p className="font-arabic text-[#b8aa88] text-[16px] leading-relaxed mb-10" dir="rtl">
+            منذ عام ٢٠٢٤، رسمت ميزون إيليت لغة جديدة لضيافة الرفاهية في جميع أنحاء الشرق الأوسط.
+          </p>
 
+          <div className="flex justify-center items-center gap-4">
+            <div className="px-3 py-1 border border-[#c9a84c]/20 text-[10px] uppercase tracking-widest text-[#e8d090]">5 Suites</div>
+            <div className="px-3 py-1 border border-[#c9a84c]/20 text-[10px] uppercase tracking-widest text-[#e8d090]">24/7 Butler</div>
+            <div className="px-3 py-1 border border-[#c9a84c]/20 text-[10px] uppercase tracking-widest text-[#e8d090]">100% Private</div>
+          </div>
+        </div>
+      </section>
+
+      {/* SECTION 3 — ROOM CARDS */}
+      <section className="w-full flex flex-col" id="rooms">
         {ROOMS.map((room, i) => (
-          <motion.div 
-            key={room.id}
-            initial={{ opacity: 0, y: 40 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true, margin: "-100px" }}
-            transition={{ duration: 0.8 }}
-            className="group relative flex flex-col bg-card border border-card-border overflow-hidden shadow-[0_4px_30px_rgba(0,0,0,0.5)]"
-          >
-            <div className="relative aspect-[4/5] w-full overflow-hidden">
+          <div key={room.id} className="flex flex-col">
+            <div className="relative h-[70vh] w-[calc(100%+32px)] -ml-4 overflow-hidden mb-6 mt-4">
               <img 
                 src={room.img} 
                 alt={room.name}
-                className="w-full h-full object-cover transition-transform duration-700 ease-out group-hover:scale-105"
+                className="w-full h-full object-cover"
               />
-              <div className="absolute inset-0 bg-gradient-to-t from-background/90 via-background/20 to-transparent" />
+              {/* FIVE gradient overlays stacked */}
+              <div className="absolute inset-0 bg-gradient-to-t from-[#050300] via-transparent to-transparent" />
+              <div className="absolute inset-0 bg-gradient-to-r from-[#050300] via-transparent to-transparent opacity-80" />
+              <div className="absolute inset-0 bg-gradient-to-l from-[#050300] via-transparent to-transparent opacity-80" />
+              <div className="absolute inset-0 bg-gradient-to-b from-[#050300]/40 to-transparent" />
+              <div className="absolute inset-0 bg-white/5 mix-blend-overlay" />
               
-              <div className="absolute top-4 right-4 bg-background/80 backdrop-blur-md border border-primary/30 px-3 py-1 text-xs tracking-wider text-primary">
-                {room.price} SAR / Night
+              {/* Giant number */}
+              <div className="absolute -top-10 -right-4 text-[180px] font-serif leading-none tracking-tighter" style={{ color: "#c9a84c", opacity: 0.04 }}>
+                {room.num}
+              </div>
+
+              {/* Room name pill */}
+              <div className="absolute bottom-6 left-1/2 -translate-x-1/2 w-[85%] backdrop-blur-md border border-[#c9a84c]/20 bg-[#050300]/40 py-3 px-6 text-center">
+                <h3 className="text-[#e8d090] text-lg tracking-[0.2em] uppercase mb-1">{room.name}</h3>
+                <p className="font-arabic text-[#b8aa88] text-md">{room.nameAr}</p>
               </div>
             </div>
 
-            <div className="p-6 relative z-10 -mt-16">
-              <div className="flex justify-between items-end mb-4">
-                <div>
-                  <h3 className="text-xl font-serif text-foreground mb-1">{room.name}</h3>
-                  <p className="font-arabic text-primary/80 text-lg">{room.nameAr}</p>
+            <div className="px-6 relative z-10 -mt-2">
+              <div className="bg-[#080604] border border-[#c9a84c]/20 p-4 mb-6">
+                <div className="grid grid-cols-3">
+                  <div className="flex flex-col items-center justify-center text-center">
+                    <span className="text-[10px] text-[#8a6a1f] uppercase tracking-widest mb-1">Size</span>
+                    <span className="text-xs text-[#e8d090] uppercase tracking-wider">{room.size}</span>
+                  </div>
+                  <div className="flex flex-col items-center justify-center text-center border-x border-[#c9a84c]/20">
+                    <span className="text-[10px] text-[#8a6a1f] uppercase tracking-widest mb-1">Guests</span>
+                    <span className="text-xs text-[#e8d090] uppercase tracking-wider">{room.guests}</span>
+                  </div>
+                  <div className="flex flex-col items-center justify-center text-center">
+                    <span className="text-[10px] text-[#8a6a1f] uppercase tracking-widest mb-1">Bed</span>
+                    <span className="text-xs text-[#e8d090] uppercase tracking-wider truncate w-full px-1">{room.bed}</span>
+                  </div>
                 </div>
               </div>
 
-              <div className="grid grid-cols-3 gap-2 mb-6 py-4 border-y border-primary/10">
-                <div className="flex flex-col items-center justify-center gap-1.5 text-center">
-                  <Maximize className="w-4 h-4 text-muted-foreground" strokeWidth={1.5} />
-                  <span className="text-[10px] text-muted-foreground uppercase tracking-wider">{room.size}</span>
-                </div>
-                <div className="flex flex-col items-center justify-center gap-1.5 text-center border-x border-primary/10">
-                  <Users className="w-4 h-4 text-muted-foreground" strokeWidth={1.5} />
-                  <span className="text-[10px] text-muted-foreground uppercase tracking-wider">{room.guests} Guests</span>
-                </div>
-                <div className="flex flex-col items-center justify-center gap-1.5 text-center">
-                  <BedDouble className="w-4 h-4 text-muted-foreground" strokeWidth={1.5} />
-                  <span className="text-[10px] text-muted-foreground uppercase tracking-wider truncate w-full px-1">{room.bed}</span>
+              <div className="flex justify-between items-end mb-6">
+                <p className="font-arabic text-[15px] text-[#b8aa88] leading-relaxed w-2/3" dir="rtl">
+                  {room.desc}
+                </p>
+                <div className="text-right">
+                  <div className="text-[36px] font-serif leading-none text-[#c9a84c] tracking-normal normal-case">{room.price}</div>
+                  <div className="text-[9px] uppercase tracking-widest text-[#8a6a1f]">SAR / Night</div>
                 </div>
               </div>
-
-              <p className="font-arabic text-sm text-muted-foreground leading-relaxed text-right mb-6" dir="rtl">
-                {room.desc}
-              </p>
 
               <Button 
-                className="w-full bg-primary/10 hover:bg-primary text-primary hover:text-background border border-primary/30 transition-all duration-300 rounded-none h-12 uppercase tracking-widest text-xs"
-                onClick={() => {
-                  document.getElementById('inquiry')?.scrollIntoView({ behavior: 'smooth' });
+                className="w-full rounded-none h-[56px] text-black font-semibold text-[11px]"
+                style={{ 
+                  background: "linear-gradient(90deg, #8a6a1f, #c9a84c, #8a6a1f)",
+                  backgroundSize: "200%",
+                  animation: "shimmer-btn 3s infinite",
+                  letterSpacing: "0.3em",
+                  textTransform: "uppercase"
                 }}
+                onClick={() => document.getElementById('inquiry')?.scrollIntoView({ behavior: 'smooth' })}
               >
-                Inquire / استعلام
+                Inquire — استعلام
               </Button>
             </div>
-          </motion.div>
+            
+            {i !== ROOMS.length - 1 && <GoldDivider />}
+          </div>
         ))}
+        <GoldDivider />
       </section>
 
-      {/* AMENITIES */}
-      <section className="w-full py-16 bg-secondary/30 border-y border-primary/10">
-        <div className="px-6 flex flex-wrap gap-4 justify-center">
-          <div className="flex flex-col items-center gap-2 p-4 min-w-[80px]">
-            <Waves className="w-6 h-6 text-primary/80" strokeWidth={1} />
-            <span className="text-[10px] uppercase tracking-widest text-muted-foreground">Spa</span>
-          </div>
-          <div className="flex flex-col items-center gap-2 p-4 min-w-[80px]">
-            <UtensilsCrossed className="w-6 h-6 text-primary/80" strokeWidth={1} />
-            <span className="text-[10px] uppercase tracking-widest text-muted-foreground">Dining</span>
-          </div>
-          <div className="flex flex-col items-center gap-2 p-4 min-w-[80px]">
-            <ConciergeBell className="w-6 h-6 text-primary/80" strokeWidth={1} />
-            <span className="text-[10px] uppercase tracking-widest text-muted-foreground">Butler</span>
-          </div>
-          <div className="flex flex-col items-center gap-2 p-4 min-w-[80px]">
-            <Wine className="w-6 h-6 text-primary/80" strokeWidth={1} />
-            <span className="text-[10px] uppercase tracking-widest text-muted-foreground">Lounge</span>
-          </div>
+      {/* SECTION 4 — EXPERIENCE PILLARS */}
+      <section className="w-full py-12 px-8">
+        <h2 className="text-center mb-10 text-[18px]">Curated Experiences</h2>
+        
+        <div className="flex flex-col gap-6">
+          {EXPERIENCES.map((exp, i) => (
+            <motion.div 
+              key={i}
+              initial={{ opacity: 0, x: -20 }}
+              whileInView={{ opacity: 1, x: 0 }}
+              viewport={{ once: true }}
+              transition={{ delay: i * 0.1, duration: 0.6 }}
+              className="flex items-center gap-6"
+            >
+              <span className="text-[12px] tracking-[0.2em] text-[#8a6a1f] font-serif">{exp.num}</span>
+              <div className="w-[1px] h-8 bg-[#c9a84c]/30" />
+              <div className="flex flex-col">
+                <span className="text-[14px] uppercase tracking-widest text-[#e8d090] font-serif">{exp.en}</span>
+                <span className="font-arabic text-[14px] text-[#b8aa88]">{exp.ar}</span>
+              </div>
+            </motion.div>
+          ))}
         </div>
       </section>
 
-      {/* INQUIRY SECTION */}
-      <section id="inquiry" className="w-full px-4 py-20">
-        <div className="bg-card border border-primary/20 p-6 shadow-xl relative overflow-hidden">
-          <div className="absolute top-0 right-0 w-32 h-32 bg-primary/5 blur-[80px] rounded-full pointer-events-none" />
-          
-          <h2 className="text-2xl font-serif text-foreground mb-2">Request a Reservation</h2>
-          <p className="font-arabic text-sm text-muted-foreground mb-8">طلب حجز</p>
+      <GoldDivider />
 
-          <form onSubmit={handleInquiry} className="flex flex-col gap-5 relative z-10">
-            <div className="space-y-2">
-              <Label className="text-xs uppercase tracking-wider text-muted-foreground">Full Name</Label>
-              <Input required className="rounded-none border-primary/20 bg-background/50 h-12 focus-visible:ring-primary/50 text-foreground" placeholder="Your name" />
+      {/* SECTION 5 — INQUIRY FORM */}
+      <section id="inquiry" className="w-full px-6 py-12">
+        <div className="text-center mb-10">
+          <h2 
+            className="text-[24px] mb-2"
+            style={{ 
+              background: "linear-gradient(180deg, #e8d090 0%, #c9a84c 50%, #8a6a1f 100%)",
+              WebkitBackgroundClip: "text",
+              WebkitTextFillColor: "transparent"
+            }}
+          >
+            Reserve Your Suite
+          </h2>
+          <p className="font-arabic text-[20px] text-[#c9a84c]">احجز جناحك الآن</p>
+        </div>
+
+        <div className="bg-[#080604] border border-[#c9a84c]/15 p-8 relative">
+          <form onSubmit={handleInquiry} className="flex flex-col gap-8 relative z-10">
+            <div className="flex flex-col gap-2">
+              <Label className="text-[9px] uppercase tracking-[0.3em] text-[#8a6a1f]">Full Name</Label>
+              <Input required className="border-0 border-b border-[#c9a84c]/30 bg-transparent rounded-none h-[52px] px-0 focus-visible:ring-0 focus-visible:border-[#c9a84c] text-[#f4f0e6] placeholder:text-[#c9a84c]/30" placeholder="Your name" />
             </div>
 
-            <div className="space-y-2">
-              <Label className="text-xs uppercase tracking-wider text-muted-foreground">Select Room</Label>
+            <div className="flex flex-col gap-2">
+              <Label className="text-[9px] uppercase tracking-[0.3em] text-[#8a6a1f]">Select Room</Label>
               <Select required>
-                <SelectTrigger className="rounded-none border-primary/20 bg-background/50 h-12 focus:ring-primary/50">
+                <SelectTrigger className="border-0 border-b border-[#c9a84c]/30 bg-transparent rounded-none h-[52px] px-0 focus:ring-0 focus:border-[#c9a84c] text-[#f4f0e6] shadow-none">
                   <SelectValue placeholder="Choose a suite" />
                 </SelectTrigger>
-                <SelectContent className="rounded-none border-primary/20 bg-card text-foreground">
+                <SelectContent className="rounded-none border-[#c9a84c]/20 bg-[#080604] text-[#f4f0e6]">
                   {ROOMS.map(r => (
-                    <SelectItem key={r.id} value={r.id} className="cursor-pointer focus:bg-primary/20 focus:text-primary">
+                    <SelectItem key={r.id} value={r.id} className="cursor-pointer focus:bg-[#c9a84c]/20 focus:text-[#e8d090] rounded-none">
                       {r.name} - {r.price} SAR
                     </SelectItem>
                   ))}
@@ -247,42 +368,57 @@ export default function Home() {
               </Select>
             </div>
 
-            <div className="space-y-2">
-              <Label className="text-xs uppercase tracking-wider text-muted-foreground">Dates</Label>
-              <Input required type="text" placeholder="Check-in / Check-out" className="rounded-none border-primary/20 bg-background/50 h-12 focus-visible:ring-primary/50 text-foreground" />
+            <div className="flex flex-col gap-2">
+              <Label className="text-[9px] uppercase tracking-[0.3em] text-[#8a6a1f]">Dates</Label>
+              <Input required type="text" placeholder="Check-in / Check-out" className="border-0 border-b border-[#c9a84c]/30 bg-transparent rounded-none h-[52px] px-0 focus-visible:ring-0 focus-visible:border-[#c9a84c] text-[#f4f0e6] placeholder:text-[#c9a84c]/30" />
             </div>
 
-            <div className="space-y-2">
-              <Label className="text-xs uppercase tracking-wider text-muted-foreground">Special Requests</Label>
-              <Textarea className="rounded-none border-primary/20 bg-background/50 min-h-[100px] resize-none focus-visible:ring-primary/50 text-foreground" placeholder="Any special requirements..." />
-            </div>
-
-            <Button type="submit" className="w-full bg-primary hover:bg-primary/90 text-background rounded-none h-14 mt-4 uppercase tracking-widest text-xs font-semibold">
+            <Button 
+              type="submit" 
+              className="w-full rounded-none h-[56px] text-black font-semibold text-[11px] mt-4"
+              style={{ 
+                background: "linear-gradient(90deg, #8a6a1f, #c9a84c, #8a6a1f)",
+                backgroundSize: "200%",
+                animation: "shimmer-btn 3s infinite",
+                letterSpacing: "0.3em",
+                textTransform: "uppercase"
+              }}
+            >
               Submit Request
             </Button>
           </form>
 
-          <div className="mt-10 pt-8 border-t border-primary/10 flex flex-col items-center gap-4">
-            <p className="text-xs uppercase tracking-widest text-muted-foreground">Direct Contact</p>
-            <div className="flex gap-4">
-              <a href="tel:+966500000000" className="flex items-center justify-center w-12 h-12 rounded-full border border-primary/20 text-primary hover:bg-primary hover:text-background transition-colors">
-                <Phone className="w-5 h-5" />
-              </a>
-              <a href="#" className="flex items-center justify-center w-12 h-12 rounded-full border border-primary/20 text-primary hover:bg-primary hover:text-background transition-colors">
-                <MessageCircle className="w-5 h-5" />
-              </a>
-            </div>
+          <div className="mt-12 flex justify-center gap-6">
+            <a href="tel:+966500000000" className="flex items-center justify-center w-12 h-12 rounded-full border border-[#c9a84c]/30 text-[#c9a84c] hover:bg-[#c9a84c]/10 transition-colors">
+              <Phone className="w-5 h-5" />
+            </a>
+            <a href="#" className="flex items-center justify-center w-12 h-12 rounded-full border border-[#c9a84c]/30 text-[#c9a84c] hover:bg-[#c9a84c]/10 transition-colors">
+              <FaWhatsapp className="w-5 h-5" />
+            </a>
           </div>
         </div>
       </section>
 
-      {/* FOOTER */}
-      <footer className="w-full py-12 px-6 flex flex-col items-center text-center border-t border-primary/10 bg-background">
-        <h2 className="text-2xl font-serif text-primary mb-2">Maison Élite</h2>
-        <p className="font-arabic text-sm text-muted-foreground mb-8">فخامة لا تُضاهى</p>
-        <p className="text-[10px] text-muted-foreground uppercase tracking-widest">
-          © {new Date().getFullYear()} Maison Élite Hotel. All Rights Reserved.
-        </p>
+      {/* SECTION 6 — FOOTER */}
+      <footer className="w-full py-16 px-6 flex flex-col items-center text-center relative">
+        <h2 className="text-[32px] font-serif normal-case tracking-normal text-[#e8d090] mb-0">Maison Élite</h2>
+        <div className="w-1/2 -my-2"><GoldDivider /></div>
+        <p className="font-arabic text-[18px] text-[#b8aa88] mb-10">فخامة لا تُضاهى</p>
+        
+        <div className="flex flex-col gap-2 mb-12">
+          <p className="text-[10px] text-[#8a6a1f] uppercase tracking-widest">1 Royal Palace Ave, Riyadh, KSA</p>
+          <p className="text-[10px] text-[#8a6a1f] uppercase tracking-widest">+966 50 000 0000</p>
+          <p className="text-[10px] text-[#8a6a1f] uppercase tracking-widest">reservations@maisonelite.com</p>
+        </div>
+
+        <div className="w-full border-t border-[#c9a84c]/10 pt-8 flex flex-col gap-2">
+          <p className="text-[9px] text-[#8a6a1f]/60 uppercase tracking-[0.3em]">
+            © {new Date().getFullYear()} Maison Élite. All Rights Reserved.
+          </p>
+          <p className="text-[9px] text-[#8a6a1f]/60 uppercase tracking-[0.3em] font-serif italic normal-case">
+            Crafted with devotion
+          </p>
+        </div>
       </footer>
     </div>
   );

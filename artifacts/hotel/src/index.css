@@ -1,4 +1,4 @@
-@import url('https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;500;600;700&family=Inter:wght@300;400;500&family=Noto+Serif+Arabic:wght@400;500;600;700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;0,700;1,400;1,500;1,600;1,700&family=Inter:wght@300;400;500&family=Noto+Serif+Arabic:wght@400;500;600;700&display=swap');
 @import "tailwindcss";
 @import "tw-animate-css";
 @plugin "@tailwindcss/typography";
@@ -51,31 +51,25 @@
 }
 
 :root {
-  /* Maison Élite Dark Luxury Theme - default is dark mode for this specific app */
-  /* Background: #0a0905 -> 48 33% 3% */
-  --background: 48 33% 3%;
-  /* Foreground: Champagne #f4f0e6 -> 44 43% 93% */
+  /* Maison Élite Dark Luxury Theme */
+  --background: 34 35% 6%;
   --foreground: 44 43% 93%;
   
-  /* Borders: subtle gold/charcoal */
   --border: 44 20% 15%;
   --input: 44 20% 15%;
-  --ring: 44 53% 54%; /* Gold */
+  --ring: 44 53% 54%;
 
-  /* Cards: Dark charcoal #141310 -> 45 11% 7% */
-  --card: 45 11% 7%;
+  --card: 30 33% 3%;
   --card-foreground: 44 43% 93%;
   --card-border: 44 30% 12%;
 
-  --popover: 45 11% 7%;
+  --popover: 30 33% 3%;
   --popover-foreground: 44 43% 93%;
   --popover-border: 44 30% 12%;
 
-  /* Primary: Gold #c9a84c -> 44 53% 54% */
   --primary: 44 53% 54%;
   --primary-foreground: 48 33% 3%;
   
-  /* Secondary: Deep charcoal */
   --secondary: 44 15% 12%;
   --secondary-foreground: 44 43% 93%;
 
@@ -92,20 +86,19 @@
   --app-font-serif: 'Cormorant Garamond', serif;
   --app-font-arabic: 'Noto Serif Arabic', serif;
   
-  --radius: 0rem; /* Sharp edges for luxury */
+  --radius: 0rem;
 }
 
 .dark {
-  /* Same as root since it's a forced dark theme */
-  --background: 48 33% 3%;
+  --background: 34 35% 6%;
   --foreground: 44 43% 93%;
   --border: 44 20% 15%;
   --input: 44 20% 15%;
   --ring: 44 53% 54%;
-  --card: 45 11% 7%;
+  --card: 30 33% 3%;
   --card-foreground: 44 43% 93%;
   --card-border: 44 30% 12%;
-  --popover: 45 11% 7%;
+  --popover: 30 33% 3%;
   --popover-foreground: 44 43% 93%;
   --popover-border: 44 30% 12%;
   --primary: 44 53% 54%;
@@ -130,11 +123,32 @@
   }
   
   h1, h2, h3, h4, h5, h6 {
-    @apply font-serif font-medium;
+    @apply font-serif font-medium uppercase tracking-[0.25em] text-[#e8d090];
   }
   
-  /* Utilities for mixed LTR/RTL text */
   .font-arabic {
     font-family: var(--app-font-arabic);
+    color: #b8aa88;
   }
+}
+
+@keyframes shimmer-scan {
+  0% { transform: translateX(-100%) translateY(-100%) rotate(45deg); }
+  100% { transform: translateX(200%) translateY(200%) rotate(45deg); }
+}
+@keyframes drip {
+  0%, 100% { transform: translateY(0); opacity: 1; }
+  80% { transform: translateY(48px); opacity: 0; }
+}
+@keyframes shimmer-btn {
+  0% { background-position: 200% center; }
+  100% { background-position: -200% center; }
+}
+@keyframes float-particle {
+  0%, 100% { transform: translateY(0); opacity: 0.3; }
+  50% { transform: translateY(-20px); opacity: 0.6; }
+}
+@keyframes gold-pulse {
+  0%, 100% { opacity: 0.15; }
+  50% { opacity: 0.35; }
 }
