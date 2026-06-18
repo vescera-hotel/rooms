@@ -1,7 +1,7 @@
 import React from "react";
 import { motion } from "framer-motion";
-import { Phone } from "lucide-react";
-import { FaWhatsapp } from "react-icons/fa";
+import { Phone, Mail, MapPin } from "lucide-react";
+import { FaWhatsapp, FaInstagram, FaFacebookF } from "react-icons/fa";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
@@ -371,12 +371,40 @@ export default function Home() {
             </Button>
           </form>
 
-          <div className="mt-12 flex justify-center gap-6">
-            <a href="tel:+966500000000" className="flex items-center justify-center w-12 h-12 rounded-full border border-[#c9a84c]/30 text-[#c9a84c] hover:bg-[#c9a84c]/10 transition-colors">
+          <div className="mt-10 pt-8 border-t border-[#c9a84c]/10 flex flex-col gap-4">
+            <div className="flex items-center gap-3 text-left">
+              <Phone className="w-4 h-4 text-[#c9a84c] shrink-0" />
+              <div className="flex flex-col">
+                <a href="tel:0770574728" className="text-[12px] text-[#e8d090] tracking-wider">07 70574728</a>
+                <a href="tel:0770574768" className="text-[12px] text-[#e8d090] tracking-wider">07 70574768</a>
+              </div>
+            </div>
+            <div className="flex items-center gap-3">
+              <Phone className="w-4 h-4 text-[#c9a84c] shrink-0" />
+              <a href="tel:033530303" className="text-[12px] text-[#e8d090] tracking-wider">033 530303</a>
+            </div>
+            <div className="flex items-center gap-3">
+              <Mail className="w-4 h-4 text-[#c9a84c] shrink-0" />
+              <a href="mailto:vescerahotelsud07@gmail.com" className="text-[12px] text-[#e8d090] tracking-wider break-all">vescerahotelsud07@gmail.com</a>
+            </div>
+            <div className="flex items-center gap-3">
+              <MapPin className="w-4 h-4 text-[#c9a84c] shrink-0" />
+              <a href="https://maps.app.goo.gl/HT2X2rJ6KDD8ZXuM9" target="_blank" rel="noreferrer" className="text-[12px] text-[#e8d090] tracking-wider">View on Google Maps</a>
+            </div>
+          </div>
+
+          <div className="mt-8 flex justify-center gap-4">
+            <a href="tel:0770574728" className="flex items-center justify-center w-12 h-12 rounded-full border border-[#c9a84c]/30 text-[#c9a84c] hover:bg-[#c9a84c]/10 transition-colors">
               <Phone className="w-5 h-5" />
             </a>
-            <a href="#" className="flex items-center justify-center w-12 h-12 rounded-full border border-[#c9a84c]/30 text-[#c9a84c] hover:bg-[#c9a84c]/10 transition-colors">
+            <a href="https://wa.me/0770574728" target="_blank" rel="noreferrer" className="flex items-center justify-center w-12 h-12 rounded-full border border-[#c9a84c]/30 text-[#c9a84c] hover:bg-[#c9a84c]/10 transition-colors">
               <FaWhatsapp className="w-5 h-5" />
+            </a>
+            <a href="https://www.instagram.com/hotel_vescera_sud/" target="_blank" rel="noreferrer" className="flex items-center justify-center w-12 h-12 rounded-full border border-[#c9a84c]/30 text-[#c9a84c] hover:bg-[#c9a84c]/10 transition-colors">
+              <FaInstagram className="w-5 h-5" />
+            </a>
+            <a href="https://www.facebook.com/p/H%C3%B4tel-Vescera-SUD-100063634865615/" target="_blank" rel="noreferrer" className="flex items-center justify-center w-12 h-12 rounded-full border border-[#c9a84c]/30 text-[#c9a84c] hover:bg-[#c9a84c]/10 transition-colors">
+              <FaFacebookF className="w-5 h-5" />
             </a>
           </div>
         </div>
@@ -388,10 +416,28 @@ export default function Home() {
         <div className="w-1/2 -my-2"><GoldDivider /></div>
         <p className="font-arabic text-[18px] text-[#b8aa88] mb-10">فخامة تتجاوز التوقعات</p>
         
-        <div className="flex flex-col gap-2 mb-12">
-          <p className="text-[10px] text-[#8a6a1f] uppercase tracking-widest">1 Royal Palace Ave, Riyadh, KSA</p>
-          <p className="text-[10px] text-[#8a6a1f] uppercase tracking-widest">+966 50 000 0000</p>
-          <p className="text-[10px] text-[#8a6a1f] uppercase tracking-widest">reservations@hotelvescera.com</p>
+        <div className="flex flex-col gap-2 mb-8">
+          <p className="text-[10px] text-[#8a6a1f] tracking-widest">07 70574728 &nbsp;|&nbsp; 07 70574768</p>
+          <p className="text-[10px] text-[#8a6a1f] tracking-widest">033 530303</p>
+          <p className="text-[10px] text-[#8a6a1f] tracking-widest">vescerahotelsud07@gmail.com</p>
+        </div>
+
+        <div className="flex justify-center gap-5 mb-10">
+          <a href="tel:0770574728" className="flex items-center justify-center w-10 h-10 rounded-full border border-[#c9a84c]/25 text-[#c9a84c]/70 hover:text-[#c9a84c] hover:border-[#c9a84c]/50 transition-colors">
+            <Phone className="w-4 h-4" />
+          </a>
+          <a href="https://wa.me/0770574728" target="_blank" rel="noreferrer" className="flex items-center justify-center w-10 h-10 rounded-full border border-[#c9a84c]/25 text-[#c9a84c]/70 hover:text-[#c9a84c] hover:border-[#c9a84c]/50 transition-colors">
+            <FaWhatsapp className="w-4 h-4" />
+          </a>
+          <a href="https://www.instagram.com/hotel_vescera_sud/" target="_blank" rel="noreferrer" className="flex items-center justify-center w-10 h-10 rounded-full border border-[#c9a84c]/25 text-[#c9a84c]/70 hover:text-[#c9a84c] hover:border-[#c9a84c]/50 transition-colors">
+            <FaInstagram className="w-4 h-4" />
+          </a>
+          <a href="https://www.facebook.com/p/H%C3%B4tel-Vescera-SUD-100063634865615/" target="_blank" rel="noreferrer" className="flex items-center justify-center w-10 h-10 rounded-full border border-[#c9a84c]/25 text-[#c9a84c]/70 hover:text-[#c9a84c] hover:border-[#c9a84c]/50 transition-colors">
+            <FaFacebookF className="w-4 h-4" />
+          </a>
+          <a href="https://maps.app.goo.gl/HT2X2rJ6KDD8ZXuM9" target="_blank" rel="noreferrer" className="flex items-center justify-center w-10 h-10 rounded-full border border-[#c9a84c]/25 text-[#c9a84c]/70 hover:text-[#c9a84c] hover:border-[#c9a84c]/50 transition-colors">
+            <MapPin className="w-4 h-4" />
+          </a>
         </div>
 
         <div className="w-full border-t border-[#c9a84c]/10 pt-8 flex flex-col gap-2">
