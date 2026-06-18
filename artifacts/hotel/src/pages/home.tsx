@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import { motion } from "framer-motion";
 import { Phone, Mail, MapPin } from "lucide-react";
 import { FaWhatsapp, FaInstagram, FaFacebookF } from "react-icons/fa";
@@ -93,8 +93,11 @@ const EXPERIENCES = [
   { num: "06", en: "In-Suite Wellness", ar: "عافية الأجنحة" }
 ];
 
+const VIDEO_URL = "https://res.cloudinary.com/dlazeylfu/video/upload/AQOKXqZqdnGq_YyimwMzV45gcIfjT7a71yCWhODThgSBJ6q5NE-T8tLcx7ol-fnx31qk55EuaCBsAORAQwHwyYyRsY6S_7EWadlWcwQ_1_ac6r5h.mp4";
+
 export default function Home() {
   const { toast } = useToast();
+  const [videoEnded, setVideoEnded] = useState(false);
 
   const handleInquiry = (e: React.FormEvent) => {
     e.preventDefault();
@@ -111,11 +114,27 @@ export default function Home() {
       {/* SECTION 1 — HERO */}
       <section className="relative h-[100dvh] w-full flex flex-col items-center justify-center overflow-hidden">
         <div className="absolute inset-0 z-0">
-          <img 
-            src="/images/hero-building.png" 
-            alt="VESCERA HOTEL" 
-            className="w-full h-full object-cover opacity-50 mix-blend-overlay"
+          {/* VIDEO — plays first, then fades out */}
+          <video
+            key="hero-video"
+            autoPlay
+            muted
+            playsInline
+            onEnded={() => setVideoEnded(true)}
+            className="absolute inset-0 w-full h-full object-cover transition-opacity duration-1000"
+            style={{ opacity: videoEnded ? 0 : 1, pointerEvents: "none" }}
+          >
+            <source src={VIDEO_URL} type="video/mp4" />
+          </video>
+
+          {/* STATIC IMAGE — fades in when video ends */}
+          <img
+            src="/images/hero-building.png"
+            alt="VESCERA HOTEL"
+            className="absolute inset-0 w-full h-full object-cover transition-opacity duration-1000"
+            style={{ opacity: videoEnded ? 0.55 : 0 }}
           />
+
           {/* Layered effects */}
           <div className="absolute inset-0" style={{ background: "radial-gradient(circle at center, transparent 20%, #050300 100%)" }} />
           <div className="absolute h-[200%] w-[1px] bg-primary opacity-15" style={{ animation: "shimmer-scan 8s infinite linear" }} />
