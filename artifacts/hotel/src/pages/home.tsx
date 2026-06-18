@@ -113,7 +113,7 @@ export default function Home() {
         <div className="absolute inset-0 z-0">
           <img 
             src="/images/hero-building.png" 
-            alt="Maison Élite Lobby" 
+            alt="VESCERA HOTEL" 
             className="w-full h-full object-cover opacity-50 mix-blend-overlay"
           />
           {/* Layered effects */}
@@ -138,7 +138,7 @@ export default function Home() {
         <div className="relative z-10 flex flex-col items-center text-center px-6 w-full">
           <motion.img
             src="/images/logo.png"
-            alt="Hotel Vescera"
+            alt="VESCERA HOTEL"
             initial={{ opacity: 0, scale: 0.85 }}
             animate={{ opacity: 1, scale: 1 }}
             transition={{ duration: 1.2, ease: "easeOut" }}
@@ -193,10 +193,10 @@ export default function Home() {
         
         <div className="px-8 text-center relative z-10">
           <p className="font-serif italic text-[#e8d090] text-[20px] leading-relaxed mb-4 normal-case tracking-normal">
-            "Since 2024, Hotel Vescera has defined the new language of luxury hospitality across the Middle East."
+            "Since 2024, VESCERA HOTEL has defined the new language of luxury hospitality across the Middle East."
           </p>
           <p className="font-arabic text-[#b8aa88] text-[16px] leading-relaxed mb-10" dir="rtl">
-            منذ عام ٢٠٢٤، رسم فندق فيسيرة لغة جديدة لضيافة الرفاهية في جميع أنحاء الشرق الأوسط.
+            منذ عام ٢٠٢٤، رسم فندق فسيرة لغة جديدة لضيافة الرفاهية في جميع أنحاء الشرق الأوسط.
           </p>
 
           <div className="flex justify-center items-center gap-4">
@@ -384,7 +384,7 @@ export default function Home() {
 
       {/* SECTION 6 — FOOTER */}
       <footer className="w-full py-16 px-6 flex flex-col items-center text-center relative">
-        <img src="/images/logo.png" alt="Hotel Vescera" className="w-[160px] mb-2 opacity-90" />
+        <img src="/images/logo.png" alt="VESCERA HOTEL" className="w-[160px] mb-2 opacity-90" />
         <div className="w-1/2 -my-2"><GoldDivider /></div>
         <p className="font-arabic text-[18px] text-[#b8aa88] mb-10">فخامة تتجاوز التوقعات</p>
         
@@ -396,7 +396,7 @@ export default function Home() {
 
         <div className="w-full border-t border-[#c9a84c]/10 pt-8 flex flex-col gap-2">
           <p className="text-[9px] text-[#8a6a1f]/60 uppercase tracking-[0.3em]">
-            © {new Date().getFullYear()} Hotel Vescera. All Rights Reserved.
+            © {new Date().getFullYear()} VESCERA HOTEL. All Rights Reserved.
           </p>
           <p className="text-[9px] text-[#8a6a1f]/60 uppercase tracking-[0.3em] font-serif italic normal-case">
             Crafted with devotion
