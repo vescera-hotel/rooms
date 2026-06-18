@@ -260,7 +260,7 @@ export default function Home() {
                 </p>
                 <div className="text-right">
                   <div className="text-[36px] font-serif leading-none text-[#c9a84c] tracking-normal normal-case">{room.price}</div>
-                  <div className="text-[9px] uppercase tracking-widest text-[#8a6a1f]">SAR / Night</div>
+                  <div className="text-[9px] uppercase tracking-widest text-[#8a6a1f]">DA / الليلة</div>
                 </div>
               </div>
 
@@ -344,7 +344,7 @@ export default function Home() {
                 <SelectContent className="rounded-none border-[#c9a84c]/20 bg-[#080604] text-[#f4f0e6]">
                   {ROOMS.map(r => (
                     <SelectItem key={r.id} value={r.id} className="cursor-pointer focus:bg-[#c9a84c]/20 focus:text-[#e8d090] rounded-none">
-                      {r.name} - {r.price} SAR
+                      {r.name} - {r.price} DA
                     </SelectItem>
                   ))}
                 </SelectContent>
