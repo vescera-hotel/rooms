@@ -112,7 +112,7 @@ export default function Home() {
       <section className="relative h-[100dvh] w-full flex flex-col items-center justify-center overflow-hidden">
         <div className="absolute inset-0 z-0">
           <img 
-            src="/images/hero.png" 
+            src="/images/hero-building.png" 
             alt="Maison Élite Lobby" 
             className="w-full h-full object-cover opacity-50 mix-blend-overlay"
           />
