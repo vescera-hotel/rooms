@@ -545,7 +545,182 @@
     .exp-row.visible::before { width: 100%; }
 
     /* Footer top border */
-    footer { border-top: 1px solid rgba(201,168,76,0.1); }
+    footer { border-top: none; }
+
+    /* ── LUXURY ROOM CARDS ── */
+    .rc-wrap {
+      padding: 20px 20px 0;
+      overflow: hidden;
+    }
+    .rc {
+      position: relative;
+      background: #070503;
+      border: 1px solid rgba(201,168,76,0.18);
+      box-shadow: 0 8px 48px rgba(0,0,0,0.6), 0 0 0 1px rgba(201,168,76,0.06) inset;
+      overflow: hidden;
+      opacity: 0;
+      transition: opacity 0.85s cubic-bezier(0.16,1,0.3,1), transform 0.85s cubic-bezier(0.16,1,0.3,1);
+    }
+    .rc.from-right { transform: translateX(72px); }
+    .rc.from-left  { transform: translateX(-72px); }
+    .rc.visible    { opacity: 1; transform: translateX(0); }
+
+    /* Corner brackets */
+    .rc-corner {
+      position: absolute;
+      width: 18px; height: 18px;
+      z-index: 10; pointer-events: none;
+    }
+    .rc-corner-tl { top: 10px; left: 10px; border-top: 1px solid rgba(201,168,76,0.55); border-left: 1px solid rgba(201,168,76,0.55); }
+    .rc-corner-tr { top: 10px; right: 10px; border-top: 1px solid rgba(201,168,76,0.55); border-right: 1px solid rgba(201,168,76,0.55); }
+    .rc-corner-bl { bottom: 10px; left: 10px; border-bottom: 1px solid rgba(201,168,76,0.55); border-left: 1px solid rgba(201,168,76,0.55); }
+    .rc-corner-br { bottom: 10px; right: 10px; border-bottom: 1px solid rgba(201,168,76,0.55); border-right: 1px solid rgba(201,168,76,0.55); }
+
+    /* Image block */
+    .rc-img {
+      position: relative;
+      width: 100%; aspect-ratio: 4/3;
+      overflow: hidden;
+    }
+    .rc-img img {
+      width: 100%; height: 100%;
+      object-fit: cover;
+      display: block;
+      transition: transform 6s ease;
+    }
+    .rc:hover .rc-img img { transform: scale(1.04); }
+    .rc-img-fade {
+      position: absolute; inset: 0;
+      background: linear-gradient(to bottom,
+        rgba(5,3,0,0) 40%,
+        rgba(5,3,0,0.65) 70%,
+        rgba(5,3,0,1) 100%
+      );
+    }
+    /* Ghost room number on image */
+    .rc-ghost-num {
+      position: absolute;
+      bottom: -4px; right: 12px;
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 88px; font-weight: 700;
+      color: rgba(201,168,76,0.09);
+      line-height: 1; letter-spacing: -0.03em;
+      pointer-events: none; user-select: none;
+    }
+    /* Badge on image bottom-left */
+    .rc-num-badge {
+      position: absolute;
+      bottom: 16px; left: 16px;
+      display: flex; align-items: center; gap: 8px;
+    }
+    .rc-num-badge-line {
+      width: 20px; height: 1px;
+      background: rgba(201,168,76,0.5);
+    }
+    .rc-num-badge-text {
+      font-family: 'Inter', sans-serif;
+      font-size: 8px; letter-spacing: 0.45em;
+      color: rgba(201,168,76,0.55);
+      text-transform: uppercase;
+    }
+
+    /* Info panel */
+    .rc-info {
+      padding: 20px 18px 22px;
+      position: relative;
+    }
+    .rc-title-row {
+      display: flex; justify-content: space-between;
+      align-items: flex-start; margin-bottom: 4px;
+    }
+    .rc-name {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 22px; font-weight: 600;
+      letter-spacing: 0.2em; text-transform: uppercase;
+      color: #e8d090; line-height: 1.1;
+    }
+    .rc-badge {
+      font-family: 'Inter', sans-serif;
+      font-size: 7.5px; letter-spacing: 0.3em;
+      text-transform: uppercase;
+      color: rgba(201,168,76,0.6);
+      border: 1px solid rgba(201,168,76,0.3);
+      padding: 3px 7px; margin-top: 4px;
+      flex-shrink: 0;
+    }
+    .rc-arabic {
+      font-family: 'Noto Serif Arabic', serif;
+      font-size: 14px; color: rgba(184,170,136,0.45);
+      margin-bottom: 14px;
+    }
+    /* Gold separator */
+    .rc-sep {
+      display: flex; align-items: center; gap: 6px;
+      margin-bottom: 14px;
+    }
+    .rc-sep-line { flex: 1; height: 1px; background: rgba(201,168,76,0.15); }
+    .rc-sep-diamond {
+      width: 4px; height: 4px;
+      border: 1px solid rgba(201,168,76,0.4);
+      transform: rotate(45deg); flex-shrink: 0;
+    }
+    /* Stats */
+    .rc-stats {
+      display: grid; grid-template-columns: 1fr 1fr 1fr;
+      margin-bottom: 14px;
+    }
+    .rc-stat {
+      display: flex; flex-direction: column;
+      align-items: center; text-align: center;
+      padding: 10px 6px;
+    }
+    .rc-stat + .rc-stat { border-left: 1px solid rgba(201,168,76,0.12); }
+    .rc-stat-label {
+      font-size: 7px; letter-spacing: 0.35em;
+      text-transform: uppercase; color: rgba(138,106,31,0.7);
+      font-family: 'Inter', sans-serif; margin-bottom: 5px;
+    }
+    .rc-stat-val {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 13px; letter-spacing: 0.12em;
+      text-transform: uppercase; color: #e0c87a;
+    }
+    /* Bottom row: desc + price */
+    .rc-bottom {
+      display: flex; justify-content: space-between;
+      align-items: flex-end; margin-bottom: 18px; gap: 10px;
+    }
+    .rc-desc {
+      font-family: 'Noto Serif Arabic', serif;
+      font-size: 13px; line-height: 1.65;
+      color: rgba(184,170,136,0.5); flex: 1;
+    }
+    .rc-price-block { text-align: right; flex-shrink: 0; }
+    .rc-price {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 38px; line-height: 1; color: #c9a84c;
+      letter-spacing: -0.01em;
+    }
+    .rc-price-unit {
+      font-size: 8px; text-transform: uppercase;
+      letter-spacing: 0.22em; color: rgba(138,106,31,0.7);
+      font-family: 'Inter', sans-serif; margin-top: 2px;
+    }
+    /* Breakfast tag */
+    .rc-bkf {
+      font-size: 8px; color: rgba(201,168,76,0.55);
+      border: 1px solid rgba(201,168,76,0.22);
+      padding: 3px 9px; letter-spacing: 0.18em;
+      text-transform: uppercase; font-family: 'Inter', sans-serif;
+      display: inline-block; margin-bottom: 14px;
+    }
+
+    /* Between-card ornamental divider */
+    .rc-divider {
+      display: flex; align-items: center;
+      justify-content: center; padding: 22px 32px;
+      opacity: 0.55;
+    }
 
     /* Modal header stronger */
     #room-modal > div > div:first-child {
@@ -857,14 +1032,14 @@
   </section>
 
   <!-- ═══ SECTION 3 — ROOM CARDS ═══ -->
-  <section id="rooms" style="width:100%; display:flex; flex-direction:column;">
+  <section id="rooms" style="width:100%; display:flex; flex-direction:column; background:#050300;">
 
     <!-- Rooms Section Header -->
-    <div style="display:flex;flex-direction:column;align-items:center;padding:60px 32px 16px;position:relative;overflow:hidden;">
+    <div style="display:flex;flex-direction:column;align-items:center;padding:72px 32px 20px;position:relative;overflow:hidden;">
       <div class="amb" style="top:50%;left:50%;transform:translate(-50%,-50%);width:300px;height:200px;"></div>
       <span class="sec-eyebrow" style="position:relative;z-index:2;">Our Accommodations</span>
-      <h2 style="font-size:26px;letter-spacing:0.35em;text-align:center;color:#e8d090;margin-bottom:12px;position:relative;z-index:2;">The Rooms</h2>
-      <p style="font-size:9px;letter-spacing:0.35em;text-transform:uppercase;color:rgba(201,168,76,0.32);font-family:'Inter',sans-serif;position:relative;z-index:2;">8 Types — Breakfast Included</p>
+      <h2 style="font-size:28px;letter-spacing:0.38em;text-align:center;color:#e8d090;margin-bottom:12px;position:relative;z-index:2;">The Rooms</h2>
+      <p style="font-size:8.5px;letter-spacing:0.4em;text-transform:uppercase;color:rgba(201,168,76,0.3);font-family:'Inter',sans-serif;position:relative;z-index:2;">8 Types — Breakfast Included</p>
       <div class="deco-rule" style="margin-top:32px;width:100%;position:relative;z-index:2;">
         <div class="deco-rule-line"></div>
         <div class="deco-diamond"></div>
@@ -872,382 +1047,287 @@
       </div>
     </div>
 
-    <!-- Room 01 — Single -->
-    <div>
-      <div class="room-img-wrap">
-        <img src="/images/room-deluxe.jpg" alt="Single" />
-        <div class="room-img-overlay-t"></div><div class="room-img-overlay-l"></div>
-        <div class="room-img-overlay-r"></div><div class="room-img-overlay-b"></div>
-        <div class="room-img-overlay-wh"></div>
-        <div class="room-num-ghost">01</div>
-        <div class="room-pill">
-          <h3 style="font-size:18px; letter-spacing:0.2em; text-transform:uppercase; margin-bottom:4px; color:#e8d090;">Single</h3>
-          <p class="font-arabic" style="font-size:16px;">غرفة سينغل</p>
-        </div>
-      </div>
-      <div style="padding:0 24px; position:relative; z-index:10; margin-top:-8px;">
-        <div style="background:#080604; border:1px solid rgba(201,168,76,0.2); padding:16px; margin-bottom:16px;">
-          <div style="display:grid; grid-template-columns:1fr 1fr 1fr;">
-            <div style="display:flex; flex-direction:column; align-items:center; text-align:center;">
-              <span style="font-size:10px; color:#8a6a1f; text-transform:uppercase; letter-spacing:0.2em; margin-bottom:4px;">Guests</span>
-              <span style="font-size:12px; color:#e8d090; text-transform:uppercase; letter-spacing:0.1em;">1</span>
-            </div>
-            <div style="display:flex; flex-direction:column; align-items:center; text-align:center; border-left:1px solid rgba(201,168,76,0.2); border-right:1px solid rgba(201,168,76,0.2);">
-              <span style="font-size:10px; color:#8a6a1f; text-transform:uppercase; letter-spacing:0.2em; margin-bottom:4px;">Bed</span>
-              <span style="font-size:12px; color:#e8d090; text-transform:uppercase; letter-spacing:0.1em;">Single</span>
-            </div>
-            <div style="display:flex; flex-direction:column; align-items:center; text-align:center;">
-              <span style="font-size:10px; color:#8a6a1f; text-transform:uppercase; letter-spacing:0.2em; margin-bottom:4px;">Type</span>
-              <span style="font-size:12px; color:#e8d090; text-transform:uppercase; letter-spacing:0.1em;">Classic</span>
-            </div>
+    <!-- ── ROOM CARD MACRO ── -->
+    <!-- 01 — Single · from-right -->
+    <div class="rc-wrap">
+      <div class="rc from-right">
+        <div class="rc-corner rc-corner-tl"></div><div class="rc-corner rc-corner-tr"></div>
+        <div class="rc-corner rc-corner-bl"></div><div class="rc-corner rc-corner-br"></div>
+        <div class="rc-img">
+          <img src="/images/room-deluxe.jpg" alt="Single Room" loading="lazy" />
+          <div class="rc-img-fade"></div>
+          <div class="rc-ghost-num">01</div>
+          <div class="rc-num-badge">
+            <div class="rc-num-badge-line"></div>
+            <span class="rc-num-badge-text">No. 01</span>
           </div>
         </div>
-        <div style="display:flex; align-items:center; gap:8px; margin-bottom:16px;">
-          <span style="font-size:9px; color:#c9a84c; border:1px solid rgba(201,168,76,0.4); padding:3px 10px; letter-spacing:0.15em; text-transform:uppercase;">☕ Petit déjeuner inclus</span>
-        </div>
-        <div style="display:flex; justify-content:space-between; align-items:flex-end; margin-bottom:24px;">
-          <p class="font-arabic" dir="rtl" style="font-size:15px; line-height:1.6; width:55%;">راحة الغرفة المنفردة بأجواء هادئة ومريحة.</p>
-          <div style="text-align:right;">
-            <div class="font-serif-custom" style="font-size:36px; line-height:1; color:#c9a84c;">6,800</div>
-            <div style="font-size:9px; text-transform:uppercase; letter-spacing:0.2em; color:#8a6a1f;">DA / الليلة</div>
+        <div class="rc-info">
+          <div class="rc-title-row">
+            <div>
+              <div class="rc-name">Single</div>
+              <div class="rc-arabic">غرفة سينغل</div>
+            </div>
+            <span class="rc-badge">Classic</span>
           </div>
+          <div class="rc-sep"><div class="rc-sep-line"></div><div class="rc-sep-diamond"></div><div class="rc-sep-line"></div></div>
+          <div class="rc-stats">
+            <div class="rc-stat"><span class="rc-stat-label">Guests</span><span class="rc-stat-val">1</span></div>
+            <div class="rc-stat"><span class="rc-stat-label">Bed</span><span class="rc-stat-val">Single</span></div>
+            <div class="rc-stat"><span class="rc-stat-label">Type</span><span class="rc-stat-val">Classic</span></div>
+          </div>
+          <span class="rc-bkf">☕ Petit déjeuner inclus</span>
+          <div class="rc-bottom">
+            <p class="rc-desc" dir="rtl">راحة الغرفة المنفردة بأجواء هادئة ومريحة.</p>
+            <div class="rc-price-block">
+              <div class="rc-price">6,800</div>
+              <div class="rc-price-unit">DA / الليلة</div>
+            </div>
+          </div>
+          <button class="gold-btn" onclick="scrollToInquiry()">Inquire — استعلام</button>
         </div>
-        <button class="gold-btn" onclick="scrollToInquiry()">Inquire — استعلام</button>
-      </div>
-      <div style="display:flex; align-items:center; justify-content:center; width:100%; padding:24px 32px;">
-        <svg width="240" height="16" viewBox="0 0 240 16"><line x1="0" y1="8" x2="100" y2="8" stroke="#c9a84c" stroke-width="0.5" opacity="0.6"/><polygon points="120,2 127,8 120,14 113,8" fill="none" stroke="#c9a84c" stroke-width="0.8" opacity="0.8"/><line x1="140" y1="8" x2="240" y2="8" stroke="#c9a84c" stroke-width="0.5" opacity="0.6"/></svg>
       </div>
     </div>
 
-    <!-- Room 02 — Double -->
-    <div>
-      <div class="room-img-wrap">
-        <img src="/images/room-junior.jpg" alt="Double" />
-        <div class="room-img-overlay-t"></div><div class="room-img-overlay-l"></div>
-        <div class="room-img-overlay-r"></div><div class="room-img-overlay-b"></div>
-        <div class="room-img-overlay-wh"></div>
-        <div class="room-num-ghost">02</div>
-        <div class="room-pill">
-          <h3 style="font-size:18px; letter-spacing:0.2em; text-transform:uppercase; margin-bottom:4px; color:#e8d090;">Double</h3>
-          <p class="font-arabic" style="font-size:16px;">غرفة دبل</p>
+    <div class="rc-divider"><svg width="180" height="14" viewBox="0 0 180 14"><line x1="0" y1="7" x2="72" y2="7" stroke="#c9a84c" stroke-width="0.5" opacity="0.4"/><polygon points="90,1 97,7 90,13 83,7" fill="none" stroke="#c9a84c" stroke-width="0.7" opacity="0.6"/><line x1="108" y1="7" x2="180" y2="7" stroke="#c9a84c" stroke-width="0.5" opacity="0.4"/></svg></div>
+
+    <!-- 02 — Double · from-left -->
+    <div class="rc-wrap">
+      <div class="rc from-left">
+        <div class="rc-corner rc-corner-tl"></div><div class="rc-corner rc-corner-tr"></div>
+        <div class="rc-corner rc-corner-bl"></div><div class="rc-corner rc-corner-br"></div>
+        <div class="rc-img">
+          <img src="/images/room-junior.jpg" alt="Double Room" loading="lazy" />
+          <div class="rc-img-fade"></div>
+          <div class="rc-ghost-num">02</div>
+          <div class="rc-num-badge"><div class="rc-num-badge-line"></div><span class="rc-num-badge-text">No. 02</span></div>
         </div>
-      </div>
-      <div style="padding:0 24px; position:relative; z-index:10; margin-top:-8px;">
-        <div style="background:#080604; border:1px solid rgba(201,168,76,0.2); padding:16px; margin-bottom:16px;">
-          <div style="display:grid; grid-template-columns:1fr 1fr 1fr;">
-            <div style="display:flex; flex-direction:column; align-items:center; text-align:center;">
-              <span style="font-size:10px; color:#8a6a1f; text-transform:uppercase; letter-spacing:0.2em; margin-bottom:4px;">Guests</span>
-              <span style="font-size:12px; color:#e8d090; text-transform:uppercase; letter-spacing:0.1em;">2</span>
-            </div>
-            <div style="display:flex; flex-direction:column; align-items:center; text-align:center; border-left:1px solid rgba(201,168,76,0.2); border-right:1px solid rgba(201,168,76,0.2);">
-              <span style="font-size:10px; color:#8a6a1f; text-transform:uppercase; letter-spacing:0.2em; margin-bottom:4px;">Bed</span>
-              <span style="font-size:12px; color:#e8d090; text-transform:uppercase; letter-spacing:0.1em;">Double</span>
-            </div>
-            <div style="display:flex; flex-direction:column; align-items:center; text-align:center;">
-              <span style="font-size:10px; color:#8a6a1f; text-transform:uppercase; letter-spacing:0.2em; margin-bottom:4px;">Type</span>
-              <span style="font-size:12px; color:#e8d090; text-transform:uppercase; letter-spacing:0.1em;">Classic</span>
-            </div>
+        <div class="rc-info">
+          <div class="rc-title-row">
+            <div><div class="rc-name">Double</div><div class="rc-arabic">غرفة دبل</div></div>
+            <span class="rc-badge">Classic</span>
           </div>
-        </div>
-        <div style="display:flex; align-items:center; gap:8px; margin-bottom:16px;">
-          <span style="font-size:9px; color:#c9a84c; border:1px solid rgba(201,168,76,0.4); padding:3px 10px; letter-spacing:0.15em; text-transform:uppercase;">☕ Petit déjeuner inclus</span>
-        </div>
-        <div style="display:flex; justify-content:space-between; align-items:flex-end; margin-bottom:24px;">
-          <p class="font-arabic" dir="rtl" style="font-size:15px; line-height:1.6; width:55%;">غرفة مزدوجة بتصميم أنيق للزوجين.</p>
-          <div style="text-align:right;">
-            <div class="font-serif-custom" style="font-size:36px; line-height:1; color:#c9a84c;">8,000</div>
-            <div style="font-size:9px; text-transform:uppercase; letter-spacing:0.2em; color:#8a6a1f;">DA / الليلة</div>
+          <div class="rc-sep"><div class="rc-sep-line"></div><div class="rc-sep-diamond"></div><div class="rc-sep-line"></div></div>
+          <div class="rc-stats">
+            <div class="rc-stat"><span class="rc-stat-label">Guests</span><span class="rc-stat-val">2</span></div>
+            <div class="rc-stat"><span class="rc-stat-label">Bed</span><span class="rc-stat-val">Double</span></div>
+            <div class="rc-stat"><span class="rc-stat-label">Type</span><span class="rc-stat-val">Classic</span></div>
           </div>
+          <span class="rc-bkf">☕ Petit déjeuner inclus</span>
+          <div class="rc-bottom">
+            <p class="rc-desc" dir="rtl">غرفة مزدوجة بتصميم أنيق للزوجين.</p>
+            <div class="rc-price-block"><div class="rc-price">8,000</div><div class="rc-price-unit">DA / الليلة</div></div>
+          </div>
+          <button class="gold-btn" onclick="scrollToInquiry()">Inquire — استعلام</button>
         </div>
-        <button class="gold-btn" onclick="scrollToInquiry()">Inquire — استعلام</button>
-      </div>
-      <div style="display:flex; align-items:center; justify-content:center; width:100%; padding:24px 32px;">
-        <svg width="240" height="16" viewBox="0 0 240 16"><line x1="0" y1="8" x2="100" y2="8" stroke="#c9a84c" stroke-width="0.5" opacity="0.6"/><polygon points="120,2 127,8 120,14 113,8" fill="none" stroke="#c9a84c" stroke-width="0.8" opacity="0.8"/><line x1="140" y1="8" x2="240" y2="8" stroke="#c9a84c" stroke-width="0.5" opacity="0.6"/></svg>
       </div>
     </div>
 
-    <!-- Room 03 — Triple -->
-    <div>
-      <div class="room-img-wrap">
-        <img src="/images/room-executive.jpg" alt="Triple" />
-        <div class="room-img-overlay-t"></div><div class="room-img-overlay-l"></div>
-        <div class="room-img-overlay-r"></div><div class="room-img-overlay-b"></div>
-        <div class="room-img-overlay-wh"></div>
-        <div class="room-num-ghost">03</div>
-        <div class="room-pill">
-          <h3 style="font-size:18px; letter-spacing:0.2em; text-transform:uppercase; margin-bottom:4px; color:#e8d090;">Triple</h3>
-          <p class="font-arabic" style="font-size:16px;">غرفة تريبل</p>
+    <div class="rc-divider"><svg width="180" height="14" viewBox="0 0 180 14"><line x1="0" y1="7" x2="72" y2="7" stroke="#c9a84c" stroke-width="0.5" opacity="0.4"/><polygon points="90,1 97,7 90,13 83,7" fill="none" stroke="#c9a84c" stroke-width="0.7" opacity="0.6"/><line x1="108" y1="7" x2="180" y2="7" stroke="#c9a84c" stroke-width="0.5" opacity="0.4"/></svg></div>
+
+    <!-- 03 — Triple · from-right -->
+    <div class="rc-wrap">
+      <div class="rc from-right">
+        <div class="rc-corner rc-corner-tl"></div><div class="rc-corner rc-corner-tr"></div>
+        <div class="rc-corner rc-corner-bl"></div><div class="rc-corner rc-corner-br"></div>
+        <div class="rc-img">
+          <img src="/images/room-executive.jpg" alt="Triple Room" loading="lazy" />
+          <div class="rc-img-fade"></div>
+          <div class="rc-ghost-num">03</div>
+          <div class="rc-num-badge"><div class="rc-num-badge-line"></div><span class="rc-num-badge-text">No. 03</span></div>
         </div>
-      </div>
-      <div style="padding:0 24px; position:relative; z-index:10; margin-top:-8px;">
-        <div style="background:#080604; border:1px solid rgba(201,168,76,0.2); padding:16px; margin-bottom:16px;">
-          <div style="display:grid; grid-template-columns:1fr 1fr 1fr;">
-            <div style="display:flex; flex-direction:column; align-items:center; text-align:center;">
-              <span style="font-size:10px; color:#8a6a1f; text-transform:uppercase; letter-spacing:0.2em; margin-bottom:4px;">Guests</span>
-              <span style="font-size:12px; color:#e8d090; text-transform:uppercase; letter-spacing:0.1em;">3</span>
-            </div>
-            <div style="display:flex; flex-direction:column; align-items:center; text-align:center; border-left:1px solid rgba(201,168,76,0.2); border-right:1px solid rgba(201,168,76,0.2);">
-              <span style="font-size:10px; color:#8a6a1f; text-transform:uppercase; letter-spacing:0.2em; margin-bottom:4px;">Beds</span>
-              <span style="font-size:12px; color:#e8d090; text-transform:uppercase; letter-spacing:0.1em;">3 Beds</span>
-            </div>
-            <div style="display:flex; flex-direction:column; align-items:center; text-align:center;">
-              <span style="font-size:10px; color:#8a6a1f; text-transform:uppercase; letter-spacing:0.2em; margin-bottom:4px;">Type</span>
-              <span style="font-size:12px; color:#e8d090; text-transform:uppercase; letter-spacing:0.1em;">Classic</span>
-            </div>
+        <div class="rc-info">
+          <div class="rc-title-row">
+            <div><div class="rc-name">Triple</div><div class="rc-arabic">غرفة تريبل</div></div>
+            <span class="rc-badge">Classic</span>
           </div>
-        </div>
-        <div style="display:flex; align-items:center; gap:8px; margin-bottom:16px;">
-          <span style="font-size:9px; color:#c9a84c; border:1px solid rgba(201,168,76,0.4); padding:3px 10px; letter-spacing:0.15em; text-transform:uppercase;">☕ Petit déjeuner inclus</span>
-        </div>
-        <div style="display:flex; justify-content:space-between; align-items:flex-end; margin-bottom:24px;">
-          <p class="font-arabic" dir="rtl" style="font-size:15px; line-height:1.6; width:55%;">غرفة واسعة تستوعب ثلاثة ضيوف بكل راحة.</p>
-          <div style="text-align:right;">
-            <div class="font-serif-custom" style="font-size:36px; line-height:1; color:#c9a84c;">9,000</div>
-            <div style="font-size:9px; text-transform:uppercase; letter-spacing:0.2em; color:#8a6a1f;">DA / الليلة</div>
+          <div class="rc-sep"><div class="rc-sep-line"></div><div class="rc-sep-diamond"></div><div class="rc-sep-line"></div></div>
+          <div class="rc-stats">
+            <div class="rc-stat"><span class="rc-stat-label">Guests</span><span class="rc-stat-val">3</span></div>
+            <div class="rc-stat"><span class="rc-stat-label">Beds</span><span class="rc-stat-val">3 Beds</span></div>
+            <div class="rc-stat"><span class="rc-stat-label">Type</span><span class="rc-stat-val">Classic</span></div>
           </div>
+          <span class="rc-bkf">☕ Petit déjeuner inclus</span>
+          <div class="rc-bottom">
+            <p class="rc-desc" dir="rtl">غرفة واسعة تستوعب ثلاثة ضيوف بكل راحة.</p>
+            <div class="rc-price-block"><div class="rc-price">9,000</div><div class="rc-price-unit">DA / الليلة</div></div>
+          </div>
+          <button class="gold-btn" onclick="scrollToInquiry()">Inquire — استعلام</button>
         </div>
-        <button class="gold-btn" onclick="scrollToInquiry()">Inquire — استعلام</button>
-      </div>
-      <div style="display:flex; align-items:center; justify-content:center; width:100%; padding:24px 32px;">
-        <svg width="240" height="16" viewBox="0 0 240 16"><line x1="0" y1="8" x2="100" y2="8" stroke="#c9a84c" stroke-width="0.5" opacity="0.6"/><polygon points="120,2 127,8 120,14 113,8" fill="none" stroke="#c9a84c" stroke-width="0.8" opacity="0.8"/><line x1="140" y1="8" x2="240" y2="8" stroke="#c9a84c" stroke-width="0.5" opacity="0.6"/></svg>
       </div>
     </div>
 
-    <!-- Room 04 — Suite Single -->
-    <div>
-      <div class="room-img-wrap">
-        <img src="/images/room-royal.jpg" alt="Suite Single" />
-        <div class="room-img-overlay-t"></div><div class="room-img-overlay-l"></div>
-        <div class="room-img-overlay-r"></div><div class="room-img-overlay-b"></div>
-        <div class="room-img-overlay-wh"></div>
-        <div class="room-num-ghost">04</div>
-        <div class="room-pill">
-          <h3 style="font-size:18px; letter-spacing:0.2em; text-transform:uppercase; margin-bottom:4px; color:#e8d090;">Suite Single</h3>
-          <p class="font-arabic" style="font-size:16px;">سويت سينغل</p>
+    <div class="rc-divider"><svg width="180" height="14" viewBox="0 0 180 14"><line x1="0" y1="7" x2="72" y2="7" stroke="#c9a84c" stroke-width="0.5" opacity="0.4"/><polygon points="90,1 97,7 90,13 83,7" fill="none" stroke="#c9a84c" stroke-width="0.7" opacity="0.6"/><line x1="108" y1="7" x2="180" y2="7" stroke="#c9a84c" stroke-width="0.5" opacity="0.4"/></svg></div>
+
+    <!-- 04 — Suite Single · from-left -->
+    <div class="rc-wrap">
+      <div class="rc from-left">
+        <div class="rc-corner rc-corner-tl"></div><div class="rc-corner rc-corner-tr"></div>
+        <div class="rc-corner rc-corner-bl"></div><div class="rc-corner rc-corner-br"></div>
+        <div class="rc-img">
+          <img src="/images/room-royal.jpg" alt="Suite Single" loading="lazy" />
+          <div class="rc-img-fade"></div>
+          <div class="rc-ghost-num">04</div>
+          <div class="rc-num-badge"><div class="rc-num-badge-line"></div><span class="rc-num-badge-text">No. 04</span></div>
         </div>
-      </div>
-      <div style="padding:0 24px; position:relative; z-index:10; margin-top:-8px;">
-        <div style="background:#080604; border:1px solid rgba(201,168,76,0.2); padding:16px; margin-bottom:16px;">
-          <div style="display:grid; grid-template-columns:1fr 1fr 1fr;">
-            <div style="display:flex; flex-direction:column; align-items:center; text-align:center;">
-              <span style="font-size:10px; color:#8a6a1f; text-transform:uppercase; letter-spacing:0.2em; margin-bottom:4px;">Guests</span>
-              <span style="font-size:12px; color:#e8d090; text-transform:uppercase; letter-spacing:0.1em;">1</span>
-            </div>
-            <div style="display:flex; flex-direction:column; align-items:center; text-align:center; border-left:1px solid rgba(201,168,76,0.2); border-right:1px solid rgba(201,168,76,0.2);">
-              <span style="font-size:10px; color:#8a6a1f; text-transform:uppercase; letter-spacing:0.2em; margin-bottom:4px;">Bed</span>
-              <span style="font-size:12px; color:#e8d090; text-transform:uppercase; letter-spacing:0.1em;">King</span>
-            </div>
-            <div style="display:flex; flex-direction:column; align-items:center; text-align:center;">
-              <span style="font-size:10px; color:#8a6a1f; text-transform:uppercase; letter-spacing:0.2em; margin-bottom:4px;">Type</span>
-              <span style="font-size:12px; color:#e8d090; text-transform:uppercase; letter-spacing:0.1em;">Suite</span>
-            </div>
+        <div class="rc-info">
+          <div class="rc-title-row">
+            <div><div class="rc-name">Suite Single</div><div class="rc-arabic">سويت سينغل</div></div>
+            <span class="rc-badge">Suite</span>
           </div>
-        </div>
-        <div style="display:flex; align-items:center; gap:8px; margin-bottom:16px;">
-          <span style="font-size:9px; color:#c9a84c; border:1px solid rgba(201,168,76,0.4); padding:3px 10px; letter-spacing:0.15em; text-transform:uppercase;">☕ Petit déjeuner inclus</span>
-        </div>
-        <div style="display:flex; justify-content:space-between; align-items:flex-end; margin-bottom:24px;">
-          <p class="font-arabic" dir="rtl" style="font-size:15px; line-height:1.6; width:55%;">جناح فاخر للفرد بمساحة رحبة وخدمة متميزة.</p>
-          <div style="text-align:right;">
-            <div class="font-serif-custom" style="font-size:36px; line-height:1; color:#c9a84c;">9,500</div>
-            <div style="font-size:9px; text-transform:uppercase; letter-spacing:0.2em; color:#8a6a1f;">DA / الليلة</div>
+          <div class="rc-sep"><div class="rc-sep-line"></div><div class="rc-sep-diamond"></div><div class="rc-sep-line"></div></div>
+          <div class="rc-stats">
+            <div class="rc-stat"><span class="rc-stat-label">Guests</span><span class="rc-stat-val">1</span></div>
+            <div class="rc-stat"><span class="rc-stat-label">Bed</span><span class="rc-stat-val">King</span></div>
+            <div class="rc-stat"><span class="rc-stat-label">Type</span><span class="rc-stat-val">Suite</span></div>
           </div>
+          <span class="rc-bkf">☕ Petit déjeuner inclus</span>
+          <div class="rc-bottom">
+            <p class="rc-desc" dir="rtl">جناح فاخر للفرد بمساحة رحبة وخدمة متميزة.</p>
+            <div class="rc-price-block"><div class="rc-price">9,500</div><div class="rc-price-unit">DA / الليلة</div></div>
+          </div>
+          <button class="gold-btn" onclick="scrollToInquiry()">Inquire — استعلام</button>
         </div>
-        <button class="gold-btn" onclick="scrollToInquiry()">Inquire — استعلام</button>
-      </div>
-      <div style="display:flex; align-items:center; justify-content:center; width:100%; padding:24px 32px;">
-        <svg width="240" height="16" viewBox="0 0 240 16"><line x1="0" y1="8" x2="100" y2="8" stroke="#c9a84c" stroke-width="0.5" opacity="0.6"/><polygon points="120,2 127,8 120,14 113,8" fill="none" stroke="#c9a84c" stroke-width="0.8" opacity="0.8"/><line x1="140" y1="8" x2="240" y2="8" stroke="#c9a84c" stroke-width="0.5" opacity="0.6"/></svg>
       </div>
     </div>
 
-    <!-- Room 05 — Suite Double -->
-    <div>
-      <div class="room-img-wrap">
-        <img src="/images/room-presidential.jpg" alt="Suite Double" />
-        <div class="room-img-overlay-t"></div><div class="room-img-overlay-l"></div>
-        <div class="room-img-overlay-r"></div><div class="room-img-overlay-b"></div>
-        <div class="room-img-overlay-wh"></div>
-        <div class="room-num-ghost">05</div>
-        <div class="room-pill">
-          <h3 style="font-size:18px; letter-spacing:0.2em; text-transform:uppercase; margin-bottom:4px; color:#e8d090;">Suite Double</h3>
-          <p class="font-arabic" style="font-size:16px;">سويت دبل</p>
+    <div class="rc-divider"><svg width="180" height="14" viewBox="0 0 180 14"><line x1="0" y1="7" x2="72" y2="7" stroke="#c9a84c" stroke-width="0.5" opacity="0.4"/><polygon points="90,1 97,7 90,13 83,7" fill="none" stroke="#c9a84c" stroke-width="0.7" opacity="0.6"/><line x1="108" y1="7" x2="180" y2="7" stroke="#c9a84c" stroke-width="0.5" opacity="0.4"/></svg></div>
+
+    <!-- 05 — Suite Double · from-right -->
+    <div class="rc-wrap">
+      <div class="rc from-right">
+        <div class="rc-corner rc-corner-tl"></div><div class="rc-corner rc-corner-tr"></div>
+        <div class="rc-corner rc-corner-bl"></div><div class="rc-corner rc-corner-br"></div>
+        <div class="rc-img">
+          <img src="/images/room-presidential.jpg" alt="Suite Double" loading="lazy" />
+          <div class="rc-img-fade"></div>
+          <div class="rc-ghost-num">05</div>
+          <div class="rc-num-badge"><div class="rc-num-badge-line"></div><span class="rc-num-badge-text">No. 05</span></div>
         </div>
-      </div>
-      <div style="padding:0 24px; position:relative; z-index:10; margin-top:-8px;">
-        <div style="background:#080604; border:1px solid rgba(201,168,76,0.2); padding:16px; margin-bottom:16px;">
-          <div style="display:grid; grid-template-columns:1fr 1fr 1fr;">
-            <div style="display:flex; flex-direction:column; align-items:center; text-align:center;">
-              <span style="font-size:10px; color:#8a6a1f; text-transform:uppercase; letter-spacing:0.2em; margin-bottom:4px;">Guests</span>
-              <span style="font-size:12px; color:#e8d090; text-transform:uppercase; letter-spacing:0.1em;">2</span>
-            </div>
-            <div style="display:flex; flex-direction:column; align-items:center; text-align:center; border-left:1px solid rgba(201,168,76,0.2); border-right:1px solid rgba(201,168,76,0.2);">
-              <span style="font-size:10px; color:#8a6a1f; text-transform:uppercase; letter-spacing:0.2em; margin-bottom:4px;">Bed</span>
-              <span style="font-size:12px; color:#e8d090; text-transform:uppercase; letter-spacing:0.1em;">King</span>
-            </div>
-            <div style="display:flex; flex-direction:column; align-items:center; text-align:center;">
-              <span style="font-size:10px; color:#8a6a1f; text-transform:uppercase; letter-spacing:0.2em; margin-bottom:4px;">Type</span>
-              <span style="font-size:12px; color:#e8d090; text-transform:uppercase; letter-spacing:0.1em;">Suite</span>
-            </div>
+        <div class="rc-info">
+          <div class="rc-title-row">
+            <div><div class="rc-name">Suite Double</div><div class="rc-arabic">سويت دبل</div></div>
+            <span class="rc-badge">Suite</span>
           </div>
-        </div>
-        <div style="display:flex; align-items:center; gap:8px; margin-bottom:16px;">
-          <span style="font-size:9px; color:#c9a84c; border:1px solid rgba(201,168,76,0.4); padding:3px 10px; letter-spacing:0.15em; text-transform:uppercase;">☕ Petit déjeuner inclus</span>
-        </div>
-        <div style="display:flex; justify-content:space-between; align-items:flex-end; margin-bottom:24px;">
-          <p class="font-arabic" dir="rtl" style="font-size:15px; line-height:1.6; width:55%;">جناح فاخر مزدوج يدمج الرفاهية والراحة في أجواء ساحرة.</p>
-          <div style="text-align:right;">
-            <div class="font-serif-custom" style="font-size:36px; line-height:1; color:#c9a84c;">10,500</div>
-            <div style="font-size:9px; text-transform:uppercase; letter-spacing:0.2em; color:#8a6a1f;">DA / الليلة</div>
+          <div class="rc-sep"><div class="rc-sep-line"></div><div class="rc-sep-diamond"></div><div class="rc-sep-line"></div></div>
+          <div class="rc-stats">
+            <div class="rc-stat"><span class="rc-stat-label">Guests</span><span class="rc-stat-val">2</span></div>
+            <div class="rc-stat"><span class="rc-stat-label">Bed</span><span class="rc-stat-val">King</span></div>
+            <div class="rc-stat"><span class="rc-stat-label">Type</span><span class="rc-stat-val">Suite</span></div>
           </div>
+          <span class="rc-bkf">☕ Petit déjeuner inclus</span>
+          <div class="rc-bottom">
+            <p class="rc-desc" dir="rtl">جناح فاخر مزدوج يدمج الرفاهية والراحة في أجواء ساحرة.</p>
+            <div class="rc-price-block"><div class="rc-price">10,500</div><div class="rc-price-unit">DA / الليلة</div></div>
+          </div>
+          <button class="gold-btn" onclick="scrollToInquiry()">Inquire — استعلام</button>
         </div>
-        <button class="gold-btn" onclick="scrollToInquiry()">Inquire — استعلام</button>
-      </div>
-      <div style="display:flex; align-items:center; justify-content:center; width:100%; padding:24px 32px;">
-        <svg width="240" height="16" viewBox="0 0 240 16"><line x1="0" y1="8" x2="100" y2="8" stroke="#c9a84c" stroke-width="0.5" opacity="0.6"/><polygon points="120,2 127,8 120,14 113,8" fill="none" stroke="#c9a84c" stroke-width="0.8" opacity="0.8"/><line x1="140" y1="8" x2="240" y2="8" stroke="#c9a84c" stroke-width="0.5" opacity="0.6"/></svg>
       </div>
     </div>
 
-    <!-- Room 06 — Appartement -->
-    <div>
-      <div class="room-img-wrap">
-        <img src="/images/room-royal.jpg" alt="Appartement" />
-        <div class="room-img-overlay-t"></div><div class="room-img-overlay-l"></div>
-        <div class="room-img-overlay-r"></div><div class="room-img-overlay-b"></div>
-        <div class="room-img-overlay-wh"></div>
-        <div class="room-num-ghost">06</div>
-        <div class="room-pill">
-          <h3 style="font-size:18px; letter-spacing:0.2em; text-transform:uppercase; margin-bottom:4px; color:#e8d090;">Appartement</h3>
-          <p class="font-arabic" style="font-size:16px;">شقة فندقية</p>
+    <div class="rc-divider"><svg width="180" height="14" viewBox="0 0 180 14"><line x1="0" y1="7" x2="72" y2="7" stroke="#c9a84c" stroke-width="0.5" opacity="0.4"/><polygon points="90,1 97,7 90,13 83,7" fill="none" stroke="#c9a84c" stroke-width="0.7" opacity="0.6"/><line x1="108" y1="7" x2="180" y2="7" stroke="#c9a84c" stroke-width="0.5" opacity="0.4"/></svg></div>
+
+    <!-- 06 — Appartement · from-left -->
+    <div class="rc-wrap">
+      <div class="rc from-left">
+        <div class="rc-corner rc-corner-tl"></div><div class="rc-corner rc-corner-tr"></div>
+        <div class="rc-corner rc-corner-bl"></div><div class="rc-corner rc-corner-br"></div>
+        <div class="rc-img">
+          <img src="/images/room-royal.jpg" alt="Appartement" loading="lazy" />
+          <div class="rc-img-fade"></div>
+          <div class="rc-ghost-num">06</div>
+          <div class="rc-num-badge"><div class="rc-num-badge-line"></div><span class="rc-num-badge-text">No. 06</span></div>
         </div>
-      </div>
-      <div style="padding:0 24px; position:relative; z-index:10; margin-top:-8px;">
-        <div style="background:#080604; border:1px solid rgba(201,168,76,0.2); padding:16px; margin-bottom:16px;">
-          <div style="display:grid; grid-template-columns:1fr 1fr 1fr;">
-            <div style="display:flex; flex-direction:column; align-items:center; text-align:center;">
-              <span style="font-size:10px; color:#8a6a1f; text-transform:uppercase; letter-spacing:0.2em; margin-bottom:4px;">Guests</span>
-              <span style="font-size:12px; color:#e8d090; text-transform:uppercase; letter-spacing:0.1em;">4+</span>
-            </div>
-            <div style="display:flex; flex-direction:column; align-items:center; text-align:center; border-left:1px solid rgba(201,168,76,0.2); border-right:1px solid rgba(201,168,76,0.2);">
-              <span style="font-size:10px; color:#8a6a1f; text-transform:uppercase; letter-spacing:0.2em; margin-bottom:4px;">Rooms</span>
-              <span style="font-size:12px; color:#e8d090; text-transform:uppercase; letter-spacing:0.1em;">Multi</span>
-            </div>
-            <div style="display:flex; flex-direction:column; align-items:center; text-align:center;">
-              <span style="font-size:10px; color:#8a6a1f; text-transform:uppercase; letter-spacing:0.2em; margin-bottom:4px;">Type</span>
-              <span style="font-size:12px; color:#e8d090; text-transform:uppercase; letter-spacing:0.1em;">Appart.</span>
-            </div>
+        <div class="rc-info">
+          <div class="rc-title-row">
+            <div><div class="rc-name">Appartement</div><div class="rc-arabic">شقة فندقية</div></div>
+            <span class="rc-badge">Appart.</span>
           </div>
-        </div>
-        <div style="display:flex; align-items:center; gap:8px; margin-bottom:16px;">
-          <span style="font-size:9px; color:#c9a84c; border:1px solid rgba(201,168,76,0.4); padding:3px 10px; letter-spacing:0.15em; text-transform:uppercase;">☕ Petit déjeuner inclus</span>
-        </div>
-        <div style="display:flex; justify-content:space-between; align-items:flex-end; margin-bottom:24px;">
-          <p class="font-arabic" dir="rtl" style="font-size:15px; line-height:1.6; width:55%;">شقة فندقية كاملة بمطبخ وغرف متعددة لإقامة مريحة.</p>
-          <div style="text-align:right;">
-            <div class="font-serif-custom" style="font-size:36px; line-height:1; color:#c9a84c;">15,000</div>
-            <div style="font-size:9px; text-transform:uppercase; letter-spacing:0.2em; color:#8a6a1f;">DA / الليلة</div>
+          <div class="rc-sep"><div class="rc-sep-line"></div><div class="rc-sep-diamond"></div><div class="rc-sep-line"></div></div>
+          <div class="rc-stats">
+            <div class="rc-stat"><span class="rc-stat-label">Guests</span><span class="rc-stat-val">4+</span></div>
+            <div class="rc-stat"><span class="rc-stat-label">Rooms</span><span class="rc-stat-val">Multi</span></div>
+            <div class="rc-stat"><span class="rc-stat-label">Type</span><span class="rc-stat-val">Appart.</span></div>
           </div>
+          <span class="rc-bkf">☕ Petit déjeuner inclus</span>
+          <div class="rc-bottom">
+            <p class="rc-desc" dir="rtl">شقة فندقية كاملة بمطبخ وغرف متعددة لإقامة مريحة.</p>
+            <div class="rc-price-block"><div class="rc-price">15,000</div><div class="rc-price-unit">DA / الليلة</div></div>
+          </div>
+          <button class="gold-btn" onclick="scrollToInquiry()">Inquire — استعلام</button>
         </div>
-        <button class="gold-btn" onclick="scrollToInquiry()">Inquire — استعلام</button>
-      </div>
-      <div style="display:flex; align-items:center; justify-content:center; width:100%; padding:24px 32px;">
-        <svg width="240" height="16" viewBox="0 0 240 16"><line x1="0" y1="8" x2="100" y2="8" stroke="#c9a84c" stroke-width="0.5" opacity="0.6"/><polygon points="120,2 127,8 120,14 113,8" fill="none" stroke="#c9a84c" stroke-width="0.8" opacity="0.8"/><line x1="140" y1="8" x2="240" y2="8" stroke="#c9a84c" stroke-width="0.5" opacity="0.6"/></svg>
       </div>
     </div>
 
-    <!-- Room 07 — Single VIP -->
-    <div>
-      <div class="room-img-wrap">
-        <img src="/images/room-executive.jpg" alt="Single VIP" />
-        <div class="room-img-overlay-t"></div><div class="room-img-overlay-l"></div>
-        <div class="room-img-overlay-r"></div><div class="room-img-overlay-b"></div>
-        <div class="room-img-overlay-wh"></div>
-        <div class="room-num-ghost">07</div>
-        <div class="room-pill">
-          <h3 style="font-size:18px; letter-spacing:0.2em; text-transform:uppercase; margin-bottom:4px; color:#e8d090;">Single VIP</h3>
-          <p class="font-arabic" style="font-size:16px;">سينغل VIP</p>
+    <div class="rc-divider"><svg width="180" height="14" viewBox="0 0 180 14"><line x1="0" y1="7" x2="72" y2="7" stroke="#c9a84c" stroke-width="0.5" opacity="0.4"/><polygon points="90,1 97,7 90,13 83,7" fill="none" stroke="#c9a84c" stroke-width="0.7" opacity="0.6"/><line x1="108" y1="7" x2="180" y2="7" stroke="#c9a84c" stroke-width="0.5" opacity="0.4"/></svg></div>
+
+    <!-- 07 — Single VIP · from-right -->
+    <div class="rc-wrap">
+      <div class="rc from-right">
+        <div class="rc-corner rc-corner-tl"></div><div class="rc-corner rc-corner-tr"></div>
+        <div class="rc-corner rc-corner-bl"></div><div class="rc-corner rc-corner-br"></div>
+        <div class="rc-img">
+          <img src="/images/room-executive.jpg" alt="Single VIP" loading="lazy" />
+          <div class="rc-img-fade"></div>
+          <div class="rc-ghost-num">07</div>
+          <div class="rc-num-badge"><div class="rc-num-badge-line"></div><span class="rc-num-badge-text">No. 07</span></div>
         </div>
-      </div>
-      <div style="padding:0 24px; position:relative; z-index:10; margin-top:-8px;">
-        <div style="background:#080604; border:1px solid rgba(201,168,76,0.2); padding:16px; margin-bottom:16px;">
-          <div style="display:grid; grid-template-columns:1fr 1fr 1fr;">
-            <div style="display:flex; flex-direction:column; align-items:center; text-align:center;">
-              <span style="font-size:10px; color:#8a6a1f; text-transform:uppercase; letter-spacing:0.2em; margin-bottom:4px;">Guests</span>
-              <span style="font-size:12px; color:#e8d090; text-transform:uppercase; letter-spacing:0.1em;">1</span>
-            </div>
-            <div style="display:flex; flex-direction:column; align-items:center; text-align:center; border-left:1px solid rgba(201,168,76,0.2); border-right:1px solid rgba(201,168,76,0.2);">
-              <span style="font-size:10px; color:#8a6a1f; text-transform:uppercase; letter-spacing:0.2em; margin-bottom:4px;">Bed</span>
-              <span style="font-size:12px; color:#e8d090; text-transform:uppercase; letter-spacing:0.1em;">King</span>
-            </div>
-            <div style="display:flex; flex-direction:column; align-items:center; text-align:center;">
-              <span style="font-size:10px; color:#8a6a1f; text-transform:uppercase; letter-spacing:0.2em; margin-bottom:4px;">Type</span>
-              <span style="font-size:12px; color:#e8d090; text-transform:uppercase; letter-spacing:0.1em;">VIP</span>
-            </div>
+        <div class="rc-info">
+          <div class="rc-title-row">
+            <div><div class="rc-name">Single VIP</div><div class="rc-arabic">سينغل VIP</div></div>
+            <span class="rc-badge">VIP</span>
           </div>
-        </div>
-        <div style="display:flex; align-items:center; gap:8px; margin-bottom:16px;">
-          <span style="font-size:9px; color:#c9a84c; border:1px solid rgba(201,168,76,0.4); padding:3px 10px; letter-spacing:0.15em; text-transform:uppercase;">☕ Petit déjeuner inclus</span>
-        </div>
-        <div style="display:flex; justify-content:space-between; align-items:flex-end; margin-bottom:24px;">
-          <p class="font-arabic" dir="rtl" style="font-size:15px; line-height:1.6; width:55%;">تجربة VIP حصرية للفرد بخدمات استثنائية لا مثيل لها.</p>
-          <div style="text-align:right;">
-            <div class="font-serif-custom" style="font-size:36px; line-height:1; color:#c9a84c;">8,000</div>
-            <div style="font-size:9px; text-transform:uppercase; letter-spacing:0.2em; color:#8a6a1f;">DA / الليلة</div>
+          <div class="rc-sep"><div class="rc-sep-line"></div><div class="rc-sep-diamond"></div><div class="rc-sep-line"></div></div>
+          <div class="rc-stats">
+            <div class="rc-stat"><span class="rc-stat-label">Guests</span><span class="rc-stat-val">1</span></div>
+            <div class="rc-stat"><span class="rc-stat-label">Bed</span><span class="rc-stat-val">King</span></div>
+            <div class="rc-stat"><span class="rc-stat-label">Type</span><span class="rc-stat-val">VIP</span></div>
           </div>
+          <span class="rc-bkf">☕ Petit déjeuner inclus</span>
+          <div class="rc-bottom">
+            <p class="rc-desc" dir="rtl">تجربة VIP حصرية للفرد بخدمات استثنائية لا مثيل لها.</p>
+            <div class="rc-price-block"><div class="rc-price">8,000</div><div class="rc-price-unit">DA / الليلة</div></div>
+          </div>
+          <button class="gold-btn" onclick="scrollToInquiry()">Inquire — استعلام</button>
         </div>
-        <button class="gold-btn" onclick="scrollToInquiry()">Inquire — استعلام</button>
-      </div>
-      <div style="display:flex; align-items:center; justify-content:center; width:100%; padding:24px 32px;">
-        <svg width="240" height="16" viewBox="0 0 240 16"><line x1="0" y1="8" x2="100" y2="8" stroke="#c9a84c" stroke-width="0.5" opacity="0.6"/><polygon points="120,2 127,8 120,14 113,8" fill="none" stroke="#c9a84c" stroke-width="0.8" opacity="0.8"/><line x1="140" y1="8" x2="240" y2="8" stroke="#c9a84c" stroke-width="0.5" opacity="0.6"/></svg>
       </div>
     </div>
 
-    <!-- Room 08 — Double VIP -->
-    <div>
-      <div class="room-img-wrap">
-        <img src="/images/room-junior.jpg" alt="Double VIP" />
-        <div class="room-img-overlay-t"></div><div class="room-img-overlay-l"></div>
-        <div class="room-img-overlay-r"></div><div class="room-img-overlay-b"></div>
-        <div class="room-img-overlay-wh"></div>
-        <div class="room-num-ghost">08</div>
-        <div class="room-pill">
-          <h3 style="font-size:18px; letter-spacing:0.2em; text-transform:uppercase; margin-bottom:4px; color:#e8d090;">Double VIP</h3>
-          <p class="font-arabic" style="font-size:16px;">دبل VIP</p>
+    <div class="rc-divider"><svg width="180" height="14" viewBox="0 0 180 14"><line x1="0" y1="7" x2="72" y2="7" stroke="#c9a84c" stroke-width="0.5" opacity="0.4"/><polygon points="90,1 97,7 90,13 83,7" fill="none" stroke="#c9a84c" stroke-width="0.7" opacity="0.6"/><line x1="108" y1="7" x2="180" y2="7" stroke="#c9a84c" stroke-width="0.5" opacity="0.4"/></svg></div>
+
+    <!-- 08 — Double VIP · from-left -->
+    <div class="rc-wrap">
+      <div class="rc from-left">
+        <div class="rc-corner rc-corner-tl"></div><div class="rc-corner rc-corner-tr"></div>
+        <div class="rc-corner rc-corner-bl"></div><div class="rc-corner rc-corner-br"></div>
+        <div class="rc-img">
+          <img src="/images/room-junior.jpg" alt="Double VIP" loading="lazy" />
+          <div class="rc-img-fade"></div>
+          <div class="rc-ghost-num">08</div>
+          <div class="rc-num-badge"><div class="rc-num-badge-line"></div><span class="rc-num-badge-text">No. 08</span></div>
         </div>
-      </div>
-      <div style="padding:0 24px; position:relative; z-index:10; margin-top:-8px;">
-        <div style="background:#080604; border:1px solid rgba(201,168,76,0.2); padding:16px; margin-bottom:16px;">
-          <div style="display:grid; grid-template-columns:1fr 1fr 1fr;">
-            <div style="display:flex; flex-direction:column; align-items:center; text-align:center;">
-              <span style="font-size:10px; color:#8a6a1f; text-transform:uppercase; letter-spacing:0.2em; margin-bottom:4px;">Guests</span>
-              <span style="font-size:12px; color:#e8d090; text-transform:uppercase; letter-spacing:0.1em;">2</span>
-            </div>
-            <div style="display:flex; flex-direction:column; align-items:center; text-align:center; border-left:1px solid rgba(201,168,76,0.2); border-right:1px solid rgba(201,168,76,0.2);">
-              <span style="font-size:10px; color:#8a6a1f; text-transform:uppercase; letter-spacing:0.2em; margin-bottom:4px;">Bed</span>
-              <span style="font-size:12px; color:#e8d090; text-transform:uppercase; letter-spacing:0.1em;">King</span>
-            </div>
-            <div style="display:flex; flex-direction:column; align-items:center; text-align:center;">
-              <span style="font-size:10px; color:#8a6a1f; text-transform:uppercase; letter-spacing:0.2em; margin-bottom:4px;">Type</span>
-              <span style="font-size:12px; color:#e8d090; text-transform:uppercase; letter-spacing:0.1em;">VIP</span>
-            </div>
+        <div class="rc-info">
+          <div class="rc-title-row">
+            <div><div class="rc-name">Double VIP</div><div class="rc-arabic">دبل VIP</div></div>
+            <span class="rc-badge">VIP</span>
           </div>
-        </div>
-        <div style="display:flex; align-items:center; gap:8px; margin-bottom:16px;">
-          <span style="font-size:9px; color:#c9a84c; border:1px solid rgba(201,168,76,0.4); padding:3px 10px; letter-spacing:0.15em; text-transform:uppercase;">☕ Petit déjeuner inclus</span>
-        </div>
-        <div style="display:flex; justify-content:space-between; align-items:flex-end; margin-bottom:24px;">
-          <p class="font-arabic" dir="rtl" style="font-size:15px; line-height:1.6; width:55%;">تجربة VIP مزدوجة بفخامة لا تُضاهى وخصوصية تامة.</p>
-          <div style="text-align:right;">
-            <div class="font-serif-custom" style="font-size:36px; line-height:1; color:#c9a84c;">9,000</div>
-            <div style="font-size:9px; text-transform:uppercase; letter-spacing:0.2em; color:#8a6a1f;">DA / الليلة</div>
+          <div class="rc-sep"><div class="rc-sep-line"></div><div class="rc-sep-diamond"></div><div class="rc-sep-line"></div></div>
+          <div class="rc-stats">
+            <div class="rc-stat"><span class="rc-stat-label">Guests</span><span class="rc-stat-val">2</span></div>
+            <div class="rc-stat"><span class="rc-stat-label">Bed</span><span class="rc-stat-val">King</span></div>
+            <div class="rc-stat"><span class="rc-stat-label">Type</span><span class="rc-stat-val">VIP</span></div>
           </div>
+          <span class="rc-bkf">☕ Petit déjeuner inclus</span>
+          <div class="rc-bottom">
+            <p class="rc-desc" dir="rtl">تجربة VIP مزدوجة بفخامة لا تُضاهى وخصوصية تامة.</p>
+            <div class="rc-price-block"><div class="rc-price">9,000</div><div class="rc-price-unit">DA / الليلة</div></div>
+          </div>
+          <button class="gold-btn" onclick="scrollToInquiry()">Inquire — استعلام</button>
         </div>
-        <button class="gold-btn" onclick="scrollToInquiry()">Inquire — استعلام</button>
       </div>
     </div>
 
-    <div style="display:flex; align-items:center; justify-content:center; width:100%; padding:24px 32px;">
-      <svg width="240" height="16" viewBox="0 0 240 16"><line x1="0" y1="8" x2="100" y2="8" stroke="#c9a84c" stroke-width="0.5" opacity="0.6"/><polygon points="120,2 127,8 120,14 113,8" fill="none" stroke="#c9a84c" stroke-width="0.8" opacity="0.8"/><line x1="140" y1="8" x2="240" y2="8" stroke="#c9a84c" stroke-width="0.5" opacity="0.6"/></svg>
-    </div>
+    <div style="height:44px;"></div>
   </section>
 
   <!-- ═══ SECTION 4 — EXPERIENCE PILLARS ═══ -->
@@ -2004,6 +2084,18 @@
     });
   }, { threshold: 0.1 });
   revealEls.forEach(function(el) { observer.observe(el); });
+
+  // ── Room Card Scroll-Reveal ────────────────────────────
+  var rcCards = document.querySelectorAll('.rc');
+  var rcObserver = new IntersectionObserver(function(entries) {
+    entries.forEach(function(entry) {
+      if (entry.isIntersecting) {
+        entry.target.classList.add('visible');
+        rcObserver.unobserve(entry.target);
+      }
+    });
+  }, { threshold: 0.12, rootMargin: '0px 0px -40px 0px' });
+  rcCards.forEach(function(el) { rcObserver.observe(el); });
 
   // ── Hero word staggered reveal ─────────────────────────
   var heroWords = document.querySelectorAll('.hero-word');
