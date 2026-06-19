@@ -751,15 +751,6 @@
     <source src="https://res.cloudinary.com/dlazeylfu/video/upload/0619_yaty17.mp4" type="video/mp4" />
   </video>
 
-  <!-- مؤشر صوت -->
-  <button id="mute-btn" onclick="toggleMute()" style="
-    position:absolute; bottom:80px; left:50%; transform:translateX(-50%);
-    background:rgba(201,168,76,0.15); border:1px solid rgba(201,168,76,0.4);
-    color:#c9a84c; font-size:22px; width:48px; height:48px; border-radius:50%;
-    cursor:pointer; display:flex; align-items:center; justify-content:center;
-    backdrop-filter:blur(6px); transition:background 0.2s;
-  ">🔇</button>
-
   <!-- زر تخطي -->
   <button onclick="dismissLoader()" style="
     position:absolute; bottom:20px; left:50%; transform:translateX(-50%);
@@ -777,15 +768,9 @@
 
 <script>
   document.body.classList.add('loader-active');
-  var muted = true;
   var vid = document.getElementById('intro-video');
-  vid.muted = true;
-
-  function toggleMute() {
-    muted = !muted;
-    vid.muted = muted;
-    document.getElementById('mute-btn').textContent = muted ? '🔇' : '🔊';
-  }
+  vid.muted = false;
+  vid.volume = 1;
 
   function dismissLoader() {
     var loader = document.getElementById('video-loader');
