@@ -93,6 +93,66 @@
       to   { opacity: 0; transform: translateY(30px) scale(0.95); }
     }
 
+    /* ── LEGENDARY HERO KEYFRAMES ── */
+    @keyframes ember-rise {
+      0%   { transform: translateY(0) translateX(0) scale(1); opacity: 0; }
+      10%  { opacity: 1; }
+      90%  { opacity: 0.8; }
+      100% { transform: translateY(-110vh) translateX(var(--dx)) scale(0.3); opacity: 0; }
+    }
+    @keyframes god-ray-pulse {
+      0%, 100% { opacity: 0.03; transform: scaleX(1); }
+      50%       { opacity: 0.09; transform: scaleX(1.04); }
+    }
+    @keyframes corona-spin {
+      from { transform: rotate(0deg); }
+      to   { transform: rotate(360deg); }
+    }
+    @keyframes corona-spin-r {
+      from { transform: rotate(0deg); }
+      to   { transform: rotate(-360deg); }
+    }
+    @keyframes aurora-shift {
+      0%, 100% { opacity: 0.12; transform: scale(1) translateY(0); }
+      50%       { opacity: 0.22; transform: scale(1.08) translateY(-8px); }
+    }
+    @keyframes hero-word-in {
+      from { opacity: 0; transform: translateY(48px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+    @keyframes letterbox-in {
+      from { transform: scaleX(0); }
+      to   { transform: scaleX(1); }
+    }
+    @keyframes corner-in {
+      from { opacity: 0; transform: scale(0.6); }
+      to   { opacity: 1; transform: scale(1); }
+    }
+    @keyframes badge-in {
+      from { opacity: 0; transform: scale(0.7) rotate(-8deg); }
+      to   { opacity: 1; transform: scale(1) rotate(0deg); }
+    }
+    @keyframes star-pulse {
+      0%, 100% { text-shadow: 0 0 6px rgba(201,168,76,0.4); }
+      50%       { text-shadow: 0 0 20px rgba(201,168,76,0.9), 0 0 40px rgba(201,168,76,0.4); }
+    }
+    @keyframes scroll-bounce {
+      0%, 100% { transform: translateY(0); opacity: 0.7; }
+      50%       { transform: translateY(10px); opacity: 1; }
+    }
+    @keyframes hline-grow {
+      from { width: 0; }
+      to   { width: 100%; }
+    }
+    @keyframes logo-halo {
+      0%, 100% { box-shadow: 0 0 40px 8px rgba(201,168,76,0.12), 0 0 80px 20px rgba(201,168,76,0.06); }
+      50%       { box-shadow: 0 0 60px 16px rgba(201,168,76,0.22), 0 0 120px 40px rgba(201,168,76,0.10); }
+    }
+    @keyframes vignette-in {
+      from { opacity: 0; }
+      to   { opacity: 1; }
+    }
+
     .anim-logo     { animation: fade-in-scale 1.2s ease-out forwards; opacity: 0; }
     .anim-divider  { animation: scale-x-in 1s ease-in-out 0.5s forwards; opacity: 0; }
     .anim-tagline  { animation: fade-in-up 1s ease 0.8s forwards; opacity: 0; }
@@ -117,6 +177,66 @@
       opacity: 0.3;
       animation: float-particle ease-in-out infinite;
     }
+
+    /* Ember particles */
+    .ember {
+      position: absolute;
+      border-radius: 50%;
+      pointer-events: none;
+      animation: ember-rise linear infinite;
+    }
+
+    /* God rays */
+    .god-ray {
+      position: absolute;
+      bottom: 0;
+      left: 50%;
+      transform-origin: bottom center;
+      background: linear-gradient(to top, rgba(201,168,76,0.18) 0%, transparent 80%);
+      animation: god-ray-pulse ease-in-out infinite;
+    }
+
+    /* Aurora glow */
+    .hero-aurora {
+      position: absolute;
+      border-radius: 50%;
+      pointer-events: none;
+      animation: aurora-shift ease-in-out infinite;
+    }
+
+    /* Corner ornaments */
+    .hero-corner {
+      position: absolute;
+      width: 52px; height: 52px;
+      animation: corner-in 0.8s cubic-bezier(0.34,1.56,0.64,1) forwards;
+      opacity: 0;
+    }
+
+    /* Word reveal — JS-driven only, visible by default */
+    .hero-word {
+      display: block;
+      opacity: 1;
+    }
+
+    /* Letterbox lines */
+    .hero-hline {
+      position: absolute;
+      left: 0; height: 1px;
+      background: linear-gradient(to right, transparent, rgba(201,168,76,0.45), transparent);
+      animation: hline-grow 1.4s cubic-bezier(0.25,0.46,0.45,0.94) forwards;
+      width: 0;
+    }
+
+    /* Logo corona rings */
+    .corona-ring {
+      position: absolute;
+      border-radius: 50%;
+      border: 1px solid rgba(201,168,76,0.18);
+      pointer-events: none;
+    }
+
+    /* Stars */
+    .hero-star { animation: star-pulse 2.5s ease-in-out infinite; }
 
     .gold-btn {
       background: linear-gradient(90deg, #8a6a1f, #c9a84c, #8a6a1f);
@@ -444,101 +564,179 @@
 <!-- WRAPPER -->
 <div style="min-height:100dvh; width:100%; max-width:430px; margin:0 auto; overflow-x:hidden; background:radial-gradient(ellipse at top, #1a1208 0%, #0a0905 40%, #050300 100%); box-shadow:0 0 80px rgba(0,0,0,0.8);">
 
-  <!-- ═══ SECTION 1 — HERO ═══ -->
-  <section style="position:relative; height:100dvh; width:100%; display:flex; flex-direction:column; align-items:center; justify-content:center; overflow:hidden;">
-    
-    <!-- Background layers -->
+  <!-- ═══ SECTION 1 — HERO (LEGENDARY) ═══ -->
+  <section id="hero" style="position:relative; height:100dvh; width:100%; display:flex; flex-direction:column; align-items:center; justify-content:center; overflow:hidden; background:#040200;">
+
+    <!-- ── Layer 0: Video / Static Image ── -->
     <div style="position:absolute; inset:0; z-index:0;">
-      <!-- Video -->
-      <video id="hero-video" autoplay muted playsinline
-        style="position:absolute; inset:0; width:100%; height:100%; object-fit:cover; pointer-events:none; transition:opacity 1s;">
+      <video id="hero-video" autoplay muted playsinline loop
+        style="position:absolute; inset:0; width:100%; height:100%; object-fit:cover; pointer-events:none; opacity:0.55; transition:opacity 1.5s ease;">
         <source src="https://res.cloudinary.com/dlazeylfu/video/upload/AQOKXqZqdnGq_YyimwMzV45gcIfjT7a71yCWhODThgSBJ6q5NE-T8tLcx7ol-fnx31qk55EuaCBsAORAQwHwyYyRsY6S_7EWadlWcwQ_1_ac6r5h.mp4" type="video/mp4" />
       </video>
-      <!-- Static image (shown after video ends) -->
       <img id="hero-img" src="/images/hero-building.jpg" alt="VESCERA HOTEL"
-        style="position:absolute; inset:0; width:100%; height:100%; object-fit:cover; opacity:0; transition:opacity 1s;" />
-      <!-- Gradient vignette -->
-      <div style="position:absolute; inset:0; background:radial-gradient(circle at center, transparent 20%, #050300 100%);"></div>
-      <!-- Scan line -->
-      <div class="shimmer-scan-line"></div>
-      <!-- Particles -->
-      <div class="particle" style="left:12%; top:18%; animation-duration:7s; animation-delay:0s;"></div>
-      <div class="particle" style="left:28%; top:72%; animation-duration:9s; animation-delay:1s;"></div>
-      <div class="particle" style="left:45%; top:35%; animation-duration:6s; animation-delay:2s;"></div>
-      <div class="particle" style="left:62%; top:55%; animation-duration:8s; animation-delay:0.5s;"></div>
-      <div class="particle" style="left:78%; top:22%; animation-duration:11s; animation-delay:1.5s;"></div>
-      <div class="particle" style="left:85%; top:80%; animation-duration:7s; animation-delay:3s;"></div>
-      <div class="particle" style="left:8%; top:60%; animation-duration:10s; animation-delay:0.8s;"></div>
-      <div class="particle" style="left:55%; top:85%; animation-duration:6s; animation-delay:4s;"></div>
-      <div class="particle" style="left:33%; top:10%; animation-duration:9s; animation-delay:2.5s;"></div>
-      <div class="particle" style="left:70%; top:40%; animation-duration:8s; animation-delay:1.2s;"></div>
-      <div class="particle" style="left:90%; top:65%; animation-duration:7s; animation-delay:0.3s;"></div>
-      <div class="particle" style="left:18%; top:48%; animation-duration:12s; animation-delay:3.5s;"></div>
+        style="position:absolute; inset:0; width:100%; height:100%; object-fit:cover; opacity:0; transition:opacity 1.5s;" />
     </div>
 
-    <!-- Hero content -->
-    <div style="position:relative; z-index:10; display:flex; flex-direction:column; align-items:center; text-align:center; padding:0 24px; width:100%;">
-      <img class="anim-logo" src="/images/logo.jpg" alt="VESCERA HOTEL"
-        style="width:220px; margin-bottom:16px; filter:drop-shadow(0 0 40px rgba(201,168,76,0.35));" />
-      
-      <div class="anim-divider" style="width:100%;">
-        <div style="display:flex; align-items:center; justify-content:center; width:100%; padding:24px 32px;">
-          <svg width="240" height="16" viewBox="0 0 240 16">
-            <line x1="0" y1="8" x2="100" y2="8" stroke="#c9a84c" stroke-width="0.5" opacity="0.6"/>
-            <polygon points="120,2 127,8 120,14 113,8" fill="none" stroke="#c9a84c" stroke-width="0.8" opacity="0.8"/>
-            <line x1="140" y1="8" x2="240" y2="8" stroke="#c9a84c" stroke-width="0.5" opacity="0.6"/>
-          </svg>
-        </div>
+    <!-- ── Layer 1: Multi-stop cinematic gradient ── -->
+    <div style="position:absolute; inset:0; z-index:1;
+      background:
+        linear-gradient(180deg, rgba(4,2,0,0.82) 0%, rgba(4,2,0,0.28) 30%, rgba(4,2,0,0.18) 55%, rgba(4,2,0,0.88) 100%),
+        radial-gradient(ellipse at 50% 60%, rgba(140,100,20,0.18) 0%, transparent 70%);
+    "></div>
+
+    <!-- ── Layer 2: God Rays ── -->
+    <div style="position:absolute; inset:0; z-index:2; pointer-events:none; overflow:hidden;">
+      <div class="god-ray" style="width:280px; transform:translateX(-50%) rotate(-18deg); height:100%; animation-duration:6s; animation-delay:0s;"></div>
+      <div class="god-ray" style="width:180px; transform:translateX(-50%) rotate(-6deg); height:100%; animation-duration:8s; animation-delay:1.5s;"></div>
+      <div class="god-ray" style="width:320px; transform:translateX(-50%) rotate(6deg); height:100%; animation-duration:7s; animation-delay:0.8s;"></div>
+      <div class="god-ray" style="width:140px; transform:translateX(-50%) rotate(22deg); height:100%; animation-duration:9s; animation-delay:2.2s;"></div>
+      <div class="god-ray" style="width:240px; transform:translateX(-50%) rotate(-32deg); height:100%; animation-duration:11s; animation-delay:3s;"></div>
+    </div>
+
+    <!-- ── Layer 3: Aurora glow ── -->
+    <div class="hero-aurora" style="position:absolute; z-index:3; width:340px; height:340px; top:50%; left:50%; margin-top:-170px; margin-left:-170px;
+      background: radial-gradient(circle, rgba(201,168,76,0.14) 0%, rgba(180,130,30,0.07) 45%, transparent 72%);
+      animation-duration:5s; animation-delay:0s;"></div>
+    <div class="hero-aurora" style="position:absolute; z-index:3; width:500px; height:280px; top:55%; left:50%; margin-top:-140px; margin-left:-250px;
+      background: radial-gradient(ellipse, rgba(201,168,76,0.06) 0%, transparent 70%);
+      animation-duration:7s; animation-delay:2s;"></div>
+
+    <!-- ── Layer 4: Horizontal cinematic lines ── -->
+    <div class="hero-hline" style="top:18%; z-index:4; animation-delay:0.6s;"></div>
+    <div class="hero-hline" style="bottom:18%; z-index:4; animation-delay:0.9s;"></div>
+
+    <!-- ── Layer 5: Ember particles ── -->
+    <div style="position:absolute; inset:0; z-index:5; pointer-events:none;">
+      <div class="ember" style="left:8%;  bottom:0; width:3px; height:3px; background:#e8c84a; --dx:12px;  animation-duration:8s;  animation-delay:0s;"></div>
+      <div class="ember" style="left:15%; bottom:0; width:2px; height:2px; background:#c9a84c; --dx:-8px; animation-duration:11s; animation-delay:1.2s;"></div>
+      <div class="ember" style="left:23%; bottom:0; width:4px; height:4px; background:#f0d060; --dx:20px;  animation-duration:7s;  animation-delay:2.5s;"></div>
+      <div class="ember" style="left:35%; bottom:0; width:2px; height:2px; background:#c9a84c; --dx:-15px;animation-duration:9s;  animation-delay:0.5s;"></div>
+      <div class="ember" style="left:44%; bottom:0; width:3px; height:3px; background:#e8c84a; --dx:5px;   animation-duration:10s; animation-delay:3.8s;"></div>
+      <div class="ember" style="left:52%; bottom:0; width:2px; height:2px; background:#d4b450; --dx:-22px;animation-duration:8.5s;animation-delay:1.8s;"></div>
+      <div class="ember" style="left:60%; bottom:0; width:3px; height:3px; background:#f0d060; --dx:18px;  animation-duration:12s; animation-delay:0.3s;"></div>
+      <div class="ember" style="left:68%; bottom:0; width:2px; height:2px; background:#c9a84c; --dx:-10px;animation-duration:7.5s;animation-delay:4.5s;"></div>
+      <div class="ember" style="left:75%; bottom:0; width:4px; height:4px; background:#e8c84a; --dx:25px;  animation-duration:9.5s;animation-delay:2s;"></div>
+      <div class="ember" style="left:83%; bottom:0; width:2px; height:2px; background:#d4b450; --dx:-16px;animation-duration:11s; animation-delay:5.5s;"></div>
+      <div class="ember" style="left:90%; bottom:0; width:3px; height:3px; background:#f0d060; --dx:8px;   animation-duration:8s;  animation-delay:3.2s;"></div>
+      <div class="ember" style="left:30%; bottom:0; width:2px; height:2px; background:#c9a84c; --dx:-5px;  animation-duration:6.5s;animation-delay:6s;"></div>
+      <div class="ember" style="left:57%; bottom:0; width:3px; height:3px; background:#e8c84a; --dx:14px;  animation-duration:13s; animation-delay:1s;"></div>
+      <div class="ember" style="left:72%; bottom:0; width:2px; height:2px; background:#d4b450; --dx:-19px; animation-duration:7s;  animation-delay:4s;"></div>
+      <div class="ember" style="left:48%; bottom:0; width:4px; height:4px; background:#f0d060; --dx:30px;  animation-duration:10s; animation-delay:2.7s;"></div>
+    </div>
+
+    <!-- ── Layer 6: Corner ornaments ── -->
+    <svg class="hero-corner" style="top:20px; left:20px; z-index:6; animation-delay:1.2s;" viewBox="0 0 52 52" fill="none">
+      <path d="M2 50 L2 2 L50 2" stroke="rgba(201,168,76,0.55)" stroke-width="1"/>
+      <path d="M2 2 L14 2 M2 2 L2 14" stroke="#c9a84c" stroke-width="1.5"/>
+      <circle cx="2" cy="2" r="2" fill="#c9a84c" opacity="0.8"/>
+    </svg>
+    <svg class="hero-corner" style="top:20px; right:20px; z-index:6; animation-delay:1.4s; transform-origin:right top;" viewBox="0 0 52 52" fill="none">
+      <path d="M50 50 L50 2 L2 2" stroke="rgba(201,168,76,0.55)" stroke-width="1"/>
+      <path d="M50 2 L38 2 M50 2 L50 14" stroke="#c9a84c" stroke-width="1.5"/>
+      <circle cx="50" cy="2" r="2" fill="#c9a84c" opacity="0.8"/>
+    </svg>
+    <svg class="hero-corner" style="bottom:20px; left:20px; z-index:6; animation-delay:1.6s; transform-origin:left bottom;" viewBox="0 0 52 52" fill="none">
+      <path d="M2 2 L2 50 L50 50" stroke="rgba(201,168,76,0.55)" stroke-width="1"/>
+      <path d="M2 50 L14 50 M2 50 L2 38" stroke="#c9a84c" stroke-width="1.5"/>
+      <circle cx="2" cy="50" r="2" fill="#c9a84c" opacity="0.8"/>
+    </svg>
+    <svg class="hero-corner" style="bottom:20px; right:20px; z-index:6; animation-delay:1.8s; transform-origin:right bottom;" viewBox="0 0 52 52" fill="none">
+      <path d="M50 2 L50 50 L2 50" stroke="rgba(201,168,76,0.55)" stroke-width="1"/>
+      <path d="M50 50 L38 50 M50 50 L50 38" stroke="#c9a84c" stroke-width="1.5"/>
+      <circle cx="50" cy="50" r="2" fill="#c9a84c" opacity="0.8"/>
+    </svg>
+
+    <!-- ── Layer 7: Main hero content ── -->
+    <div style="position:relative; z-index:10; display:flex; flex-direction:column; align-items:center; text-align:center; width:100%; padding:0 28px;">
+
+      <!-- Logo with corona rings -->
+      <div style="position:relative; width:150px; height:150px; flex-shrink:0; margin-bottom:16px;">
+        <div style="position:absolute; inset:-10px; border-radius:50%; animation:corona-spin 22s linear infinite;
+          border: 1px solid rgba(201,168,76,0.12);
+          background: conic-gradient(from 0deg, transparent 0%, rgba(201,168,76,0.28) 15%, transparent 30%, transparent 70%, rgba(201,168,76,0.28) 85%, transparent 100%);
+        "></div>
+        <div style="position:absolute; inset:-3px; border-radius:50%; animation:corona-spin-r 14s linear infinite;
+          border: 1px dashed rgba(201,168,76,0.2);
+        "></div>
+        <div style="position:absolute; inset:0; border-radius:50%; animation:corona-spin 8s linear infinite;
+          background: conic-gradient(from 90deg, transparent 0%, rgba(201,168,76,0.18) 10%, transparent 20%, transparent 80%, rgba(201,168,76,0.18) 90%, transparent 100%);
+        "></div>
+        <img src="/images/logo.jpg" alt="VESCERA HOTEL"
+          style="position:absolute; inset:0; width:100%; height:100%; object-fit:cover; border-radius:50%; animation:logo-halo 4s ease-in-out infinite;" />
       </div>
 
-      <!-- Hero headline block -->
-      <div class="anim-tagline" style="text-align:center; padding:0 16px; width:100%;">
-
-        <!-- Eyebrow label -->
-        <p data-i18n="hero_eyebrow" style="font-size:8.5px; letter-spacing:0.55em; text-transform:uppercase; color:rgba(201,168,76,0.5); margin:0 0 20px; font-family:'Inter',sans-serif; font-weight:400;">Hotel Vescera — Since 2024</p>
-
-        <!-- Line 1 -->
-        <div style="overflow:hidden; margin-bottom:2px;">
-          <h1 data-i18n="hero_line1" style="font-family:'Cormorant Garamond',serif; font-size:clamp(54px,13vw,100px); font-weight:600; letter-spacing:0.12em; color:#f0e8d5; line-height:0.88; margin:0; text-transform:uppercase; text-shadow:0 0 80px rgba(201,168,76,0.15);">DISCOVER</h1>
-        </div>
-
-        <!-- Line 2 -->
-        <div style="overflow:hidden; margin-bottom:28px;">
-          <h1 style="font-family:'Cormorant Garamond',serif; font-size:clamp(54px,13vw,100px); font-weight:600; letter-spacing:0.12em; line-height:0.88; margin:0; text-transform:uppercase;">
-            <span data-i18n="hero_line2a" style="color:#f0e8d5;">YOUR </span><span data-i18n="hero_line2b" style="color:#c9a84c; font-style:italic; text-shadow:0 0 60px rgba(201,168,76,0.4);">ROOM</span>
-          </h1>
-        </div>
-
-        <!-- Decorative divider -->
-        <div style="display:flex; align-items:center; justify-content:center; gap:14px; margin-bottom:20px;">
-          <div style="width:52px; height:1px; background:linear-gradient(to right, transparent, rgba(201,168,76,0.55));"></div>
-          <div style="width:5px; height:5px; background:#c9a84c; transform:rotate(45deg); opacity:0.85; flex-shrink:0;"></div>
-          <div style="width:52px; height:1px; background:linear-gradient(to left, transparent, rgba(201,168,76,0.55));"></div>
-        </div>
-
-        <!-- Tagline -->
-        <p class="anim-sub" data-i18n="hero_main" style="font-size:9px; letter-spacing:0.42em; text-transform:uppercase; color:rgba(201,168,76,0.65); font-family:'Inter',sans-serif; margin:0; font-weight:400;">
-          Where every moment is a memory
-        </p>
-
+      <!-- Stars -->
+      <div style="display:flex; gap:7px; margin-bottom:14px;">
+        <span class="hero-star" style="color:#c9a84c; font-size:12px;">★</span>
+        <span class="hero-star" style="color:#c9a84c; font-size:12px;">★</span>
+        <span class="hero-star" style="color:#c9a84c; font-size:12px;">★</span>
+        <span class="hero-star" style="color:#c9a84c; font-size:12px;">★</span>
       </div>
+
+      <!-- Eyebrow -->
+      <p data-i18n="hero_eyebrow" style="font-size:7px; letter-spacing:0.65em; text-transform:uppercase; color:rgba(201,168,76,0.45); margin:0 0 18px; font-family:'Inter',sans-serif; font-weight:300;">
+        ✦ &nbsp; BISKRA &nbsp;·&nbsp; ALGERIA &nbsp;·&nbsp; EST. 2024 &nbsp; ✦
+      </p>
+
+      <!-- Headline — always visible, JS adds revealed class for smooth entry -->
+      <h1 data-i18n="hero_line1" class="hero-word"
+        style="font-family:'Cormorant Garamond',serif; font-size:clamp(52px,12vw,88px); font-weight:700; letter-spacing:0.08em; color:#f5edd8; line-height:0.88; margin:0 0 2px; text-transform:uppercase;
+        text-shadow: 0 0 80px rgba(201,168,76,0.18), 0 2px 30px rgba(0,0,0,0.8);">WHERE</h1>
+
+      <h1 class="hero-word" data-i18n="hero_line2a"
+        style="font-family:'Cormorant Garamond',serif; font-size:clamp(52px,12vw,88px); font-weight:700; letter-spacing:0.08em; line-height:0.88; margin:0 0 2px; text-transform:uppercase;
+        color:#c9a84c; font-style:italic;
+        text-shadow: 0 0 50px rgba(201,168,76,0.55), 0 0 100px rgba(201,168,76,0.2), 0 2px 30px rgba(0,0,0,0.8);">LEGENDS</h1>
+
+      <h1 data-i18n="hero_line2b" class="hero-word"
+        style="font-family:'Cormorant Garamond',serif; font-size:clamp(52px,12vw,88px); font-weight:700; letter-spacing:0.08em; color:#f5edd8; line-height:0.88; margin:0 0 20px; text-transform:uppercase;
+        text-shadow: 0 0 80px rgba(201,168,76,0.18), 0 2px 30px rgba(0,0,0,0.8);">RESIDE</h1>
+
+      <!-- Gold rule with ornament -->
+      <div style="display:flex; align-items:center; justify-content:center; gap:12px; margin-bottom:16px; width:80%;">
+        <div style="flex:1; height:1px; background:linear-gradient(to right, transparent, rgba(201,168,76,0.6));"></div>
+        <svg width="18" height="18" viewBox="0 0 20 20" fill="none">
+          <path d="M10 1 L11.8 8.2 L19 10 L11.8 11.8 L10 19 L8.2 11.8 L1 10 L8.2 8.2 Z" stroke="#c9a84c" stroke-width="0.8" fill="rgba(201,168,76,0.08)"/>
+        </svg>
+        <div style="flex:1; height:1px; background:linear-gradient(to left, transparent, rgba(201,168,76,0.6));"></div>
+      </div>
+
+      <!-- Sub tagline -->
+      <p data-i18n="hero_main" style="font-size:8px; letter-spacing:0.44em; text-transform:uppercase; color:rgba(201,168,76,0.6); font-family:'Inter',sans-serif; margin:0 0 14px; font-weight:300;">
+        Where every moment is a memory
+      </p>
+
+      <!-- Arabic calligraphy line -->
+      <p class="font-arabic" style="font-size:14px; color:rgba(184,170,136,0.45); margin:0; letter-spacing:0.05em; font-weight:400;">
+        فـندق فـسيـرة — الفـخامة بلا حـدود
+      </p>
+
     </div>
 
     <!-- Language Switcher -->
-    <div id="lang-switcher" style="position:absolute; top:20px; right:20px; z-index:500; display:flex; align-items:stretch; background:rgba(5,3,0,0.75); border:1px solid rgba(201,168,76,0.3); backdrop-filter:blur(12px);">
+    <div id="lang-switcher" style="position:absolute; top:20px; right:72px; z-index:500; display:flex; align-items:stretch; background:rgba(4,2,0,0.8); border:1px solid rgba(201,168,76,0.28); backdrop-filter:blur(16px);">
       <button id="lang-en" onclick="applyLang('en')" style="padding:10px 13px; background:none; border:none; font-size:10px; letter-spacing:0.2em; font-family:'Inter',sans-serif; cursor:pointer; color:#c9a84c; text-transform:uppercase; transition:color 0.2s, background 0.2s;">EN</button>
-      <div style="width:1px; background:rgba(201,168,76,0.2);"></div>
+      <div style="width:1px; background:rgba(201,168,76,0.18);"></div>
       <button id="lang-fr" onclick="applyLang('fr')" style="padding:10px 13px; background:none; border:none; font-size:10px; letter-spacing:0.2em; font-family:'Inter',sans-serif; cursor:pointer; color:rgba(201,168,76,0.4); text-transform:uppercase; transition:color 0.2s, background 0.2s;">FR</button>
-      <div style="width:1px; background:rgba(201,168,76,0.2);"></div>
+      <div style="width:1px; background:rgba(201,168,76,0.18);"></div>
       <button id="lang-ar" onclick="applyLang('ar')" style="padding:10px 13px; background:none; border:none; font-size:10px; letter-spacing:0.15em; font-family:'Noto Serif Arabic',serif; cursor:pointer; color:rgba(201,168,76,0.4); transition:color 0.2s, background 0.2s;">ع</button>
     </div>
 
-    <!-- Drip indicator -->
-    <div class="anim-drip" style="position:absolute; bottom:48px; display:flex; flex-direction:column; align-items:center; height:60px; overflow:hidden;">
-      <div style="width:1px; height:100%; border-left:1px dashed rgba(201,168,76,0.3); position:relative;">
-        <div style="position:absolute; top:0; left:-2px; width:3px; height:3px; background:#e8d090; border-radius:50%; animation:drip 2s infinite;"></div>
+    <!-- Scroll indicator -->
+    <div style="position:absolute; bottom:36px; z-index:10; display:flex; flex-direction:column; align-items:center; gap:10px;
+      animation: fade-in-up 1s ease 3s both; opacity:0;">
+      <span style="font-size:6.5px; letter-spacing:0.55em; text-transform:uppercase; color:rgba(201,168,76,0.35); font-family:'Inter',sans-serif;">EXPLORE</span>
+      <div style="width:1px; height:44px; position:relative; overflow:hidden;">
+        <div style="position:absolute; inset:0; background:linear-gradient(to bottom, rgba(201,168,76,0.5), transparent);"></div>
+        <div style="position:absolute; top:-100%; left:0; width:100%; height:100%;
+          background:linear-gradient(to bottom, transparent, rgba(201,168,76,0.9), transparent);
+          animation: drip 2.2s ease-in-out infinite;"></div>
       </div>
+      <svg width="14" height="14" viewBox="0 0 14 14" fill="none" style="animation:scroll-bounce 2s ease-in-out infinite;">
+        <path d="M2 4 L7 9 L12 4" stroke="rgba(201,168,76,0.55)" stroke-width="1.2" stroke-linecap="round"/>
+      </svg>
     </div>
+
   </section>
 
   <!-- ═══ SECTION 2 — INTRODUCTION ═══ -->
@@ -1245,10 +1443,10 @@
 
   var T = {
     en: {
-      hero_eyebrow: 'Hotel Vescera — Since 2024',
-      hero_line1:   'DISCOVER',
-      hero_line2a:  'YOUR ',
-      hero_line2b:  'ROOM',
+      hero_eyebrow: '✦  BISKRA · ALGERIA · EST. 2024  ✦',
+      hero_line1:   'WHERE',
+      hero_line2a:  'LEGENDS',
+      hero_line2b:  'RESIDE',
       hero_main:    'Where every moment is a memory',
       intro_quote:  '"Since 2024, VESCERA HOTEL has defined the new language of luxury hospitality across the Middle East."',
       intro_ar:     'A sanctuary where elegance meets authenticity — redefining the art of luxury living.',
@@ -1275,10 +1473,10 @@
       r_dvip:     'A double VIP experience with unparalleled luxury, complete privacy, and 24/7 exceptional services.',
     },
     fr: {
-      hero_eyebrow: 'Hôtel Vescera — Depuis 2024',
-      hero_line1:   'DÉCOUVREZ',
-      hero_line2a:  'VOTRE ',
-      hero_line2b:  'CHAMBRE',
+      hero_eyebrow: '✦  BISKRA · ALGÉRIE · EST. 2024  ✦',
+      hero_line1:   'OÙ LES',
+      hero_line2a:  'LÉGENDES',
+      hero_line2b:  'RÉSIDENT',
       hero_main:    'Chaque instant devient un souvenir',
       intro_quote:  '"Depuis 2024, l\'Hôtel VESCERA a redéfini le langage du luxe et de l\'hospitalité au Moyen-Orient."',
       intro_ar:     'Un sanctuaire où l\'élégance rencontre l\'authenticité — l\'art de vivre dans sa forme la plus sublime.',
@@ -1305,10 +1503,10 @@
       r_dvip:     'Une expérience VIP double d\'un luxe incomparable, une intimité totale et des services d\'exception 24h/24.',
     },
     ar: {
-      hero_eyebrow: 'فندق فسيرة — منذ ٢٠٢٤',
-      hero_line1:   'اكتشف',
-      hero_line2a:  '',
-      hero_line2b:  'غرفتك',
+      hero_eyebrow: '✦  بسكرة · الجزائر · ٢٠٢٤  ✦',
+      hero_line1:   'حيث',
+      hero_line2a:  'الأساطير',
+      hero_line2b:  'تُقيم',
       hero_main:    'كل لحظة ذكرى لا تُنسى',
       intro_quote:  'منذ عام ٢٠٢٤، رسم فندق فسيرة لغة جديدة لضيافة الرفاهية في أنحاء الشرق الأوسط.',
       intro_ar:     'ملاذٌ تلتقي فيه الأناقة بالأصالة — حيث تُعاد صياغة فن الإقامة الفاخرة من جديد.',
@@ -1625,6 +1823,24 @@
     });
   }, { threshold: 0.1 });
   revealEls.forEach(function(el) { observer.observe(el); });
+
+  // ── Hero word staggered reveal ─────────────────────────
+  var heroWords = document.querySelectorAll('.hero-word');
+  heroWords.forEach(function(el, i) {
+    setTimeout(function() {
+      el.classList.add('revealed');
+    }, 800 + i * 200);
+  });
+
+  // ── Hero fade-in elements ──────────────────────────────
+  var heroFades = document.querySelectorAll('#hero [style*="animation: fade-in-up"]');
+  heroFades.forEach(function(el) {
+    var style = el.getAttribute('style') || '';
+    var match = style.match(/animation-delay:\s*([\d.]+)s/);
+    var delay = match ? parseFloat(match[1]) * 1000 : 600;
+    el.style.opacity = '0';
+    setTimeout(function() { el.style.transition = 'opacity 0.8s ease, transform 0.8s ease'; el.style.opacity = '1'; el.style.transform = 'translateY(0)'; }, delay);
+  });
 </script>
 </body>
 </html>
