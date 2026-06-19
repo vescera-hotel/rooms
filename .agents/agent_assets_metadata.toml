@@ -1,0 +1,38 @@
+uploads = []
+outputs = []
+
+[[generated]]
+id = "zDGeJHr5kBpBiR4OMIDol"
+uri = "file://artifacts/hotel/public/images/hero.png"
+type = "image"
+title = "Hero Lobby"
+
+[[generated]]
+id = "MjXHPlwjqb5m4psnzaGGb"
+uri = "file://artifacts/hotel/public/images/room-deluxe.png"
+type = "image"
+title = "Deluxe Room"
+
+[[generated]]
+id = "-J3zqEUoons0Z0opFX_2v"
+uri = "file://artifacts/hotel/public/images/room-junior.png"
+type = "image"
+title = "Junior Suite"
+
+[[generated]]
+id = "8gsyRPQkL2MmF1W8t93Um"
+uri = "file://artifacts/hotel/public/images/room-executive.png"
+type = "image"
+title = "Executive Suite"
+
+[[generated]]
+id = "zhRBbjHmD51FOIXZ93tFf"
+uri = "file://artifacts/hotel/public/images/room-royal.png"
+type = "image"
+title = "Royal Suite"
+
+[[generated]]
+id = "ILoMlJxFUCieqMT8lWKpo"
+uri = "file://artifacts/hotel/public/images/room-presidential.png"
+type = "image"
+title = "Presidential Suite"
