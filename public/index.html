@@ -713,13 +713,96 @@
 
     </div>
 
-    <!-- Language Switcher -->
-    <div id="lang-switcher" style="position:absolute; top:20px; right:72px; z-index:500; display:flex; align-items:stretch; background:rgba(4,2,0,0.8); border:1px solid rgba(201,168,76,0.28); backdrop-filter:blur(16px);">
-      <button id="lang-en" onclick="applyLang('en')" style="padding:10px 13px; background:none; border:none; font-size:10px; letter-spacing:0.2em; font-family:'Inter',sans-serif; cursor:pointer; color:#c9a84c; text-transform:uppercase; transition:color 0.2s, background 0.2s;">EN</button>
-      <div style="width:1px; background:rgba(201,168,76,0.18);"></div>
-      <button id="lang-fr" onclick="applyLang('fr')" style="padding:10px 13px; background:none; border:none; font-size:10px; letter-spacing:0.2em; font-family:'Inter',sans-serif; cursor:pointer; color:rgba(201,168,76,0.4); text-transform:uppercase; transition:color 0.2s, background 0.2s;">FR</button>
-      <div style="width:1px; background:rgba(201,168,76,0.18);"></div>
-      <button id="lang-ar" onclick="applyLang('ar')" style="padding:10px 13px; background:none; border:none; font-size:10px; letter-spacing:0.15em; font-family:'Noto Serif Arabic',serif; cursor:pointer; color:rgba(201,168,76,0.4); transition:color 0.2s, background 0.2s;">ع</button>
+    <!-- Language Switcher — Vertical Luxury Pill (left-center) -->
+    <div id="lang-switcher" style="
+      position: absolute;
+      left: 18px;
+      top: 50%;
+      transform: translateY(-50%);
+      z-index: 500;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      background: rgba(4,2,0,0.82);
+      border: 1px solid rgba(201,168,76,0.22);
+      backdrop-filter: blur(24px) saturate(1.6);
+      -webkit-backdrop-filter: blur(24px) saturate(1.6);
+      box-shadow:
+        0 0 0 1px rgba(201,168,76,0.06) inset,
+        0 0 32px rgba(201,168,76,0.07),
+        0 8px 40px rgba(0,0,0,0.6);
+      padding: 14px 0;
+      animation: fade-in-scale 1s ease 0.5s both;
+    ">
+
+      <!-- Top shimmer line -->
+      <div style="width:1px; height:18px; background:linear-gradient(to bottom, transparent, rgba(201,168,76,0.55), transparent); margin-bottom:10px;"></div>
+
+      <!-- EN -->
+      <button id="lang-en" onclick="applyLang('en')" style="
+        writing-mode: vertical-rl;
+        text-orientation: mixed;
+        transform: rotate(180deg);
+        background: none;
+        border: none;
+        cursor: pointer;
+        padding: 12px 13px;
+        font-family: 'Cormorant Garamond', serif;
+        font-size: 11px;
+        font-weight: 600;
+        letter-spacing: 0.28em;
+        color: #c9a84c;
+        text-transform: uppercase;
+        transition: color 0.3s, text-shadow 0.3s;
+        text-shadow: 0 0 14px rgba(201,168,76,0.5);
+        position: relative;
+      ">EN</button>
+
+      <!-- Diamond separator -->
+      <div style="width:5px; height:5px; border:1px solid rgba(201,168,76,0.32); transform:rotate(45deg); flex-shrink:0; margin:2px 0;"></div>
+
+      <!-- FR -->
+      <button id="lang-fr" onclick="applyLang('fr')" style="
+        writing-mode: vertical-rl;
+        text-orientation: mixed;
+        transform: rotate(180deg);
+        background: none;
+        border: none;
+        cursor: pointer;
+        padding: 12px 13px;
+        font-family: 'Cormorant Garamond', serif;
+        font-size: 11px;
+        font-weight: 600;
+        letter-spacing: 0.28em;
+        color: rgba(201,168,76,0.32);
+        text-transform: uppercase;
+        transition: color 0.3s, text-shadow 0.3s;
+      ">FR</button>
+
+      <!-- Diamond separator -->
+      <div style="width:5px; height:5px; border:1px solid rgba(201,168,76,0.32); transform:rotate(45deg); flex-shrink:0; margin:2px 0;"></div>
+
+      <!-- AR -->
+      <button id="lang-ar" onclick="applyLang('ar')" style="
+        writing-mode: vertical-rl;
+        text-orientation: mixed;
+        transform: rotate(180deg);
+        background: none;
+        border: none;
+        cursor: pointer;
+        padding: 12px 13px;
+        font-family: 'Noto Serif Arabic', serif;
+        font-size: 13px;
+        letter-spacing: 0.1em;
+        color: rgba(201,168,76,0.32);
+        transition: color 0.3s, text-shadow 0.3s;
+      ">ع</button>
+
+      <!-- Bottom shimmer line -->
+      <div style="width:1px; height:18px; background:linear-gradient(to top, transparent, rgba(201,168,76,0.55), transparent); margin-top:10px;"></div>
+
+      <!-- Side accent glow -->
+      <div style="position:absolute; left:0; top:50%; transform:translateY(-50%); width:2px; height:50%; background:linear-gradient(to bottom, transparent, rgba(201,168,76,0.45), transparent); border-radius:0 1px 1px 0;"></div>
     </div>
 
     <!-- Scroll indicator -->
@@ -1607,8 +1690,10 @@
     ['en','fr','ar'].forEach(function(l) {
       var btn = document.getElementById('lang-' + l);
       if (!btn) return;
-      btn.style.color       = l === lang ? '#c9a84c' : 'rgba(201,168,76,0.38)';
-      btn.style.background  = l === lang ? 'rgba(201,168,76,0.08)' : 'none';
+      var active = l === lang;
+      btn.style.color      = active ? '#e8d090' : 'rgba(201,168,76,0.28)';
+      btn.style.textShadow = active ? '0 0 18px rgba(201,168,76,0.65), 0 0 40px rgba(201,168,76,0.2)' : 'none';
+      btn.style.background = 'none';
     });
 
     localStorage.setItem('vescera_lang', lang);
