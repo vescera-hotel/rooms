@@ -713,34 +713,24 @@
 
     </div>
 
-    <!-- Language Switcher — Floating Orbs bottom-right -->
+    <!-- Language Switcher — Floating Orbs top-center -->
     <div id="lang-switcher" style="
       position: absolute;
-      bottom: 44px;
-      right: 20px;
+      top: 22px;
+      left: 50%;
+      transform: translateX(-50%);
       z-index: 500;
       display: flex;
-      flex-direction: column;
+      flex-direction: row;
       align-items: center;
-      gap: 8px;
-      animation: fade-in-scale 1s ease 1s both;
+      gap: 10px;
     ">
-      <!-- Label -->
-      <div style="
-        font-size: 6px;
-        letter-spacing: 0.5em;
-        text-transform: uppercase;
-        color: rgba(201,168,76,0.3);
-        font-family: 'Inter', sans-serif;
-        margin-bottom: 2px;
-      ">LANG</div>
-
       <!-- EN orb -->
       <button id="lang-en" onclick="applyLang('en')" style="
-        width: 40px; height: 40px;
+        width: 42px; height: 42px;
         border-radius: 50%;
         background: rgba(4,2,0,0.85);
-        border: 1px solid rgba(201,168,76,0.55);
+        border: 1px solid rgba(201,168,76,0.6);
         cursor: pointer;
         font-family: 'Cormorant Garamond', serif;
         font-size: 11px;
@@ -749,47 +739,50 @@
         color: #e8d090;
         text-transform: uppercase;
         transition: all 0.3s ease;
-        box-shadow: 0 0 16px rgba(201,168,76,0.25), 0 0 32px rgba(201,168,76,0.1), inset 0 1px 0 rgba(201,168,76,0.2);
-        backdrop-filter: blur(16px);
-        -webkit-backdrop-filter: blur(16px);
-        text-shadow: 0 0 12px rgba(201,168,76,0.6);
+        box-shadow: 0 0 18px rgba(201,168,76,0.28), 0 0 40px rgba(201,168,76,0.1), inset 0 1px 0 rgba(201,168,76,0.2);
+        backdrop-filter: blur(20px);
+        -webkit-backdrop-filter: blur(20px);
+        text-shadow: 0 0 14px rgba(201,168,76,0.65);
       ">EN</button>
+
+      <!-- Diamond center separator -->
+      <div style="width:4px; height:4px; border:1px solid rgba(201,168,76,0.28); transform:rotate(45deg); flex-shrink:0;"></div>
 
       <!-- FR orb -->
       <button id="lang-fr" onclick="applyLang('fr')" style="
-        width: 40px; height: 40px;
+        width: 42px; height: 42px;
         border-radius: 50%;
-        background: rgba(4,2,0,0.7);
-        border: 1px solid rgba(201,168,76,0.18);
+        background: rgba(4,2,0,0.65);
+        border: 1px solid rgba(201,168,76,0.16);
         cursor: pointer;
         font-family: 'Cormorant Garamond', serif;
         font-size: 11px;
         font-weight: 600;
         letter-spacing: 0.15em;
-        color: rgba(201,168,76,0.35);
+        color: rgba(201,168,76,0.32);
         text-transform: uppercase;
         transition: all 0.3s ease;
-        backdrop-filter: blur(16px);
-        -webkit-backdrop-filter: blur(16px);
+        backdrop-filter: blur(20px);
+        -webkit-backdrop-filter: blur(20px);
       ">FR</button>
+
+      <!-- Diamond center separator -->
+      <div style="width:4px; height:4px; border:1px solid rgba(201,168,76,0.28); transform:rotate(45deg); flex-shrink:0;"></div>
 
       <!-- AR orb -->
       <button id="lang-ar" onclick="applyLang('ar')" style="
-        width: 40px; height: 40px;
+        width: 42px; height: 42px;
         border-radius: 50%;
-        background: rgba(4,2,0,0.7);
-        border: 1px solid rgba(201,168,76,0.18);
+        background: rgba(4,2,0,0.65);
+        border: 1px solid rgba(201,168,76,0.16);
         cursor: pointer;
         font-family: 'Noto Serif Arabic', serif;
-        font-size: 14px;
-        color: rgba(201,168,76,0.35);
+        font-size: 15px;
+        color: rgba(201,168,76,0.32);
         transition: all 0.3s ease;
-        backdrop-filter: blur(16px);
-        -webkit-backdrop-filter: blur(16px);
+        backdrop-filter: blur(20px);
+        -webkit-backdrop-filter: blur(20px);
       ">ع</button>
-
-      <!-- Bottom micro line -->
-      <div style="width:1px; height:20px; background:linear-gradient(to bottom, rgba(201,168,76,0.3), transparent);"></div>
     </div>
 
     <!-- Scroll indicator -->
