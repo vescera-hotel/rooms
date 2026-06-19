@@ -742,25 +742,13 @@
   display:flex; align-items:center; justify-content:center;
   transition:opacity 0.9s ease, visibility 0.9s ease;
 ">
-  <video
-    id="intro-video"
-    autoplay
-    muted
-    playsinline
-    style="width:100%; height:100%; object-fit:cover; display:block; cursor:pointer;"
-  >
-    <source src="https://res.cloudinary.com/dlazeylfu/video/upload/0619_yaty17.mp4" type="video/mp4" />
-  </video>
-
-  <!-- تلميح الصوت -->
-  <div id="sound-hint" style="
-    position:absolute; top:24px; left:50%; transform:translateX(-50%);
-    background:rgba(0,0,0,0.55); border:1px solid rgba(201,168,76,0.3);
-    color:rgba(201,168,76,0.9); font-family:'Cormorant Garamond',serif;
-    font-size:11px; letter-spacing:0.25em; text-transform:uppercase;
-    padding:8px 20px; border-radius:2px; pointer-events:none;
-    animation: hint-fade 3s ease forwards;
-  ">▶ اضغط لتشغيل الصوت</div>
+  <iframe
+    id="intro-iframe"
+    src="https://player.cloudinary.com/embed/?cloud_name=dlazeylfu&public_id=0619_yaty17&autoplay=true&loop=false&muted=false&controls=false"
+    allow="autoplay; fullscreen"
+    allowfullscreen
+    style="width:100%; height:100%; border:none; display:block; pointer-events:none;"
+  ></iframe>
 
   <!-- زر تخطي -->
   <button onclick="dismissLoader()" style="
@@ -768,7 +756,7 @@
     background:transparent; border:1px solid rgba(201,168,76,0.35);
     color:rgba(201,168,76,0.8); font-family:'Cormorant Garamond',serif;
     font-size:11px; letter-spacing:0.3em; text-transform:uppercase;
-    padding:10px 28px; cursor:pointer; transition:all 0.2s;
+    padding:10px 28px; cursor:pointer; z-index:10; transition:all 0.2s;
   ">SKIP  ›</button>
 </div>
 
@@ -785,31 +773,20 @@
 
 <script>
   document.body.classList.add('loader-active');
-  var vid = document.getElementById('intro-video');
-  var soundUnlocked = false;
-
-  function unlockSound() {
-    if (soundUnlocked) return;
-    soundUnlocked = true;
-    vid.muted = false;
-    vid.volume = 1;
-    var hint = document.getElementById('sound-hint');
-    if (hint) hint.style.display = 'none';
-  }
-
-  document.getElementById('video-loader').addEventListener('click', unlockSound);
-  document.getElementById('video-loader').addEventListener('touchstart', unlockSound, { passive: true });
 
   function dismissLoader() {
     var loader = document.getElementById('video-loader');
     loader.classList.add('hidden');
     document.body.classList.remove('loader-active');
-    vid.pause();
     setTimeout(function(){ loader.remove(); }, 1000);
   }
 
-  vid.addEventListener('ended', dismissLoader);
-  vid.addEventListener('error', dismissLoader);
+  // استمع لرسائل Cloudinary player
+  window.addEventListener('message', function(e) {
+    if (e.data && (e.data.event === 'ended' || e.data.type === 'ended')) {
+      dismissLoader();
+    }
+  });
 </script>
 
 <div id="toast">
@@ -1778,9 +1755,9 @@
   // Video → image transition
   const video = document.getElementById('hero-video');
   const heroImg = document.getElementById('hero-img');
-  video.addEventListener('ended', function() {
+  if (video) video.addEventListener('ended', function() {
     video.style.opacity = '0';
-    heroImg.style.opacity = '0.55';
+    if (heroImg) heroImg.style.opacity = '0.55';
   });
 
   // ── i18n ───────────────────────────────────────────────
