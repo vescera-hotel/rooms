@@ -1,11 +1,3 @@
-<<<<<<< HEAD
-modules = ["nodejs-20"]
-[nix]
-channel = "stable-25_05"
-
-[agent]
-expertMode = true
-=======
 modules = ["nodejs-24"]
 
 [deployment]
@@ -15,41 +7,10 @@ deploymentTarget = "autoscale"
 [deployment.postBuild]
 args = ["pnpm", "store", "prune"]
 env = { "CI" = "true" }
->>>>>>> 0005dbacd0ae444b3c9e7a3ad476b71a92a21a5a
 
 [workflows]
 runButton = "Project"
 
-<<<<<<< HEAD
-[[workflows.workflow]]
-name = "Project"
-mode = "parallel"
-author = "agent"
-
-[[workflows.workflow.tasks]]
-task = "workflow.run"
-args = "Start application"
-
-[[workflows.workflow]]
-name = "Start application"
-author = "agent"
-
-[[workflows.workflow.tasks]]
-task = "shell.exec"
-args = "PORT=5000 node serve.mjs"
-waitForPort = 5000
-
-[workflows.workflow.metadata]
-outputType = "webview"
-
-[[ports]]
-localPort = 5000
-externalPort = 80
-
-[[ports]]
-localPort = 20087
-externalPort = 3001
-=======
 [agent]
 stack = "PNPM_WORKSPACE"
 expertMode = true
@@ -57,11 +18,3 @@ expertMode = true
 [postMerge]
 path = "scripts/post-merge.sh"
 timeoutMs = 20000
-
-[nix]
-channel = "stable-25_05"
-
-[[ports]]
-localPort = 20087
-externalPort = 80
->>>>>>> 0005dbacd0ae444b3c9e7a3ad476b71a92a21a5a
