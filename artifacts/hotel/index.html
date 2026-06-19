@@ -745,11 +745,22 @@
   <video
     id="intro-video"
     autoplay
+    muted
     playsinline
-    style="width:100%; height:100%; object-fit:cover; display:block;"
+    style="width:100%; height:100%; object-fit:cover; display:block; cursor:pointer;"
   >
     <source src="https://res.cloudinary.com/dlazeylfu/video/upload/0619_yaty17.mp4" type="video/mp4" />
   </video>
+
+  <!-- تلميح الصوت -->
+  <div id="sound-hint" style="
+    position:absolute; top:24px; left:50%; transform:translateX(-50%);
+    background:rgba(0,0,0,0.55); border:1px solid rgba(201,168,76,0.3);
+    color:rgba(201,168,76,0.9); font-family:'Cormorant Garamond',serif;
+    font-size:11px; letter-spacing:0.25em; text-transform:uppercase;
+    padding:8px 20px; border-radius:2px; pointer-events:none;
+    animation: hint-fade 3s ease forwards;
+  ">▶ اضغط لتشغيل الصوت</div>
 
   <!-- زر تخطي -->
   <button onclick="dismissLoader()" style="
@@ -764,13 +775,30 @@
 <style>
   #video-loader.hidden { opacity:0; visibility:hidden; pointer-events:none; }
   body.loader-active { overflow:hidden; }
+  @keyframes hint-fade {
+    0%   { opacity:0; transform:translateX(-50%) translateY(-6px); }
+    15%  { opacity:1; transform:translateX(-50%) translateY(0); }
+    75%  { opacity:1; }
+    100% { opacity:0; }
+  }
 </style>
 
 <script>
   document.body.classList.add('loader-active');
   var vid = document.getElementById('intro-video');
-  vid.muted = false;
-  vid.volume = 1;
+  var soundUnlocked = false;
+
+  function unlockSound() {
+    if (soundUnlocked) return;
+    soundUnlocked = true;
+    vid.muted = false;
+    vid.volume = 1;
+    var hint = document.getElementById('sound-hint');
+    if (hint) hint.style.display = 'none';
+  }
+
+  document.getElementById('video-loader').addEventListener('click', unlockSound);
+  document.getElementById('video-loader').addEventListener('touchstart', unlockSound, { passive: true });
 
   function dismissLoader() {
     var loader = document.getElementById('video-loader');
