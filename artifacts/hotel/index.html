@@ -735,6 +735,70 @@
 </head>
 <body>
 
+<!-- ═══ VIDEO INTRO LOADER ═══ -->
+<div id="video-loader" style="
+  position:fixed; inset:0; z-index:9999;
+  background:#000;
+  display:flex; align-items:center; justify-content:center;
+  transition:opacity 0.9s ease, visibility 0.9s ease;
+">
+  <video
+    id="intro-video"
+    autoplay
+    playsinline
+    style="width:100%; height:100%; object-fit:cover; display:block;"
+  >
+    <source src="https://res.cloudinary.com/dlazeylfu/video/upload/0619_yaty17.mp4" type="video/mp4" />
+  </video>
+
+  <!-- مؤشر صوت -->
+  <button id="mute-btn" onclick="toggleMute()" style="
+    position:absolute; bottom:80px; left:50%; transform:translateX(-50%);
+    background:rgba(201,168,76,0.15); border:1px solid rgba(201,168,76,0.4);
+    color:#c9a84c; font-size:22px; width:48px; height:48px; border-radius:50%;
+    cursor:pointer; display:flex; align-items:center; justify-content:center;
+    backdrop-filter:blur(6px); transition:background 0.2s;
+  ">🔇</button>
+
+  <!-- زر تخطي -->
+  <button onclick="dismissLoader()" style="
+    position:absolute; bottom:20px; left:50%; transform:translateX(-50%);
+    background:transparent; border:1px solid rgba(201,168,76,0.35);
+    color:rgba(201,168,76,0.8); font-family:'Cormorant Garamond',serif;
+    font-size:11px; letter-spacing:0.3em; text-transform:uppercase;
+    padding:10px 28px; cursor:pointer; transition:all 0.2s;
+  ">SKIP  ›</button>
+</div>
+
+<style>
+  #video-loader.hidden { opacity:0; visibility:hidden; pointer-events:none; }
+  body.loader-active { overflow:hidden; }
+</style>
+
+<script>
+  document.body.classList.add('loader-active');
+  var muted = true;
+  var vid = document.getElementById('intro-video');
+  vid.muted = true;
+
+  function toggleMute() {
+    muted = !muted;
+    vid.muted = muted;
+    document.getElementById('mute-btn').textContent = muted ? '🔇' : '🔊';
+  }
+
+  function dismissLoader() {
+    var loader = document.getElementById('video-loader');
+    loader.classList.add('hidden');
+    document.body.classList.remove('loader-active');
+    vid.pause();
+    setTimeout(function(){ loader.remove(); }, 1000);
+  }
+
+  vid.addEventListener('ended', dismissLoader);
+  vid.addEventListener('error', dismissLoader);
+</script>
+
 <div id="toast">
   <p style="font-size:13px; font-weight:600; color:#e8d090; margin-bottom:4px;">Inquiry Sent / تم الإرسال</p>
   <p style="font-size:12px; color:#b8aa88;">Our concierge will contact you shortly.</p>
