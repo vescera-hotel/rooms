@@ -1,0 +1,1630 @@
+<!DOCTYPE html>
+<html lang="ar">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0" />
+  <title>Hotel Vescera — فندق فسيرة</title>
+  <link rel="icon" href="/images/logo.jpg" />
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;0,700;1,400;1,500;1,600;1,700&family=Inter:wght@300;400;500&family=Noto+Serif+Arabic:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          fontFamily: {
+            sans: ['Inter', 'sans-serif'],
+            serif: ['Cormorant Garamond', 'serif'],
+            arabic: ['Noto Serif Arabic', 'serif'],
+          }
+        }
+      }
+    }
+  </script>
+  <style>
+    :root {
+      --gold: #c9a84c;
+      --gold-light: #e8d090;
+      --gold-dark: #8a6a1f;
+      --gold-muted: #b8aa88;
+      --bg-main: #050300;
+      --bg-card: #080604;
+    }
+
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      font-family: 'Inter', sans-serif;
+      background: #050300;
+      color: #f4f0e6;
+      -webkit-font-smoothing: antialiased;
+      overflow-x: hidden;
+    }
+
+    .font-arabic { font-family: 'Noto Serif Arabic', serif; color: #b8aa88; }
+    .font-serif-custom { font-family: 'Cormorant Garamond', serif; }
+    h1, h2, h3, h4, h5, h6 {
+      font-family: 'Cormorant Garamond', serif;
+      font-weight: 500;
+      text-transform: uppercase;
+      letter-spacing: 0.25em;
+      color: #e8d090;
+    }
+
+    @keyframes shimmer-scan {
+      0%   { transform: translateX(-100%) translateY(-100%) rotate(45deg); }
+      100% { transform: translateX(200%) translateY(200%) rotate(45deg); }
+    }
+    @keyframes drip {
+      0%, 100% { transform: translateY(0); opacity: 1; }
+      80%       { transform: translateY(48px); opacity: 0; }
+    }
+    @keyframes shimmer-btn {
+      0%   { background-position: 200% center; }
+      100% { background-position: -200% center; }
+    }
+    @keyframes float-particle {
+      0%, 100% { transform: translateY(0); opacity: 0.3; }
+      50%       { transform: translateY(-20px); opacity: 0.6; }
+    }
+    @keyframes fade-in-up {
+      from { opacity: 0; transform: translateY(20px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+    @keyframes fade-in-scale {
+      from { opacity: 0; transform: scale(0.85); }
+      to   { opacity: 1; transform: scale(1); }
+    }
+    @keyframes scale-x-in {
+      from { opacity: 0; transform: scaleX(0); }
+      to   { opacity: 1; transform: scaleX(1); }
+    }
+    @keyframes slide-in-left {
+      from { opacity: 0; transform: translateX(-20px); }
+      to   { opacity: 1; transform: translateX(0); }
+    }
+    @keyframes toast-in {
+      from { opacity: 0; transform: translateY(30px) scale(0.95); }
+      to   { opacity: 1; transform: translateY(0) scale(1); }
+    }
+    @keyframes toast-out {
+      from { opacity: 1; transform: translateY(0) scale(1); }
+      to   { opacity: 0; transform: translateY(30px) scale(0.95); }
+    }
+
+    .anim-logo     { animation: fade-in-scale 1.2s ease-out forwards; opacity: 0; }
+    .anim-divider  { animation: scale-x-in 1s ease-in-out 0.5s forwards; opacity: 0; }
+    .anim-tagline  { animation: fade-in-up 1s ease 0.8s forwards; opacity: 0; }
+    .anim-sub      { animation: fade-in-up 1s ease 1.1s forwards; opacity: 0; }
+    .anim-drip     { animation: fade-in-up 1s ease 2s forwards; opacity: 0; }
+
+    .shimmer-scan-line {
+      position: absolute;
+      height: 200%;
+      width: 1px;
+      background: var(--gold);
+      opacity: 0.15;
+      animation: shimmer-scan 8s infinite linear;
+    }
+
+    .particle {
+      position: absolute;
+      width: 2px;
+      height: 2px;
+      background: var(--gold);
+      border-radius: 50%;
+      opacity: 0.3;
+      animation: float-particle ease-in-out infinite;
+    }
+
+    .gold-btn {
+      background: linear-gradient(90deg, #8a6a1f, #c9a84c, #8a6a1f);
+      background-size: 200%;
+      animation: shimmer-btn 3s infinite;
+      color: #0a0905;
+      font-weight: 600;
+      font-size: 11px;
+      letter-spacing: 0.3em;
+      text-transform: uppercase;
+      border: none;
+      cursor: pointer;
+      display: block;
+      width: 100%;
+      height: 56px;
+      transition: opacity 0.2s;
+    }
+    .gold-btn:hover { opacity: 0.9; }
+
+    .room-img-wrap {
+      position: relative;
+      height: 70vh;
+      overflow: hidden;
+      margin-bottom: 24px;
+      margin-top: 16px;
+    }
+    .room-img-wrap img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+    .room-img-overlay-t  { position: absolute; inset: 0; background: linear-gradient(to top, #050300, transparent, transparent); }
+    .room-img-overlay-l  { position: absolute; inset: 0; background: linear-gradient(to right, #050300, transparent, transparent); opacity: 0.8; }
+    .room-img-overlay-r  { position: absolute; inset: 0; background: linear-gradient(to left, #050300, transparent, transparent); opacity: 0.8; }
+    .room-img-overlay-b  { position: absolute; inset: 0; background: linear-gradient(to bottom, rgba(5,3,0,0.4), transparent); }
+    .room-img-overlay-wh { position: absolute; inset: 0; background: rgba(255,255,255,0.05); mix-blend-mode: overlay; }
+
+    .room-num-ghost {
+      position: absolute;
+      top: -40px;
+      right: -16px;
+      font-size: 180px;
+      font-family: 'Cormorant Garamond', serif;
+      line-height: 1;
+      letter-spacing: -0.05em;
+      color: #c9a84c;
+      opacity: 0.04;
+      user-select: none;
+      pointer-events: none;
+    }
+
+    .room-pill {
+      position: absolute;
+      bottom: 24px;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 85%;
+      backdrop-filter: blur(12px);
+      border: 1px solid rgba(201,168,76,0.2);
+      background: rgba(5,3,0,0.4);
+      padding: 12px 24px;
+      text-align: center;
+    }
+
+    .experience-item {
+      opacity: 0;
+      animation: slide-in-left 0.6s ease forwards;
+    }
+
+    /* Form inputs */
+    .gold-input {
+      background: transparent;
+      border: none;
+      border-bottom: 1px solid rgba(201,168,76,0.3);
+      border-radius: 0;
+      height: 52px;
+      padding: 0;
+      font-family: 'Inter', sans-serif;
+      font-size: 14px;
+      color: #f4f0e6;
+      outline: none;
+      width: 100%;
+      transition: border-color 0.2s;
+    }
+    .gold-input::placeholder { color: rgba(201,168,76,0.3); }
+    .gold-input:focus { border-bottom-color: var(--gold); }
+
+    .gold-select {
+      background: transparent;
+      border: none;
+      border-bottom: 1px solid rgba(201,168,76,0.3);
+      border-radius: 0;
+      height: 52px;
+      padding: 0;
+      font-family: 'Inter', sans-serif;
+      font-size: 14px;
+      color: #f4f0e6;
+      outline: none;
+      width: 100%;
+      appearance: none;
+      -webkit-appearance: none;
+      cursor: pointer;
+      transition: border-color 0.2s;
+      background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8' viewBox='0 0 12 8'%3E%3Cpath d='M1 1l5 5 5-5' stroke='%23c9a84c' stroke-width='1.5' fill='none'/%3E%3C/svg%3E");
+      background-repeat: no-repeat;
+      background-position: left 4px center;
+    }
+    .gold-select:focus { border-bottom-color: var(--gold); }
+    .gold-select option { background: #080604; color: #f4f0e6; }
+
+    /* Toast */
+    #toast {
+      position: fixed;
+      bottom: 32px;
+      left: 50%;
+      transform: translateX(-50%);
+      z-index: 9999;
+      background: #0f0c06;
+      border: 1px solid rgba(201,168,76,0.3);
+      padding: 16px 24px;
+      max-width: 320px;
+      width: 90%;
+      display: none;
+    }
+    #toast.show {
+      display: block;
+      animation: toast-in 0.3s ease forwards;
+    }
+    #toast.hide {
+      animation: toast-out 0.3s ease forwards;
+    }
+
+    /* Social icon circles */
+    .social-circle {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      width: 48px;
+      height: 48px;
+      border-radius: 50%;
+      border: 1px solid rgba(201,168,76,0.3);
+      color: var(--gold);
+      text-decoration: none;
+      transition: background 0.2s;
+    }
+    .social-circle:hover { background: rgba(201,168,76,0.1); }
+    .social-circle svg { width: 20px; height: 20px; }
+
+    .social-circle-sm {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      width: 40px;
+      height: 40px;
+      border-radius: 50%;
+      border: 1px solid rgba(201,168,76,0.25);
+      color: rgba(201,168,76,0.7);
+      text-decoration: none;
+      transition: color 0.2s, border-color 0.2s;
+    }
+    .social-circle-sm:hover { color: var(--gold); border-color: rgba(201,168,76,0.5); }
+    .social-circle-sm svg { width: 16px; height: 16px; }
+
+    .gold-gradient-text {
+      background: linear-gradient(180deg, #e8d090 0%, #c9a84c 50%, #8a6a1f 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+
+    /* Intersection observer driven animations */
+    .reveal {
+      opacity: 0;
+      transform: translateY(28px);
+      transition: opacity 0.75s ease, transform 0.75s cubic-bezier(0.25,0.46,0.45,0.94);
+    }
+    .reveal.visible {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    /* ═══ LUXURY UPGRADE ═══ */
+
+    /* Room image zoom */
+    .room-img-wrap { cursor: pointer; }
+    .room-img-wrap img {
+      transition: transform 1.5s cubic-bezier(0.25,0.46,0.45,0.94);
+    }
+    .room-img-wrap:hover img,
+    .room-img-wrap:active img { transform: scale(1.06); }
+
+    /* Room pill — stronger glass + glow */
+    .room-pill {
+      background: rgba(5,3,0,0.72) !important;
+      backdrop-filter: blur(24px) saturate(1.5) !important;
+      -webkit-backdrop-filter: blur(24px) saturate(1.5) !important;
+      border-color: rgba(201,168,76,0.28) !important;
+      box-shadow: 0 -24px 80px rgba(0,0,0,0.6),
+                  0 0 0 1px rgba(201,168,76,0.1),
+                  inset 0 1px 0 rgba(201,168,76,0.18) !important;
+    }
+
+    /* Gold button — more powerful */
+    .gold-btn {
+      height: 62px !important;
+      font-size: 10px !important;
+      letter-spacing: 0.44em !important;
+      box-shadow: 0 0 60px rgba(201,168,76,0.22), 0 4px 24px rgba(0,0,0,0.5) !important;
+      position: relative;
+    }
+    .gold-btn::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(180deg, rgba(255,255,255,0.07) 0%, transparent 60%);
+      pointer-events: none;
+    }
+
+    /* Section eyebrow */
+    .sec-eyebrow {
+      display: block;
+      font-size: 7.5px;
+      letter-spacing: 0.75em;
+      text-transform: uppercase;
+      color: rgba(201,168,76,0.4);
+      font-family: 'Inter', sans-serif;
+      font-weight: 400;
+      text-align: center;
+      margin-bottom: 16px;
+    }
+
+    /* Ambient glow blob */
+    .amb {
+      position: absolute;
+      pointer-events: none;
+      border-radius: 50%;
+      background: radial-gradient(circle, rgba(201,168,76,0.055) 0%, transparent 70%);
+    }
+
+    /* Decorative rule with center diamond */
+    .deco-rule {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 14px;
+      padding: 0 32px;
+    }
+    .deco-rule-line {
+      flex: 1;
+      height: 1px;
+      background: linear-gradient(to right, transparent, rgba(201,168,76,0.22));
+    }
+    .deco-rule-line-r {
+      flex: 1;
+      height: 1px;
+      background: linear-gradient(to left, transparent, rgba(201,168,76,0.22));
+    }
+    .deco-diamond {
+      width: 6px; height: 6px;
+      border: 1px solid rgba(201,168,76,0.38);
+      transform: rotate(45deg);
+      flex-shrink: 0;
+    }
+
+    /* Room price — bigger */
+    #rooms .font-serif-custom {
+      font-size: 48px !important;
+      letter-spacing: -0.02em !important;
+    }
+
+    /* Room stat values — bigger & serif */
+    #rooms span[style*="font-size:12px; color:#e8d090"] {
+      font-size: 20px !important;
+      font-family: 'Cormorant Garamond', serif !important;
+      line-height: 1 !important;
+    }
+
+    /* Stat grid more breathing room */
+    #rooms [style*="grid-template-columns:1fr 1fr 1fr"] {
+      padding: 20px 8px !important;
+    }
+
+    /* Badge more premium */
+    #rooms [data-i18n-badge] {
+      background: rgba(201,168,76,0.07) !important;
+      letter-spacing: 0.2em !important;
+      padding: 5px 14px !important;
+    }
+
+    /* Experience item bottom rule */
+    .exp-row {
+      display: flex;
+      align-items: center;
+      padding: 22px 0;
+      border-bottom: 1px solid rgba(201,168,76,0.08);
+      position: relative;
+    }
+    .exp-row::before {
+      content: '';
+      position: absolute;
+      left: 0; bottom: -1px;
+      width: 0; height: 1px;
+      background: rgba(201,168,76,0.35);
+      transition: width 0.5s ease;
+    }
+    .exp-row.visible::before { width: 100%; }
+
+    /* Footer top border */
+    footer { border-top: 1px solid rgba(201,168,76,0.1); }
+
+    /* Modal header stronger */
+    #room-modal > div > div:first-child {
+      background: rgba(5,3,0,0.98) !important;
+      border-bottom-color: rgba(201,168,76,0.18) !important;
+    }
+  </style>
+</head>
+<body>
+
+<div id="toast">
+  <p style="font-size:13px; font-weight:600; color:#e8d090; margin-bottom:4px;">Inquiry Sent / تم الإرسال</p>
+  <p style="font-size:12px; color:#b8aa88;">Our concierge will contact you shortly.</p>
+</div>
+
+<!-- WRAPPER -->
+<div style="min-height:100dvh; width:100%; max-width:430px; margin:0 auto; overflow-x:hidden; background:radial-gradient(ellipse at top, #1a1208 0%, #0a0905 40%, #050300 100%); box-shadow:0 0 80px rgba(0,0,0,0.8);">
+
+  <!-- ═══ SECTION 1 — HERO ═══ -->
+  <section style="position:relative; height:100dvh; width:100%; display:flex; flex-direction:column; align-items:center; justify-content:center; overflow:hidden;">
+    
+    <!-- Background layers -->
+    <div style="position:absolute; inset:0; z-index:0;">
+      <!-- Video -->
+      <video id="hero-video" autoplay muted playsinline
+        style="position:absolute; inset:0; width:100%; height:100%; object-fit:cover; pointer-events:none; transition:opacity 1s;">
+        <source src="https://res.cloudinary.com/dlazeylfu/video/upload/AQOKXqZqdnGq_YyimwMzV45gcIfjT7a71yCWhODThgSBJ6q5NE-T8tLcx7ol-fnx31qk55EuaCBsAORAQwHwyYyRsY6S_7EWadlWcwQ_1_ac6r5h.mp4" type="video/mp4" />
+      </video>
+      <!-- Static image (shown after video ends) -->
+      <img id="hero-img" src="/images/hero-building.jpg" alt="VESCERA HOTEL"
+        style="position:absolute; inset:0; width:100%; height:100%; object-fit:cover; opacity:0; transition:opacity 1s;" />
+      <!-- Gradient vignette -->
+      <div style="position:absolute; inset:0; background:radial-gradient(circle at center, transparent 20%, #050300 100%);"></div>
+      <!-- Scan line -->
+      <div class="shimmer-scan-line"></div>
+      <!-- Particles -->
+      <div class="particle" style="left:12%; top:18%; animation-duration:7s; animation-delay:0s;"></div>
+      <div class="particle" style="left:28%; top:72%; animation-duration:9s; animation-delay:1s;"></div>
+      <div class="particle" style="left:45%; top:35%; animation-duration:6s; animation-delay:2s;"></div>
+      <div class="particle" style="left:62%; top:55%; animation-duration:8s; animation-delay:0.5s;"></div>
+      <div class="particle" style="left:78%; top:22%; animation-duration:11s; animation-delay:1.5s;"></div>
+      <div class="particle" style="left:85%; top:80%; animation-duration:7s; animation-delay:3s;"></div>
+      <div class="particle" style="left:8%; top:60%; animation-duration:10s; animation-delay:0.8s;"></div>
+      <div class="particle" style="left:55%; top:85%; animation-duration:6s; animation-delay:4s;"></div>
+      <div class="particle" style="left:33%; top:10%; animation-duration:9s; animation-delay:2.5s;"></div>
+      <div class="particle" style="left:70%; top:40%; animation-duration:8s; animation-delay:1.2s;"></div>
+      <div class="particle" style="left:90%; top:65%; animation-duration:7s; animation-delay:0.3s;"></div>
+      <div class="particle" style="left:18%; top:48%; animation-duration:12s; animation-delay:3.5s;"></div>
+    </div>
+
+    <!-- Hero content -->
+    <div style="position:relative; z-index:10; display:flex; flex-direction:column; align-items:center; text-align:center; padding:0 24px; width:100%;">
+      <img class="anim-logo" src="/images/logo.jpg" alt="VESCERA HOTEL"
+        style="width:220px; margin-bottom:16px; filter:drop-shadow(0 0 40px rgba(201,168,76,0.35));" />
+      
+      <div class="anim-divider" style="width:100%;">
+        <div style="display:flex; align-items:center; justify-content:center; width:100%; padding:24px 32px;">
+          <svg width="240" height="16" viewBox="0 0 240 16">
+            <line x1="0" y1="8" x2="100" y2="8" stroke="#c9a84c" stroke-width="0.5" opacity="0.6"/>
+            <polygon points="120,2 127,8 120,14 113,8" fill="none" stroke="#c9a84c" stroke-width="0.8" opacity="0.8"/>
+            <line x1="140" y1="8" x2="240" y2="8" stroke="#c9a84c" stroke-width="0.5" opacity="0.6"/>
+          </svg>
+        </div>
+      </div>
+
+      <!-- Hero headline block -->
+      <div class="anim-tagline" style="text-align:center; padding:0 16px; width:100%;">
+
+        <!-- Eyebrow label -->
+        <p data-i18n="hero_eyebrow" style="font-size:8.5px; letter-spacing:0.55em; text-transform:uppercase; color:rgba(201,168,76,0.5); margin:0 0 20px; font-family:'Inter',sans-serif; font-weight:400;">Hotel Vescera — Since 2024</p>
+
+        <!-- Line 1 -->
+        <div style="overflow:hidden; margin-bottom:2px;">
+          <h1 data-i18n="hero_line1" style="font-family:'Cormorant Garamond',serif; font-size:clamp(54px,13vw,100px); font-weight:600; letter-spacing:0.12em; color:#f0e8d5; line-height:0.88; margin:0; text-transform:uppercase; text-shadow:0 0 80px rgba(201,168,76,0.15);">DISCOVER</h1>
+        </div>
+
+        <!-- Line 2 -->
+        <div style="overflow:hidden; margin-bottom:28px;">
+          <h1 style="font-family:'Cormorant Garamond',serif; font-size:clamp(54px,13vw,100px); font-weight:600; letter-spacing:0.12em; line-height:0.88; margin:0; text-transform:uppercase;">
+            <span data-i18n="hero_line2a" style="color:#f0e8d5;">YOUR </span><span data-i18n="hero_line2b" style="color:#c9a84c; font-style:italic; text-shadow:0 0 60px rgba(201,168,76,0.4);">ROOM</span>
+          </h1>
+        </div>
+
+        <!-- Decorative divider -->
+        <div style="display:flex; align-items:center; justify-content:center; gap:14px; margin-bottom:20px;">
+          <div style="width:52px; height:1px; background:linear-gradient(to right, transparent, rgba(201,168,76,0.55));"></div>
+          <div style="width:5px; height:5px; background:#c9a84c; transform:rotate(45deg); opacity:0.85; flex-shrink:0;"></div>
+          <div style="width:52px; height:1px; background:linear-gradient(to left, transparent, rgba(201,168,76,0.55));"></div>
+        </div>
+
+        <!-- Tagline -->
+        <p class="anim-sub" data-i18n="hero_main" style="font-size:9px; letter-spacing:0.42em; text-transform:uppercase; color:rgba(201,168,76,0.65); font-family:'Inter',sans-serif; margin:0; font-weight:400;">
+          Where every moment is a memory
+        </p>
+
+      </div>
+    </div>
+
+    <!-- Language Switcher -->
+    <div id="lang-switcher" style="position:absolute; top:20px; right:20px; z-index:500; display:flex; align-items:stretch; background:rgba(5,3,0,0.75); border:1px solid rgba(201,168,76,0.3); backdrop-filter:blur(12px);">
+      <button id="lang-en" onclick="applyLang('en')" style="padding:10px 13px; background:none; border:none; font-size:10px; letter-spacing:0.2em; font-family:'Inter',sans-serif; cursor:pointer; color:#c9a84c; text-transform:uppercase; transition:color 0.2s, background 0.2s;">EN</button>
+      <div style="width:1px; background:rgba(201,168,76,0.2);"></div>
+      <button id="lang-fr" onclick="applyLang('fr')" style="padding:10px 13px; background:none; border:none; font-size:10px; letter-spacing:0.2em; font-family:'Inter',sans-serif; cursor:pointer; color:rgba(201,168,76,0.4); text-transform:uppercase; transition:color 0.2s, background 0.2s;">FR</button>
+      <div style="width:1px; background:rgba(201,168,76,0.2);"></div>
+      <button id="lang-ar" onclick="applyLang('ar')" style="padding:10px 13px; background:none; border:none; font-size:10px; letter-spacing:0.15em; font-family:'Noto Serif Arabic',serif; cursor:pointer; color:rgba(201,168,76,0.4); transition:color 0.2s, background 0.2s;">ع</button>
+    </div>
+
+    <!-- Drip indicator -->
+    <div class="anim-drip" style="position:absolute; bottom:48px; display:flex; flex-direction:column; align-items:center; height:60px; overflow:hidden;">
+      <div style="width:1px; height:100%; border-left:1px dashed rgba(201,168,76,0.3); position:relative;">
+        <div style="position:absolute; top:0; left:-2px; width:3px; height:3px; background:#e8d090; border-radius:50%; animation:drip 2s infinite;"></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ═══ SECTION 2 — INTRODUCTION ═══ -->
+  <section style="width:100%; position:relative; overflow:hidden; background:linear-gradient(180deg,#050300 0%,#0e0b05 40%,#0e0b05 60%,#050300 100%); padding:80px 0 72px;">
+    <div class="amb" style="top:50%;left:50%;transform:translate(-50%,-50%);width:420px;height:420px;"></div>
+
+    <!-- Top rule -->
+    <div class="deco-rule" style="margin-bottom:56px;">
+      <div class="deco-rule-line"></div>
+      <div class="deco-diamond"></div>
+      <div class="deco-rule-line-r"></div>
+    </div>
+
+    <!-- Eyebrow -->
+    <span class="sec-eyebrow">Our Philosophy</span>
+
+    <!-- Quote with left accent -->
+    <div style="padding:0 32px;margin-bottom:52px;position:relative;z-index:2;">
+      <div style="border-left:1px solid rgba(201,168,76,0.28);padding-left:20px;">
+        <p class="font-serif-custom" data-i18n="intro_quote" style="font-style:italic;color:#ede0b8;font-size:19px;line-height:1.85;font-weight:400;text-transform:none;letter-spacing:0.01em;">
+          "Since 2024, VESCERA HOTEL has defined the new language of luxury hospitality across the Middle East."
+        </p>
+      </div>
+    </div>
+
+    <!-- Three big stats -->
+    <div style="display:grid;grid-template-columns:1fr 1fr 1fr;padding:0 20px;margin-bottom:52px;">
+      <div style="display:flex;flex-direction:column;align-items:center;padding:20px 4px;">
+        <span style="font-family:'Cormorant Garamond',serif;font-size:60px;line-height:1;color:#c9a84c;margin-bottom:10px;letter-spacing:-0.03em;">8</span>
+        <span style="font-size:7px;letter-spacing:0.6em;text-transform:uppercase;color:rgba(201,168,76,0.42);font-family:'Inter',sans-serif;">Rooms</span>
+      </div>
+      <div style="display:flex;flex-direction:column;align-items:center;padding:20px 4px;border-left:1px solid rgba(201,168,76,0.1);border-right:1px solid rgba(201,168,76,0.1);">
+        <span style="font-family:'Cormorant Garamond',serif;font-size:60px;line-height:1;color:#c9a84c;margin-bottom:10px;letter-spacing:-0.03em;">24</span>
+        <span style="font-size:7px;letter-spacing:0.6em;text-transform:uppercase;color:rgba(201,168,76,0.42);font-family:'Inter',sans-serif;">Butler</span>
+      </div>
+      <div style="display:flex;flex-direction:column;align-items:center;padding:20px 4px;">
+        <span style="font-family:'Cormorant Garamond',serif;font-size:60px;line-height:1;color:#c9a84c;margin-bottom:10px;letter-spacing:-0.03em;">∞</span>
+        <span style="font-size:7px;letter-spacing:0.6em;text-transform:uppercase;color:rgba(201,168,76,0.42);font-family:'Inter',sans-serif;">Privacy</span>
+      </div>
+    </div>
+
+    <!-- Arabic sub-quote -->
+    <div style="padding:0 40px;margin-bottom:56px;text-align:center;">
+      <p data-i18n="intro_ar" style="font-size:15px;line-height:1.9;font-family:'Noto Serif Arabic',serif;color:rgba(184,170,136,0.6);">
+        منذ عام ٢٠٢٤، رسم فندق فسيرة لغة جديدة لضيافة الرفاهية في جميع أنحاء الشرق الأوسط.
+      </p>
+    </div>
+
+    <!-- Bottom rule -->
+    <div class="deco-rule">
+      <div class="deco-rule-line"></div>
+      <div class="deco-diamond"></div>
+      <div class="deco-rule-line-r"></div>
+    </div>
+  </section>
+
+  <!-- ═══ SECTION 3 — ROOM CARDS ═══ -->
+  <section id="rooms" style="width:100%; display:flex; flex-direction:column;">
+
+    <!-- Rooms Section Header -->
+    <div style="display:flex;flex-direction:column;align-items:center;padding:60px 32px 16px;position:relative;overflow:hidden;">
+      <div class="amb" style="top:50%;left:50%;transform:translate(-50%,-50%);width:300px;height:200px;"></div>
+      <span class="sec-eyebrow" style="position:relative;z-index:2;">Our Accommodations</span>
+      <h2 style="font-size:26px;letter-spacing:0.35em;text-align:center;color:#e8d090;margin-bottom:12px;position:relative;z-index:2;">The Rooms</h2>
+      <p style="font-size:9px;letter-spacing:0.35em;text-transform:uppercase;color:rgba(201,168,76,0.32);font-family:'Inter',sans-serif;position:relative;z-index:2;">8 Types — Breakfast Included</p>
+      <div class="deco-rule" style="margin-top:32px;width:100%;position:relative;z-index:2;">
+        <div class="deco-rule-line"></div>
+        <div class="deco-diamond"></div>
+        <div class="deco-rule-line-r"></div>
+      </div>
+    </div>
+
+    <!-- Room 01 — Single -->
+    <div>
+      <div class="room-img-wrap">
+        <img src="/images/room-deluxe.jpg" alt="Single" />
+        <div class="room-img-overlay-t"></div><div class="room-img-overlay-l"></div>
+        <div class="room-img-overlay-r"></div><div class="room-img-overlay-b"></div>
+        <div class="room-img-overlay-wh"></div>
+        <div class="room-num-ghost">01</div>
+        <div class="room-pill">
+          <h3 style="font-size:18px; letter-spacing:0.2em; text-transform:uppercase; margin-bottom:4px; color:#e8d090;">Single</h3>
+          <p class="font-arabic" style="font-size:16px;">غرفة سينغل</p>
+        </div>
+      </div>
+      <div style="padding:0 24px; position:relative; z-index:10; margin-top:-8px;">
+        <div style="background:#080604; border:1px solid rgba(201,168,76,0.2); padding:16px; margin-bottom:16px;">
+          <div style="display:grid; grid-template-columns:1fr 1fr 1fr;">
+            <div style="display:flex; flex-direction:column; align-items:center; text-align:center;">
+              <span style="font-size:10px; color:#8a6a1f; text-transform:uppercase; letter-spacing:0.2em; margin-bottom:4px;">Guests</span>
+              <span style="font-size:12px; color:#e8d090; text-transform:uppercase; letter-spacing:0.1em;">1</span>
+            </div>
+            <div style="display:flex; flex-direction:column; align-items:center; text-align:center; border-left:1px solid rgba(201,168,76,0.2); border-right:1px solid rgba(201,168,76,0.2);">
+              <span style="font-size:10px; color:#8a6a1f; text-transform:uppercase; letter-spacing:0.2em; margin-bottom:4px;">Bed</span>
+              <span style="font-size:12px; color:#e8d090; text-transform:uppercase; letter-spacing:0.1em;">Single</span>
+            </div>
+            <div style="display:flex; flex-direction:column; align-items:center; text-align:center;">
+              <span style="font-size:10px; color:#8a6a1f; text-transform:uppercase; letter-spacing:0.2em; margin-bottom:4px;">Type</span>
+              <span style="font-size:12px; color:#e8d090; text-transform:uppercase; letter-spacing:0.1em;">Classic</span>
+            </div>
+          </div>
+        </div>
+        <div style="display:flex; align-items:center; gap:8px; margin-bottom:16px;">
+          <span style="font-size:9px; color:#c9a84c; border:1px solid rgba(201,168,76,0.4); padding:3px 10px; letter-spacing:0.15em; text-transform:uppercase;">☕ Petit déjeuner inclus</span>
+        </div>
+        <div style="display:flex; justify-content:space-between; align-items:flex-end; margin-bottom:24px;">
+          <p class="font-arabic" dir="rtl" style="font-size:15px; line-height:1.6; width:55%;">راحة الغرفة المنفردة بأجواء هادئة ومريحة.</p>
+          <div style="text-align:right;">
+            <div class="font-serif-custom" style="font-size:36px; line-height:1; color:#c9a84c;">6,800</div>
+            <div style="font-size:9px; text-transform:uppercase; letter-spacing:0.2em; color:#8a6a1f;">DA / الليلة</div>
+          </div>
+        </div>
+        <button class="gold-btn" onclick="scrollToInquiry()">Inquire — استعلام</button>
+      </div>
+      <div style="display:flex; align-items:center; justify-content:center; width:100%; padding:24px 32px;">
+        <svg width="240" height="16" viewBox="0 0 240 16"><line x1="0" y1="8" x2="100" y2="8" stroke="#c9a84c" stroke-width="0.5" opacity="0.6"/><polygon points="120,2 127,8 120,14 113,8" fill="none" stroke="#c9a84c" stroke-width="0.8" opacity="0.8"/><line x1="140" y1="8" x2="240" y2="8" stroke="#c9a84c" stroke-width="0.5" opacity="0.6"/></svg>
+      </div>
+    </div>
+
+    <!-- Room 02 — Double -->
+    <div>
+      <div class="room-img-wrap">
+        <img src="/images/room-junior.jpg" alt="Double" />
+        <div class="room-img-overlay-t"></div><div class="room-img-overlay-l"></div>
+        <div class="room-img-overlay-r"></div><div class="room-img-overlay-b"></div>
+        <div class="room-img-overlay-wh"></div>
+        <div class="room-num-ghost">02</div>
+        <div class="room-pill">
+          <h3 style="font-size:18px; letter-spacing:0.2em; text-transform:uppercase; margin-bottom:4px; color:#e8d090;">Double</h3>
+          <p class="font-arabic" style="font-size:16px;">غرفة دبل</p>
+        </div>
+      </div>
+      <div style="padding:0 24px; position:relative; z-index:10; margin-top:-8px;">
+        <div style="background:#080604; border:1px solid rgba(201,168,76,0.2); padding:16px; margin-bottom:16px;">
+          <div style="display:grid; grid-template-columns:1fr 1fr 1fr;">
+            <div style="display:flex; flex-direction:column; align-items:center; text-align:center;">
+              <span style="font-size:10px; color:#8a6a1f; text-transform:uppercase; letter-spacing:0.2em; margin-bottom:4px;">Guests</span>
+              <span style="font-size:12px; color:#e8d090; text-transform:uppercase; letter-spacing:0.1em;">2</span>
+            </div>
+            <div style="display:flex; flex-direction:column; align-items:center; text-align:center; border-left:1px solid rgba(201,168,76,0.2); border-right:1px solid rgba(201,168,76,0.2);">
+              <span style="font-size:10px; color:#8a6a1f; text-transform:uppercase; letter-spacing:0.2em; margin-bottom:4px;">Bed</span>
+              <span style="font-size:12px; color:#e8d090; text-transform:uppercase; letter-spacing:0.1em;">Double</span>
+            </div>
+            <div style="display:flex; flex-direction:column; align-items:center; text-align:center;">
+              <span style="font-size:10px; color:#8a6a1f; text-transform:uppercase; letter-spacing:0.2em; margin-bottom:4px;">Type</span>
+              <span style="font-size:12px; color:#e8d090; text-transform:uppercase; letter-spacing:0.1em;">Classic</span>
+            </div>
+          </div>
+        </div>
+        <div style="display:flex; align-items:center; gap:8px; margin-bottom:16px;">
+          <span style="font-size:9px; color:#c9a84c; border:1px solid rgba(201,168,76,0.4); padding:3px 10px; letter-spacing:0.15em; text-transform:uppercase;">☕ Petit déjeuner inclus</span>
+        </div>
+        <div style="display:flex; justify-content:space-between; align-items:flex-end; margin-bottom:24px;">
+          <p class="font-arabic" dir="rtl" style="font-size:15px; line-height:1.6; width:55%;">غرفة مزدوجة بتصميم أنيق للزوجين.</p>
+          <div style="text-align:right;">
+            <div class="font-serif-custom" style="font-size:36px; line-height:1; color:#c9a84c;">8,000</div>
+            <div style="font-size:9px; text-transform:uppercase; letter-spacing:0.2em; color:#8a6a1f;">DA / الليلة</div>
+          </div>
+        </div>
+        <button class="gold-btn" onclick="scrollToInquiry()">Inquire — استعلام</button>
+      </div>
+      <div style="display:flex; align-items:center; justify-content:center; width:100%; padding:24px 32px;">
+        <svg width="240" height="16" viewBox="0 0 240 16"><line x1="0" y1="8" x2="100" y2="8" stroke="#c9a84c" stroke-width="0.5" opacity="0.6"/><polygon points="120,2 127,8 120,14 113,8" fill="none" stroke="#c9a84c" stroke-width="0.8" opacity="0.8"/><line x1="140" y1="8" x2="240" y2="8" stroke="#c9a84c" stroke-width="0.5" opacity="0.6"/></svg>
+      </div>
+    </div>
+
+    <!-- Room 03 — Triple -->
+    <div>
+      <div class="room-img-wrap">
+        <img src="/images/room-executive.jpg" alt="Triple" />
+        <div class="room-img-overlay-t"></div><div class="room-img-overlay-l"></div>
+        <div class="room-img-overlay-r"></div><div class="room-img-overlay-b"></div>
+        <div class="room-img-overlay-wh"></div>
+        <div class="room-num-ghost">03</div>
+        <div class="room-pill">
+          <h3 style="font-size:18px; letter-spacing:0.2em; text-transform:uppercase; margin-bottom:4px; color:#e8d090;">Triple</h3>
+          <p class="font-arabic" style="font-size:16px;">غرفة تريبل</p>
+        </div>
+      </div>
+      <div style="padding:0 24px; position:relative; z-index:10; margin-top:-8px;">
+        <div style="background:#080604; border:1px solid rgba(201,168,76,0.2); padding:16px; margin-bottom:16px;">
+          <div style="display:grid; grid-template-columns:1fr 1fr 1fr;">
+            <div style="display:flex; flex-direction:column; align-items:center; text-align:center;">
+              <span style="font-size:10px; color:#8a6a1f; text-transform:uppercase; letter-spacing:0.2em; margin-bottom:4px;">Guests</span>
+              <span style="font-size:12px; color:#e8d090; text-transform:uppercase; letter-spacing:0.1em;">3</span>
+            </div>
+            <div style="display:flex; flex-direction:column; align-items:center; text-align:center; border-left:1px solid rgba(201,168,76,0.2); border-right:1px solid rgba(201,168,76,0.2);">
+              <span style="font-size:10px; color:#8a6a1f; text-transform:uppercase; letter-spacing:0.2em; margin-bottom:4px;">Beds</span>
+              <span style="font-size:12px; color:#e8d090; text-transform:uppercase; letter-spacing:0.1em;">3 Beds</span>
+            </div>
+            <div style="display:flex; flex-direction:column; align-items:center; text-align:center;">
+              <span style="font-size:10px; color:#8a6a1f; text-transform:uppercase; letter-spacing:0.2em; margin-bottom:4px;">Type</span>
+              <span style="font-size:12px; color:#e8d090; text-transform:uppercase; letter-spacing:0.1em;">Classic</span>
+            </div>
+          </div>
+        </div>
+        <div style="display:flex; align-items:center; gap:8px; margin-bottom:16px;">
+          <span style="font-size:9px; color:#c9a84c; border:1px solid rgba(201,168,76,0.4); padding:3px 10px; letter-spacing:0.15em; text-transform:uppercase;">☕ Petit déjeuner inclus</span>
+        </div>
+        <div style="display:flex; justify-content:space-between; align-items:flex-end; margin-bottom:24px;">
+          <p class="font-arabic" dir="rtl" style="font-size:15px; line-height:1.6; width:55%;">غرفة واسعة تستوعب ثلاثة ضيوف بكل راحة.</p>
+          <div style="text-align:right;">
+            <div class="font-serif-custom" style="font-size:36px; line-height:1; color:#c9a84c;">9,000</div>
+            <div style="font-size:9px; text-transform:uppercase; letter-spacing:0.2em; color:#8a6a1f;">DA / الليلة</div>
+          </div>
+        </div>
+        <button class="gold-btn" onclick="scrollToInquiry()">Inquire — استعلام</button>
+      </div>
+      <div style="display:flex; align-items:center; justify-content:center; width:100%; padding:24px 32px;">
+        <svg width="240" height="16" viewBox="0 0 240 16"><line x1="0" y1="8" x2="100" y2="8" stroke="#c9a84c" stroke-width="0.5" opacity="0.6"/><polygon points="120,2 127,8 120,14 113,8" fill="none" stroke="#c9a84c" stroke-width="0.8" opacity="0.8"/><line x1="140" y1="8" x2="240" y2="8" stroke="#c9a84c" stroke-width="0.5" opacity="0.6"/></svg>
+      </div>
+    </div>
+
+    <!-- Room 04 — Suite Single -->
+    <div>
+      <div class="room-img-wrap">
+        <img src="/images/room-royal.jpg" alt="Suite Single" />
+        <div class="room-img-overlay-t"></div><div class="room-img-overlay-l"></div>
+        <div class="room-img-overlay-r"></div><div class="room-img-overlay-b"></div>
+        <div class="room-img-overlay-wh"></div>
+        <div class="room-num-ghost">04</div>
+        <div class="room-pill">
+          <h3 style="font-size:18px; letter-spacing:0.2em; text-transform:uppercase; margin-bottom:4px; color:#e8d090;">Suite Single</h3>
+          <p class="font-arabic" style="font-size:16px;">سويت سينغل</p>
+        </div>
+      </div>
+      <div style="padding:0 24px; position:relative; z-index:10; margin-top:-8px;">
+        <div style="background:#080604; border:1px solid rgba(201,168,76,0.2); padding:16px; margin-bottom:16px;">
+          <div style="display:grid; grid-template-columns:1fr 1fr 1fr;">
+            <div style="display:flex; flex-direction:column; align-items:center; text-align:center;">
+              <span style="font-size:10px; color:#8a6a1f; text-transform:uppercase; letter-spacing:0.2em; margin-bottom:4px;">Guests</span>
+              <span style="font-size:12px; color:#e8d090; text-transform:uppercase; letter-spacing:0.1em;">1</span>
+            </div>
+            <div style="display:flex; flex-direction:column; align-items:center; text-align:center; border-left:1px solid rgba(201,168,76,0.2); border-right:1px solid rgba(201,168,76,0.2);">
+              <span style="font-size:10px; color:#8a6a1f; text-transform:uppercase; letter-spacing:0.2em; margin-bottom:4px;">Bed</span>
+              <span style="font-size:12px; color:#e8d090; text-transform:uppercase; letter-spacing:0.1em;">King</span>
+            </div>
+            <div style="display:flex; flex-direction:column; align-items:center; text-align:center;">
+              <span style="font-size:10px; color:#8a6a1f; text-transform:uppercase; letter-spacing:0.2em; margin-bottom:4px;">Type</span>
+              <span style="font-size:12px; color:#e8d090; text-transform:uppercase; letter-spacing:0.1em;">Suite</span>
+            </div>
+          </div>
+        </div>
+        <div style="display:flex; align-items:center; gap:8px; margin-bottom:16px;">
+          <span style="font-size:9px; color:#c9a84c; border:1px solid rgba(201,168,76,0.4); padding:3px 10px; letter-spacing:0.15em; text-transform:uppercase;">☕ Petit déjeuner inclus</span>
+        </div>
+        <div style="display:flex; justify-content:space-between; align-items:flex-end; margin-bottom:24px;">
+          <p class="font-arabic" dir="rtl" style="font-size:15px; line-height:1.6; width:55%;">جناح فاخر للفرد بمساحة رحبة وخدمة متميزة.</p>
+          <div style="text-align:right;">
+            <div class="font-serif-custom" style="font-size:36px; line-height:1; color:#c9a84c;">9,500</div>
+            <div style="font-size:9px; text-transform:uppercase; letter-spacing:0.2em; color:#8a6a1f;">DA / الليلة</div>
+          </div>
+        </div>
+        <button class="gold-btn" onclick="scrollToInquiry()">Inquire — استعلام</button>
+      </div>
+      <div style="display:flex; align-items:center; justify-content:center; width:100%; padding:24px 32px;">
+        <svg width="240" height="16" viewBox="0 0 240 16"><line x1="0" y1="8" x2="100" y2="8" stroke="#c9a84c" stroke-width="0.5" opacity="0.6"/><polygon points="120,2 127,8 120,14 113,8" fill="none" stroke="#c9a84c" stroke-width="0.8" opacity="0.8"/><line x1="140" y1="8" x2="240" y2="8" stroke="#c9a84c" stroke-width="0.5" opacity="0.6"/></svg>
+      </div>
+    </div>
+
+    <!-- Room 05 — Suite Double -->
+    <div>
+      <div class="room-img-wrap">
+        <img src="/images/room-presidential.jpg" alt="Suite Double" />
+        <div class="room-img-overlay-t"></div><div class="room-img-overlay-l"></div>
+        <div class="room-img-overlay-r"></div><div class="room-img-overlay-b"></div>
+        <div class="room-img-overlay-wh"></div>
+        <div class="room-num-ghost">05</div>
+        <div class="room-pill">
+          <h3 style="font-size:18px; letter-spacing:0.2em; text-transform:uppercase; margin-bottom:4px; color:#e8d090;">Suite Double</h3>
+          <p class="font-arabic" style="font-size:16px;">سويت دبل</p>
+        </div>
+      </div>
+      <div style="padding:0 24px; position:relative; z-index:10; margin-top:-8px;">
+        <div style="background:#080604; border:1px solid rgba(201,168,76,0.2); padding:16px; margin-bottom:16px;">
+          <div style="display:grid; grid-template-columns:1fr 1fr 1fr;">
+            <div style="display:flex; flex-direction:column; align-items:center; text-align:center;">
+              <span style="font-size:10px; color:#8a6a1f; text-transform:uppercase; letter-spacing:0.2em; margin-bottom:4px;">Guests</span>
+              <span style="font-size:12px; color:#e8d090; text-transform:uppercase; letter-spacing:0.1em;">2</span>
+            </div>
+            <div style="display:flex; flex-direction:column; align-items:center; text-align:center; border-left:1px solid rgba(201,168,76,0.2); border-right:1px solid rgba(201,168,76,0.2);">
+              <span style="font-size:10px; color:#8a6a1f; text-transform:uppercase; letter-spacing:0.2em; margin-bottom:4px;">Bed</span>
+              <span style="font-size:12px; color:#e8d090; text-transform:uppercase; letter-spacing:0.1em;">King</span>
+            </div>
+            <div style="display:flex; flex-direction:column; align-items:center; text-align:center;">
+              <span style="font-size:10px; color:#8a6a1f; text-transform:uppercase; letter-spacing:0.2em; margin-bottom:4px;">Type</span>
+              <span style="font-size:12px; color:#e8d090; text-transform:uppercase; letter-spacing:0.1em;">Suite</span>
+            </div>
+          </div>
+        </div>
+        <div style="display:flex; align-items:center; gap:8px; margin-bottom:16px;">
+          <span style="font-size:9px; color:#c9a84c; border:1px solid rgba(201,168,76,0.4); padding:3px 10px; letter-spacing:0.15em; text-transform:uppercase;">☕ Petit déjeuner inclus</span>
+        </div>
+        <div style="display:flex; justify-content:space-between; align-items:flex-end; margin-bottom:24px;">
+          <p class="font-arabic" dir="rtl" style="font-size:15px; line-height:1.6; width:55%;">جناح فاخر مزدوج يدمج الرفاهية والراحة في أجواء ساحرة.</p>
+          <div style="text-align:right;">
+            <div class="font-serif-custom" style="font-size:36px; line-height:1; color:#c9a84c;">10,500</div>
+            <div style="font-size:9px; text-transform:uppercase; letter-spacing:0.2em; color:#8a6a1f;">DA / الليلة</div>
+          </div>
+        </div>
+        <button class="gold-btn" onclick="scrollToInquiry()">Inquire — استعلام</button>
+      </div>
+      <div style="display:flex; align-items:center; justify-content:center; width:100%; padding:24px 32px;">
+        <svg width="240" height="16" viewBox="0 0 240 16"><line x1="0" y1="8" x2="100" y2="8" stroke="#c9a84c" stroke-width="0.5" opacity="0.6"/><polygon points="120,2 127,8 120,14 113,8" fill="none" stroke="#c9a84c" stroke-width="0.8" opacity="0.8"/><line x1="140" y1="8" x2="240" y2="8" stroke="#c9a84c" stroke-width="0.5" opacity="0.6"/></svg>
+      </div>
+    </div>
+
+    <!-- Room 06 — Appartement -->
+    <div>
+      <div class="room-img-wrap">
+        <img src="/images/room-royal.jpg" alt="Appartement" />
+        <div class="room-img-overlay-t"></div><div class="room-img-overlay-l"></div>
+        <div class="room-img-overlay-r"></div><div class="room-img-overlay-b"></div>
+        <div class="room-img-overlay-wh"></div>
+        <div class="room-num-ghost">06</div>
+        <div class="room-pill">
+          <h3 style="font-size:18px; letter-spacing:0.2em; text-transform:uppercase; margin-bottom:4px; color:#e8d090;">Appartement</h3>
+          <p class="font-arabic" style="font-size:16px;">شقة فندقية</p>
+        </div>
+      </div>
+      <div style="padding:0 24px; position:relative; z-index:10; margin-top:-8px;">
+        <div style="background:#080604; border:1px solid rgba(201,168,76,0.2); padding:16px; margin-bottom:16px;">
+          <div style="display:grid; grid-template-columns:1fr 1fr 1fr;">
+            <div style="display:flex; flex-direction:column; align-items:center; text-align:center;">
+              <span style="font-size:10px; color:#8a6a1f; text-transform:uppercase; letter-spacing:0.2em; margin-bottom:4px;">Guests</span>
+              <span style="font-size:12px; color:#e8d090; text-transform:uppercase; letter-spacing:0.1em;">4+</span>
+            </div>
+            <div style="display:flex; flex-direction:column; align-items:center; text-align:center; border-left:1px solid rgba(201,168,76,0.2); border-right:1px solid rgba(201,168,76,0.2);">
+              <span style="font-size:10px; color:#8a6a1f; text-transform:uppercase; letter-spacing:0.2em; margin-bottom:4px;">Rooms</span>
+              <span style="font-size:12px; color:#e8d090; text-transform:uppercase; letter-spacing:0.1em;">Multi</span>
+            </div>
+            <div style="display:flex; flex-direction:column; align-items:center; text-align:center;">
+              <span style="font-size:10px; color:#8a6a1f; text-transform:uppercase; letter-spacing:0.2em; margin-bottom:4px;">Type</span>
+              <span style="font-size:12px; color:#e8d090; text-transform:uppercase; letter-spacing:0.1em;">Appart.</span>
+            </div>
+          </div>
+        </div>
+        <div style="display:flex; align-items:center; gap:8px; margin-bottom:16px;">
+          <span style="font-size:9px; color:#c9a84c; border:1px solid rgba(201,168,76,0.4); padding:3px 10px; letter-spacing:0.15em; text-transform:uppercase;">☕ Petit déjeuner inclus</span>
+        </div>
+        <div style="display:flex; justify-content:space-between; align-items:flex-end; margin-bottom:24px;">
+          <p class="font-arabic" dir="rtl" style="font-size:15px; line-height:1.6; width:55%;">شقة فندقية كاملة بمطبخ وغرف متعددة لإقامة مريحة.</p>
+          <div style="text-align:right;">
+            <div class="font-serif-custom" style="font-size:36px; line-height:1; color:#c9a84c;">15,000</div>
+            <div style="font-size:9px; text-transform:uppercase; letter-spacing:0.2em; color:#8a6a1f;">DA / الليلة</div>
+          </div>
+        </div>
+        <button class="gold-btn" onclick="scrollToInquiry()">Inquire — استعلام</button>
+      </div>
+      <div style="display:flex; align-items:center; justify-content:center; width:100%; padding:24px 32px;">
+        <svg width="240" height="16" viewBox="0 0 240 16"><line x1="0" y1="8" x2="100" y2="8" stroke="#c9a84c" stroke-width="0.5" opacity="0.6"/><polygon points="120,2 127,8 120,14 113,8" fill="none" stroke="#c9a84c" stroke-width="0.8" opacity="0.8"/><line x1="140" y1="8" x2="240" y2="8" stroke="#c9a84c" stroke-width="0.5" opacity="0.6"/></svg>
+      </div>
+    </div>
+
+    <!-- Room 07 — Single VIP -->
+    <div>
+      <div class="room-img-wrap">
+        <img src="/images/room-executive.jpg" alt="Single VIP" />
+        <div class="room-img-overlay-t"></div><div class="room-img-overlay-l"></div>
+        <div class="room-img-overlay-r"></div><div class="room-img-overlay-b"></div>
+        <div class="room-img-overlay-wh"></div>
+        <div class="room-num-ghost">07</div>
+        <div class="room-pill">
+          <h3 style="font-size:18px; letter-spacing:0.2em; text-transform:uppercase; margin-bottom:4px; color:#e8d090;">Single VIP</h3>
+          <p class="font-arabic" style="font-size:16px;">سينغل VIP</p>
+        </div>
+      </div>
+      <div style="padding:0 24px; position:relative; z-index:10; margin-top:-8px;">
+        <div style="background:#080604; border:1px solid rgba(201,168,76,0.2); padding:16px; margin-bottom:16px;">
+          <div style="display:grid; grid-template-columns:1fr 1fr 1fr;">
+            <div style="display:flex; flex-direction:column; align-items:center; text-align:center;">
+              <span style="font-size:10px; color:#8a6a1f; text-transform:uppercase; letter-spacing:0.2em; margin-bottom:4px;">Guests</span>
+              <span style="font-size:12px; color:#e8d090; text-transform:uppercase; letter-spacing:0.1em;">1</span>
+            </div>
+            <div style="display:flex; flex-direction:column; align-items:center; text-align:center; border-left:1px solid rgba(201,168,76,0.2); border-right:1px solid rgba(201,168,76,0.2);">
+              <span style="font-size:10px; color:#8a6a1f; text-transform:uppercase; letter-spacing:0.2em; margin-bottom:4px;">Bed</span>
+              <span style="font-size:12px; color:#e8d090; text-transform:uppercase; letter-spacing:0.1em;">King</span>
+            </div>
+            <div style="display:flex; flex-direction:column; align-items:center; text-align:center;">
+              <span style="font-size:10px; color:#8a6a1f; text-transform:uppercase; letter-spacing:0.2em; margin-bottom:4px;">Type</span>
+              <span style="font-size:12px; color:#e8d090; text-transform:uppercase; letter-spacing:0.1em;">VIP</span>
+            </div>
+          </div>
+        </div>
+        <div style="display:flex; align-items:center; gap:8px; margin-bottom:16px;">
+          <span style="font-size:9px; color:#c9a84c; border:1px solid rgba(201,168,76,0.4); padding:3px 10px; letter-spacing:0.15em; text-transform:uppercase;">☕ Petit déjeuner inclus</span>
+        </div>
+        <div style="display:flex; justify-content:space-between; align-items:flex-end; margin-bottom:24px;">
+          <p class="font-arabic" dir="rtl" style="font-size:15px; line-height:1.6; width:55%;">تجربة VIP حصرية للفرد بخدمات استثنائية لا مثيل لها.</p>
+          <div style="text-align:right;">
+            <div class="font-serif-custom" style="font-size:36px; line-height:1; color:#c9a84c;">8,000</div>
+            <div style="font-size:9px; text-transform:uppercase; letter-spacing:0.2em; color:#8a6a1f;">DA / الليلة</div>
+          </div>
+        </div>
+        <button class="gold-btn" onclick="scrollToInquiry()">Inquire — استعلام</button>
+      </div>
+      <div style="display:flex; align-items:center; justify-content:center; width:100%; padding:24px 32px;">
+        <svg width="240" height="16" viewBox="0 0 240 16"><line x1="0" y1="8" x2="100" y2="8" stroke="#c9a84c" stroke-width="0.5" opacity="0.6"/><polygon points="120,2 127,8 120,14 113,8" fill="none" stroke="#c9a84c" stroke-width="0.8" opacity="0.8"/><line x1="140" y1="8" x2="240" y2="8" stroke="#c9a84c" stroke-width="0.5" opacity="0.6"/></svg>
+      </div>
+    </div>
+
+    <!-- Room 08 — Double VIP -->
+    <div>
+      <div class="room-img-wrap">
+        <img src="/images/room-junior.jpg" alt="Double VIP" />
+        <div class="room-img-overlay-t"></div><div class="room-img-overlay-l"></div>
+        <div class="room-img-overlay-r"></div><div class="room-img-overlay-b"></div>
+        <div class="room-img-overlay-wh"></div>
+        <div class="room-num-ghost">08</div>
+        <div class="room-pill">
+          <h3 style="font-size:18px; letter-spacing:0.2em; text-transform:uppercase; margin-bottom:4px; color:#e8d090;">Double VIP</h3>
+          <p class="font-arabic" style="font-size:16px;">دبل VIP</p>
+        </div>
+      </div>
+      <div style="padding:0 24px; position:relative; z-index:10; margin-top:-8px;">
+        <div style="background:#080604; border:1px solid rgba(201,168,76,0.2); padding:16px; margin-bottom:16px;">
+          <div style="display:grid; grid-template-columns:1fr 1fr 1fr;">
+            <div style="display:flex; flex-direction:column; align-items:center; text-align:center;">
+              <span style="font-size:10px; color:#8a6a1f; text-transform:uppercase; letter-spacing:0.2em; margin-bottom:4px;">Guests</span>
+              <span style="font-size:12px; color:#e8d090; text-transform:uppercase; letter-spacing:0.1em;">2</span>
+            </div>
+            <div style="display:flex; flex-direction:column; align-items:center; text-align:center; border-left:1px solid rgba(201,168,76,0.2); border-right:1px solid rgba(201,168,76,0.2);">
+              <span style="font-size:10px; color:#8a6a1f; text-transform:uppercase; letter-spacing:0.2em; margin-bottom:4px;">Bed</span>
+              <span style="font-size:12px; color:#e8d090; text-transform:uppercase; letter-spacing:0.1em;">King</span>
+            </div>
+            <div style="display:flex; flex-direction:column; align-items:center; text-align:center;">
+              <span style="font-size:10px; color:#8a6a1f; text-transform:uppercase; letter-spacing:0.2em; margin-bottom:4px;">Type</span>
+              <span style="font-size:12px; color:#e8d090; text-transform:uppercase; letter-spacing:0.1em;">VIP</span>
+            </div>
+          </div>
+        </div>
+        <div style="display:flex; align-items:center; gap:8px; margin-bottom:16px;">
+          <span style="font-size:9px; color:#c9a84c; border:1px solid rgba(201,168,76,0.4); padding:3px 10px; letter-spacing:0.15em; text-transform:uppercase;">☕ Petit déjeuner inclus</span>
+        </div>
+        <div style="display:flex; justify-content:space-between; align-items:flex-end; margin-bottom:24px;">
+          <p class="font-arabic" dir="rtl" style="font-size:15px; line-height:1.6; width:55%;">تجربة VIP مزدوجة بفخامة لا تُضاهى وخصوصية تامة.</p>
+          <div style="text-align:right;">
+            <div class="font-serif-custom" style="font-size:36px; line-height:1; color:#c9a84c;">9,000</div>
+            <div style="font-size:9px; text-transform:uppercase; letter-spacing:0.2em; color:#8a6a1f;">DA / الليلة</div>
+          </div>
+        </div>
+        <button class="gold-btn" onclick="scrollToInquiry()">Inquire — استعلام</button>
+      </div>
+    </div>
+
+    <div style="display:flex; align-items:center; justify-content:center; width:100%; padding:24px 32px;">
+      <svg width="240" height="16" viewBox="0 0 240 16"><line x1="0" y1="8" x2="100" y2="8" stroke="#c9a84c" stroke-width="0.5" opacity="0.6"/><polygon points="120,2 127,8 120,14 113,8" fill="none" stroke="#c9a84c" stroke-width="0.8" opacity="0.8"/><line x1="140" y1="8" x2="240" y2="8" stroke="#c9a84c" stroke-width="0.5" opacity="0.6"/></svg>
+    </div>
+  </section>
+
+  <!-- ═══ SECTION 4 — EXPERIENCE PILLARS ═══ -->
+  <section style="width:100%;padding:80px 0 88px;background:linear-gradient(180deg,#050300 0%,#0e0b05 45%,#0e0b05 55%,#050300 100%);position:relative;overflow:hidden;">
+    <div class="amb" style="top:40%;left:50%;transform:translate(-50%,-50%);width:500px;height:500px;"></div>
+
+    <!-- Top rule -->
+    <div class="deco-rule" style="margin-bottom:52px;">
+      <div class="deco-rule-line"></div>
+      <div class="deco-diamond"></div>
+      <div class="deco-rule-line-r"></div>
+    </div>
+
+    <span class="sec-eyebrow">The VESCERA Life</span>
+    <h2 style="text-align:center;margin-bottom:52px;font-size:22px;letter-spacing:0.35em;position:relative;z-index:2;" data-i18n="exp_title">Curated Experiences</h2>
+
+    <div id="experiences" style="display:flex;flex-direction:column;padding:0 28px;position:relative;z-index:2;">
+
+      <div class="reveal exp-row" style="transition-delay:0s;">
+        <div style="width:52px;flex-shrink:0;display:flex;align-items:center;justify-content:center;">
+          <span class="font-serif-custom" style="font-size:11px;letter-spacing:0.3em;color:rgba(201,168,76,0.32);">01</span>
+        </div>
+        <div style="width:1px;height:40px;background:linear-gradient(to bottom,transparent,rgba(201,168,76,0.4),transparent);margin-right:22px;flex-shrink:0;"></div>
+        <div style="flex:1;">
+          <span class="exp-name" style="font-size:16px;text-transform:uppercase;letter-spacing:0.25em;color:#e8d090;font-family:'Cormorant Garamond',serif;display:block;margin-bottom:5px;">The Spa</span>
+          <span class="exp-sub" style="font-size:10px;letter-spacing:0.15em;color:rgba(201,168,76,0.38);font-family:'Inter',sans-serif;text-transform:uppercase;">Wellness &amp; Serenity</span>
+        </div>
+        <span style="color:rgba(201,168,76,0.2);font-size:20px;flex-shrink:0;padding-left:8px;">›</span>
+      </div>
+
+      <div class="reveal exp-row" style="transition-delay:0.08s;">
+        <div style="width:52px;flex-shrink:0;display:flex;align-items:center;justify-content:center;">
+          <span class="font-serif-custom" style="font-size:11px;letter-spacing:0.3em;color:rgba(201,168,76,0.32);">02</span>
+        </div>
+        <div style="width:1px;height:40px;background:linear-gradient(to bottom,transparent,rgba(201,168,76,0.4),transparent);margin-right:22px;flex-shrink:0;"></div>
+        <div style="flex:1;">
+          <span class="exp-name" style="font-size:16px;text-transform:uppercase;letter-spacing:0.25em;color:#e8d090;font-family:'Cormorant Garamond',serif;display:block;margin-bottom:5px;">Fine Dining</span>
+          <span class="exp-sub" style="font-size:10px;letter-spacing:0.15em;color:rgba(201,168,76,0.38);font-family:'Inter',sans-serif;text-transform:uppercase;">World Cuisine</span>
+        </div>
+        <span style="color:rgba(201,168,76,0.2);font-size:20px;flex-shrink:0;padding-left:8px;">›</span>
+      </div>
+
+      <div class="reveal exp-row" style="transition-delay:0.16s;">
+        <div style="width:52px;flex-shrink:0;display:flex;align-items:center;justify-content:center;">
+          <span class="font-serif-custom" style="font-size:11px;letter-spacing:0.3em;color:rgba(201,168,76,0.32);">03</span>
+        </div>
+        <div style="width:1px;height:40px;background:linear-gradient(to bottom,transparent,rgba(201,168,76,0.4),transparent);margin-right:22px;flex-shrink:0;"></div>
+        <div style="flex:1;">
+          <span class="exp-name" style="font-size:16px;text-transform:uppercase;letter-spacing:0.25em;color:#e8d090;font-family:'Cormorant Garamond',serif;display:block;margin-bottom:5px;">Private Butler</span>
+          <span class="exp-sub" style="font-size:10px;letter-spacing:0.15em;color:rgba(201,168,76,0.38);font-family:'Inter',sans-serif;text-transform:uppercase;">Personal Service</span>
+        </div>
+        <span style="color:rgba(201,168,76,0.2);font-size:20px;flex-shrink:0;padding-left:8px;">›</span>
+      </div>
+
+      <div class="reveal exp-row" style="transition-delay:0.24s;">
+        <div style="width:52px;flex-shrink:0;display:flex;align-items:center;justify-content:center;">
+          <span class="font-serif-custom" style="font-size:11px;letter-spacing:0.3em;color:rgba(201,168,76,0.32);">04</span>
+        </div>
+        <div style="width:1px;height:40px;background:linear-gradient(to bottom,transparent,rgba(201,168,76,0.4),transparent);margin-right:22px;flex-shrink:0;"></div>
+        <div style="flex:1;">
+          <span class="exp-name" style="font-size:16px;text-transform:uppercase;letter-spacing:0.25em;color:#e8d090;font-family:'Cormorant Garamond',serif;display:block;margin-bottom:5px;">Rooftop Lounge</span>
+          <span class="exp-sub" style="font-size:10px;letter-spacing:0.15em;color:rgba(201,168,76,0.38);font-family:'Inter',sans-serif;text-transform:uppercase;">Panoramic Views</span>
+        </div>
+        <span style="color:rgba(201,168,76,0.2);font-size:20px;flex-shrink:0;padding-left:8px;">›</span>
+      </div>
+
+      <div class="reveal exp-row" style="transition-delay:0.32s;">
+        <div style="width:52px;flex-shrink:0;display:flex;align-items:center;justify-content:center;">
+          <span class="font-serif-custom" style="font-size:11px;letter-spacing:0.3em;color:rgba(201,168,76,0.32);">05</span>
+        </div>
+        <div style="width:1px;height:40px;background:linear-gradient(to bottom,transparent,rgba(201,168,76,0.4),transparent);margin-right:22px;flex-shrink:0;"></div>
+        <div style="flex:1;">
+          <span class="exp-name" style="font-size:16px;text-transform:uppercase;letter-spacing:0.25em;color:#e8d090;font-family:'Cormorant Garamond',serif;display:block;margin-bottom:5px;">Curated Journeys</span>
+          <span class="exp-sub" style="font-size:10px;letter-spacing:0.15em;color:rgba(201,168,76,0.38);font-family:'Inter',sans-serif;text-transform:uppercase;">Exclusive Excursions</span>
+        </div>
+        <span style="color:rgba(201,168,76,0.2);font-size:20px;flex-shrink:0;padding-left:8px;">›</span>
+      </div>
+
+      <div class="reveal exp-row" style="transition-delay:0.4s;border-bottom:none;">
+        <div style="width:52px;flex-shrink:0;display:flex;align-items:center;justify-content:center;">
+          <span class="font-serif-custom" style="font-size:11px;letter-spacing:0.3em;color:rgba(201,168,76,0.32);">06</span>
+        </div>
+        <div style="width:1px;height:40px;background:linear-gradient(to bottom,transparent,rgba(201,168,76,0.4),transparent);margin-right:22px;flex-shrink:0;"></div>
+        <div style="flex:1;">
+          <span class="exp-name" style="font-size:16px;text-transform:uppercase;letter-spacing:0.25em;color:#e8d090;font-family:'Cormorant Garamond',serif;display:block;margin-bottom:5px;">In-Suite Wellness</span>
+          <span class="exp-sub" style="font-size:10px;letter-spacing:0.15em;color:rgba(201,168,76,0.38);font-family:'Inter',sans-serif;text-transform:uppercase;">Suite Comfort</span>
+        </div>
+        <span style="color:rgba(201,168,76,0.2);font-size:20px;flex-shrink:0;padding-left:8px;">›</span>
+      </div>
+
+    </div>
+
+    <!-- Bottom rule -->
+    <div class="deco-rule" style="margin-top:52px;">
+      <div class="deco-rule-line"></div>
+      <div class="deco-diamond"></div>
+      <div class="deco-rule-line-r"></div>
+    </div>
+  </section>
+
+  <!-- ═══ ROOM DETAIL MODAL ═══ -->
+  <div id="room-modal" style="display:none; position:fixed; inset:0; z-index:1000; background:rgba(5,3,0,0.97); overflow-y:auto; overscroll-behavior:contain;">
+    <div style="max-width:430px; margin:0 auto; min-height:100%; display:flex; flex-direction:column;">
+
+      <!-- Modal header -->
+      <div style="position:sticky; top:0; z-index:10; display:flex; align-items:center; justify-content:space-between; padding:16px 20px; background:rgba(8,6,4,0.95); border-bottom:1px solid rgba(201,168,76,0.15);">
+        <span id="modal-room-name" style="font-family:'Cormorant Garamond',serif; font-size:16px; text-transform:uppercase; letter-spacing:0.25em; color:#e8d090;"></span>
+        <button onclick="closeRoom()" style="background:none; border:1px solid rgba(201,168,76,0.3); color:#c9a84c; width:36px; height:36px; font-size:18px; cursor:pointer; display:flex; align-items:center; justify-content:center; line-height:1;">✕</button>
+      </div>
+
+      <!-- Gallery -->
+      <div id="modal-gallery" style="position:relative; width:100%; height:55vw; max-height:280px; overflow:hidden; flex-shrink:0;">
+        <img id="modal-img-main" src="" alt="" style="width:100%; height:100%; object-fit:cover;" />
+        <div style="position:absolute; inset:0; background:linear-gradient(to top, #050300 0%, transparent 60%);"></div>
+        <div id="modal-img-dots" style="position:absolute; bottom:10px; left:50%; transform:translateX(-50%); display:flex; gap:6px;"></div>
+      </div>
+
+      <!-- Price + breakfast badge -->
+      <div style="padding:20px 20px 0;">
+        <div style="display:flex; align-items:center; justify-content:space-between; margin-bottom:12px;">
+          <div>
+            <div id="modal-price" class="font-serif-custom" style="font-size:40px; line-height:1; color:#c9a84c;"></div>
+            <div style="font-size:9px; text-transform:uppercase; letter-spacing:0.2em; color:#8a6a1f;">DA / الليلة</div>
+          </div>
+          <span style="font-size:9px; color:#c9a84c; border:1px solid rgba(201,168,76,0.4); padding:5px 12px; letter-spacing:0.12em; text-transform:uppercase;">☕ Petit déjeuner inclus</span>
+        </div>
+      </div>
+
+      <!-- Features -->
+      <div style="padding:16px 20px;">
+        <p data-i18n="modal_feat" style="font-size:9px; text-transform:uppercase; letter-spacing:0.3em; color:#8a6a1f; margin-bottom:14px;">المزايا — Équipements</p>
+        <div id="modal-features" style="display:flex; flex-wrap:wrap; gap:10px;"></div>
+      </div>
+
+      <!-- Description -->
+      <div style="padding:0 20px 20px;">
+        <p id="modal-desc" class="font-arabic" dir="rtl" style="font-size:15px; line-height:1.8; color:#b8aa88; border-top:1px solid rgba(201,168,76,0.1); padding-top:16px;"></p>
+      </div>
+
+      <!-- CTA buttons -->
+      <div style="padding:0 20px 40px; display:flex; flex-direction:column; gap:12px; margin-top:auto;">
+        <a href="https://wa.me/0770574728" target="_blank" rel="noreferrer"
+          style="display:flex; align-items:center; justify-content:center; gap:10px; height:56px; background:linear-gradient(90deg,#8a6a1f,#c9a84c,#8a6a1f); background-size:200%; animation:shimmer-btn 3s infinite; color:#0a0905; font-weight:600; font-size:11px; letter-spacing:0.3em; text-transform:uppercase; text-decoration:none;">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 0 1-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 0 1-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 0 1 2.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0 0 12.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 0 0 5.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 0 0-3.48-8.413z"/></svg>
+          <span data-i18n="modal_wa">واتساب — WhatsApp</span>
+        </a>
+        <a href="tel:0770574728"
+          style="display:flex; align-items:center; justify-content:center; height:48px; border:1px solid rgba(201,168,76,0.3); color:#c9a84c; font-size:11px; letter-spacing:0.3em; text-transform:uppercase; text-decoration:none;">
+          07 70574728
+        </a>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- ═══ SECTION 6 — FOOTER ═══ -->
+  <footer style="width:100%;padding:72px 24px 56px;display:flex;flex-direction:column;align-items:center;text-align:center;position:relative;background:linear-gradient(180deg,#050300 0%,#080603 100%);overflow:hidden;">
+    <!-- Ambient glow -->
+    <div class="amb" style="top:0;left:50%;transform:translateX(-50%);width:360px;height:280px;"></div>
+
+    <!-- Logo -->
+    <img src="/images/logo.jpg" alt="VESCERA HOTEL" style="width:152px;margin-bottom:24px;opacity:0.92;filter:drop-shadow(0 0 20px rgba(201,168,76,0.2));position:relative;z-index:2;" />
+
+    <!-- Decorative rule -->
+    <div class="deco-rule" style="width:100%;margin-bottom:24px;position:relative;z-index:2;">
+      <div class="deco-rule-line"></div>
+      <div class="deco-diamond"></div>
+      <div class="deco-rule-line-r"></div>
+    </div>
+
+    <!-- Arabic tagline -->
+    <p style="font-family:'Noto Serif Arabic',serif;font-size:17px;color:rgba(184,170,136,0.65);margin-bottom:40px;letter-spacing:0.05em;position:relative;z-index:2;">فخامة تتجاوز التوقعات</p>
+
+    <!-- Contact info -->
+    <div style="display:flex;flex-direction:column;gap:10px;margin-bottom:36px;position:relative;z-index:2;">
+      <div style="display:flex;align-items:center;justify-content:center;gap:10px;">
+        <div style="width:20px;height:1px;background:rgba(201,168,76,0.25);"></div>
+        <p style="font-size:10px;color:rgba(138,106,31,0.8);letter-spacing:0.22em;font-family:'Inter',sans-serif;">07 70574728 &nbsp;·&nbsp; 07 70574768</p>
+        <div style="width:20px;height:1px;background:rgba(201,168,76,0.25);"></div>
+      </div>
+      <p style="font-size:10px;color:rgba(138,106,31,0.8);letter-spacing:0.22em;font-family:'Inter',sans-serif;">033 530303</p>
+      <p style="font-size:9px;color:rgba(138,106,31,0.6);letter-spacing:0.15em;font-family:'Inter',sans-serif;">vescerahotelsud07@gmail.com</p>
+    </div>
+
+    <div style="display:flex; justify-content:center; gap:20px; margin-bottom:40px;">
+      <a href="tel:0770574728" class="social-circle-sm" aria-label="Call">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07A19.5 19.5 0 0 1 4.99 8.73a19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 3.9 2h3a2 2 0 0 1 2 1.72c.127.96.361 1.903.7 2.81a2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0 1 22 16.92z"/></svg>
+      </a>
+      <a href="https://wa.me/0770574728" target="_blank" rel="noreferrer" class="social-circle-sm" aria-label="WhatsApp">
+        <svg viewBox="0 0 24 24" fill="currentColor"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 0 1-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 0 1-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 0 1 2.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0 0 12.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 0 0 5.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 0 0-3.48-8.413z"/></svg>
+      </a>
+      <a href="https://www.instagram.com/hotel_vescera_sud/" target="_blank" rel="noreferrer" class="social-circle-sm" aria-label="Instagram">
+        <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162 6.163 6.162-2.759 6.162-6.163c0-3.403-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4 0-2.209 1.791-4 4-4s4 1.791 4 4c0 2.21-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z"/></svg>
+      </a>
+      <a href="https://www.facebook.com/p/H%C3%B4tel-Vescera-SUD-100063634865615/" target="_blank" rel="noreferrer" class="social-circle-sm" aria-label="Facebook">
+        <svg viewBox="0 0 24 24" fill="currentColor"><path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z"/></svg>
+      </a>
+      <a href="https://maps.app.goo.gl/HT2X2rJ6KDD8ZXuM9" target="_blank" rel="noreferrer" class="social-circle-sm" aria-label="Map">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg>
+      </a>
+    </div>
+
+    <div style="width:100%; border-top:1px solid rgba(201,168,76,0.1); padding-top:32px; display:flex; flex-direction:column; gap:8px;">
+      <p style="font-size:9px; color:rgba(138,106,31,0.6); text-transform:uppercase; letter-spacing:0.3em;">
+        © <span id="year"></span> VESCERA HOTEL. All Rights Reserved.
+      </p>
+      <p class="font-serif-custom" style="font-size:9px; color:rgba(138,106,31,0.6); font-style:italic;">
+        Crafted with devotion
+      </p>
+    </div>
+  </footer>
+
+</div><!-- end wrapper -->
+
+<script>
+  // Year
+  document.getElementById('year').textContent = new Date().getFullYear();
+
+  // Video → image transition
+  const video = document.getElementById('hero-video');
+  const heroImg = document.getElementById('hero-img');
+  video.addEventListener('ended', function() {
+    video.style.opacity = '0';
+    heroImg.style.opacity = '0.55';
+  });
+
+  // ── i18n ───────────────────────────────────────────────
+  var LANG = 'en';
+
+  var FMAP = {
+    'WiFi gratuit':        {en:'Free WiFi',            fr:'WiFi gratuit',          ar:'واي فاي مجاني'},
+    'Climatisation':       {en:'Air Conditioning',     fr:'Climatisation',         ar:'تكييف'},
+    'TV Satellite':        {en:'Satellite TV',         fr:'TV Satellite',          ar:'قنوات فضائية'},
+    'Mini-bar':            {en:'Mini-bar',             fr:'Mini-bar',              ar:'ميني بار'},
+    'Mini-bar premium':    {en:'Premium Mini-bar',     fr:'Mini-bar premium',      ar:'ميني بار بريميوم'},
+    'Salle de bain privée':{en:'Private Bathroom',     fr:'Salle de bain privée',  ar:'حمام خاص'},
+    'Service chambre 24h': {en:'24h Room Service',     fr:'Service chambre 24h',   ar:'خدمة غرف 24 ساعة'},
+    'Coffre-fort':         {en:'In-Room Safe',         fr:'Coffre-fort',           ar:'خزنة'},
+    'Bureau de travail':   {en:'Work Desk',            fr:'Bureau de travail',     ar:'مكتب عمل'},
+    'Vue panoramique':     {en:'Panoramic View',       fr:'Vue panoramique',       ar:'إطلالة بانورامية'},
+    'Espace salon':        {en:'Lounge Area',          fr:'Espace salon',          ar:'منطقة جلوس'},
+    'Jacuzzi':             {en:'Jacuzzi',              fr:'Jacuzzi',               ar:'جاكوزي'},
+    'Salon privé':         {en:'Private Lounge',       fr:'Salon privé',           ar:'صالة خاصة'},
+    'Service Butler':      {en:'Butler Service',       fr:'Service Butler',        ar:'خدمة البتلر'},
+    'Peignoir & chaussons':{en:'Robe & Slippers',      fr:'Peignoir & chaussons',  ar:'روب وشباشب'},
+    'Dressing':            {en:'Dressing Room',        fr:'Dressing',              ar:'غرفة ملابس'},
+    'Cuisine équipée':     {en:'Equipped Kitchen',     fr:'Cuisine équipée',       ar:'مطبخ مجهز'},
+    'Salle à manger':      {en:'Dining Room',          fr:'Salle à manger',        ar:'غرفة طعام'},
+    '2+ Chambres':         {en:'2+ Bedrooms',          fr:'2+ Chambres',           ar:'غرفتان+'},
+    'Lave-linge':          {en:'Washing Machine',      fr:'Lave-linge',            ar:'غسالة'},
+    'Butler privé':        {en:'Private Butler',       fr:'Butler privé',          ar:'بتلر خاص'},
+    'Accueil VIP':         {en:'VIP Welcome',          fr:'Accueil VIP',           ar:'استقبال VIP'},
+    'Early check-in':      {en:'Early Check-in',       fr:'Early check-in',        ar:'دخول مبكر'},
+    'Late check-out':      {en:'Late Check-out',       fr:'Late check-out',        ar:'خروج متأخر'},
+  };
+
+  var T = {
+    en: {
+      hero_eyebrow: 'Hotel Vescera — Since 2024',
+      hero_line1:   'DISCOVER',
+      hero_line2a:  'YOUR ',
+      hero_line2b:  'ROOM',
+      hero_main:    'Where every moment is a memory',
+      intro_quote:  '"Since 2024, VESCERA HOTEL has defined the new language of luxury hospitality across the Middle East."',
+      intro_ar:     'A sanctuary where elegance meets authenticity — redefining the art of luxury living.',
+      exp_title:    'Curated Experiences',
+      exp_1:'The Spa',          exp_1s:'Wellness & Serenity',
+      exp_2:'Fine Dining',      exp_2s:'World Cuisine',
+      exp_3:'Private Butler',   exp_3s:'Personal Service',
+      exp_4:'Rooftop Lounge',   exp_4s:'Panoramic Views',
+      exp_5:'Curated Journeys', exp_5s:'Exclusive Excursions',
+      exp_6:'In-Suite Wellness',exp_6s:'Suite Comfort',
+      modal_feat: 'Features & Amenities',
+      modal_wa:   'WhatsApp',
+      label_g:'Guests', label_b:'Bed', label_bs:'Beds', label_t:'Type', label_r:'Rooms',
+      label_night:'DA / Night',
+      badge:'☕ Breakfast Included',
+      btn:'Explore ←',
+      r_single:   'A serene single room with elegant design, perfect for the traveler seeking total comfort and privacy.',
+      r_double:   'A double room with modern design and warm ambiance, ideal for couples or travel companions.',
+      r_triple:   'A spacious room with three comfortable beds, designed for families or groups.',
+      r_suites:   'A luxurious single suite with generous space and exceptional services — an experience beyond expectations.',
+      r_suited:   'A double suite blending luxury and privacy in an enchanting space with an unforgettable view.',
+      r_appart:   'A fully equipped hotel apartment with kitchen and multiple rooms, ideal for families and extended stays.',
+      r_svip:     'An exclusive VIP single experience with personal Butler service and unmatched privileges.',
+      r_dvip:     'A double VIP experience with unparalleled luxury, complete privacy, and 24/7 exceptional services.',
+    },
+    fr: {
+      hero_eyebrow: 'Hôtel Vescera — Depuis 2024',
+      hero_line1:   'DÉCOUVREZ',
+      hero_line2a:  'VOTRE ',
+      hero_line2b:  'CHAMBRE',
+      hero_main:    'Chaque instant devient un souvenir',
+      intro_quote:  '"Depuis 2024, l\'Hôtel VESCERA a redéfini le langage du luxe et de l\'hospitalité au Moyen-Orient."',
+      intro_ar:     'Un sanctuaire où l\'élégance rencontre l\'authenticité — l\'art de vivre dans sa forme la plus sublime.',
+      exp_title:    'Expériences Exclusives',
+      exp_1:'Le Spa',             exp_1s:'Bien-être & Sérénité',
+      exp_2:'Fine Dining',        exp_2s:'Cuisine Internationale',
+      exp_3:'Butler Privé',       exp_3s:'Service Personnel',
+      exp_4:'Lounge Panoramique', exp_4s:'Vues Époustouflantes',
+      exp_5:'Voyages Curatés',    exp_5s:'Excursions Exclusives',
+      exp_6:'Bien-être en Suite', exp_6s:'Confort & Sérénité',
+      modal_feat: 'Équipements & Services',
+      modal_wa:   'WhatsApp',
+      label_g:'Hôtes', label_b:'Lit', label_bs:'Lits', label_t:'Type', label_r:'Chambres',
+      label_night:'DA / Nuit',
+      badge:'☕ Petit déjeuner inclus',
+      btn:'Explorer ←',
+      r_single:   'Une chambre individuelle apaisante au design élégant, idéale pour le voyageur en quête de confort et d\'intimité absolus.',
+      r_double:   'Une chambre double au design moderne et à l\'ambiance chaleureuse, parfaite pour les couples ou compagnons de voyage.',
+      r_triple:   'Une chambre spacieuse avec trois lits confortables, conçue pour les familles ou groupes d\'amis.',
+      r_suites:   'Une suite individuelle luxueuse avec un espace généreux et des services d\'exception — une expérience qui dépasse les attentes.',
+      r_suited:   'Une suite double alliant luxe et intimité dans un espace enchanteur avec une vue inoubliable.',
+      r_appart:   'Un appartement hôtelier complet avec cuisine et plusieurs chambres, idéal pour les familles et longs séjours.',
+      r_svip:     'Une expérience VIP individuelle exclusive avec service Butler personnel et des privilèges inégalés.',
+      r_dvip:     'Une expérience VIP double d\'un luxe incomparable, une intimité totale et des services d\'exception 24h/24.',
+    },
+    ar: {
+      hero_eyebrow: 'فندق فسيرة — منذ ٢٠٢٤',
+      hero_line1:   'اكتشف',
+      hero_line2a:  '',
+      hero_line2b:  'غرفتك',
+      hero_main:    'كل لحظة ذكرى لا تُنسى',
+      intro_quote:  'منذ عام ٢٠٢٤، رسم فندق فسيرة لغة جديدة لضيافة الرفاهية في أنحاء الشرق الأوسط.',
+      intro_ar:     'ملاذٌ تلتقي فيه الأناقة بالأصالة — حيث تُعاد صياغة فن الإقامة الفاخرة من جديد.',
+      exp_title:    'تجارب مُختارة',
+      exp_1:'المنتجع الصحي',    exp_1s:'رفاهية وسكينة',
+      exp_2:'المطبخ العالمي',   exp_2s:'أشهى المأكولات',
+      exp_3:'الخدمة الشخصية',  exp_3s:'بتلر خاص',
+      exp_4:'جلسات السطح',     exp_4s:'إطلالة بانورامية',
+      exp_5:'رحلات مميزة',      exp_5s:'جولات حصرية',
+      exp_6:'عافية الأجنحة',   exp_6s:'راحة الأجنحة',
+      modal_feat: 'المزايا والخدمات',
+      modal_wa:   'واتساب',
+      label_g:'ضيوف', label_b:'سرير', label_bs:'أسرّة', label_t:'نوع', label_r:'غرف',
+      label_night:'DA / الليلة',
+      badge:'☕ الفطور مُدرج',
+      btn:'استكشاف ←',
+      r_single:   'غرفة منفردة هادئة بتصميم أنيق، مثالية للمسافر الباحث عن الراحة والخصوصية التامة.',
+      r_double:   'غرفة مزدوجة بتصميم عصري وأجواء دافئة، مثالية للزوجين أو رفيقَي السفر.',
+      r_triple:   'غرفة واسعة بثلاثة أسرّة مريحة، مصممة لاستيعاب العائلة أو مجموعة الأصدقاء.',
+      r_suites:   'جناح فاخر للفرد بمساحة رحبة وخدمات استثنائية، تجربة إقامة تفوق التوقعات.',
+      r_suited:   'جناح مزدوج يدمج الرفاهية والخصوصية في مساحة ساحرة بإطلالة لا تُنسى.',
+      r_appart:   'شقة فندقية متكاملة بمطبخ وغرف متعددة، مثالية للعائلات والإقامات الطويلة.',
+      r_svip:     'تجربة VIP حصرية للفرد مع خدمة بتلر شخصية وامتيازات لا مثيل لها.',
+      r_dvip:     'تجربة VIP مزدوجة بفخامة لا تُضاهى وخصوصية مطلقة وخدمات استثنائية على مدار الساعة.',
+    }
+  };
+
+  // Room desc key order (matches DOM order)
+  var ROOM_DESC_KEYS = ['r_single','r_double','r_triple','r_suites','r_suited','r_appart','r_svip','r_dvip'];
+  // Experience names key order
+  var EXP_KEYS = [
+    ['exp_1','exp_1s'],['exp_2','exp_2s'],['exp_3','exp_3s'],
+    ['exp_4','exp_4s'],['exp_5','exp_5s'],['exp_6','exp_6s']
+  ];
+
+  function applyLang(lang) {
+    LANG = lang;
+    var t = T[lang];
+    var isAr = lang === 'ar';
+
+    // RTL / LTR
+    document.documentElement.dir  = isAr ? 'rtl' : 'ltr';
+    document.documentElement.lang = lang;
+
+    // ── data-i18n singletons ──
+    document.querySelectorAll('[data-i18n]').forEach(function(el) {
+      var k = el.getAttribute('data-i18n');
+      if (t[k] !== undefined) el.textContent = t[k];
+    });
+
+    // ── Room card descriptions ──
+    var descs = document.querySelectorAll('#rooms p[data-i18n-room]');
+    descs.forEach(function(el, i) {
+      var k = ROOM_DESC_KEYS[i];
+      if (k && t[k]) {
+        el.textContent = t[k];
+        el.dir = isAr ? 'rtl' : 'ltr';
+        el.style.fontFamily = isAr ? "'Noto Serif Arabic',serif" : "'Inter',sans-serif";
+      }
+    });
+
+    // ── Room spec labels (Guests / Bed / Beds / Type / Rooms) ──
+    document.querySelectorAll('[data-i18n-spec]').forEach(function(el) {
+      var s = el.getAttribute('data-i18n-spec');
+      var map = {g:t.label_g, b:t.label_b, bs:t.label_bs, tp:t.label_t, r:t.label_r};
+      if (map[s]) el.textContent = map[s];
+    });
+
+    // ── Breakfast badges ──
+    document.querySelectorAll('[data-i18n-badge]').forEach(function(el) {
+      el.textContent = t.badge;
+    });
+
+    // ── DA/Night labels ──
+    document.querySelectorAll('[data-i18n-night]').forEach(function(el) {
+      el.textContent = t.label_night;
+    });
+
+    // ── Explore buttons ──
+    var roomIds = ['single','double','triple','suite-single','suite-double','appartement','single-vip','double-vip'];
+    document.querySelectorAll('.gold-btn').forEach(function(btn, i) {
+      if (roomIds[i] !== undefined) {
+        btn.textContent = t.btn;
+        btn.style.letterSpacing = '0.2em';
+        btn.onclick = (function(rid){ return function(){ openRoom(rid); }; })(roomIds[i]);
+      }
+    });
+
+    // ── Experience names ──
+    var expItems = document.querySelectorAll('#experiences .exp-name');
+    var expSubs  = document.querySelectorAll('#experiences .exp-sub');
+    EXP_KEYS.forEach(function(pair, i) {
+      if (expItems[i]) expItems[i].textContent = t[pair[0]];
+      if (expSubs[i])  expSubs[i].textContent  = t[pair[1]];
+    });
+
+    // ── Switcher active state ──
+    ['en','fr','ar'].forEach(function(l) {
+      var btn = document.getElementById('lang-' + l);
+      if (!btn) return;
+      btn.style.color       = l === lang ? '#c9a84c' : 'rgba(201,168,76,0.38)';
+      btn.style.background  = l === lang ? 'rgba(201,168,76,0.08)' : 'none';
+    });
+
+    localStorage.setItem('vescera_lang', lang);
+  }
+
+  // ── Room data ──────────────────────────────────────────
+  var ROOMS = {
+    'single': {
+      name: 'Single',
+      nameAr: 'غرفة سينغل',
+      price: '6,800',
+      images: ['/images/room-deluxe.jpg'],
+      desc: 'غرفة منفردة هادئة بتصميم أنيق، مثالية للمسافر الباحث عن الراحة والخصوصية التامة.',
+      features: ['WiFi gratuit','Climatisation','TV Satellite','Mini-bar','Salle de bain privée','Service chambre 24h','Coffre-fort','Bureau de travail']
+    },
+    'double': {
+      name: 'Double',
+      nameAr: 'غرفة دبل',
+      price: '8,000',
+      images: ['/images/room-junior.jpg'],
+      desc: 'غرفة مزدوجة بتصميم عصري وأجواء دافئة، مثالية للزوجين أو رفيقَي السفر.',
+      features: ['WiFi gratuit','Climatisation','TV Satellite','Mini-bar','Salle de bain privée','Vue panoramique','Service chambre 24h','Coffre-fort']
+    },
+    'triple': {
+      name: 'Triple',
+      nameAr: 'غرفة تريبل',
+      price: '9,000',
+      images: ['/images/room-executive.jpg'],
+      desc: 'غرفة واسعة بثلاثة أسرّة مريحة، مصممة لاستيعاب العائلة أو مجموعة الأصدقاء.',
+      features: ['WiFi gratuit','Climatisation','TV Satellite','Mini-bar','Salle de bain privée','Espace salon','Service chambre 24h','Coffre-fort']
+    },
+    'suite-single': {
+      name: 'Suite Single',
+      nameAr: 'سويت سينغل',
+      price: '9,500',
+      images: ['/images/room-royal.jpg', '/images/room-executive.jpg'],
+      desc: 'جناح فاخر للفرد بمساحة رحبة وخدمات استثنائية، تجربة إقامة تفوق التوقعات.',
+      features: ['WiFi gratuit','Climatisation','TV Satellite','Mini-bar','Jacuzzi','Salon privé','Vue panoramique','Service Butler','Coffre-fort','Peignoir & chaussons']
+    },
+    'suite-double': {
+      name: 'Suite Double',
+      nameAr: 'سويت دبل',
+      price: '10,500',
+      images: ['/images/room-presidential.jpg', '/images/room-royal.jpg'],
+      desc: 'جناح مزدوج يدمج الرفاهية والخصوصية في مساحة ساحرة بإطلالة لا تُنسى.',
+      features: ['WiFi gratuit','Climatisation','TV Satellite','Mini-bar','Jacuzzi','Salon privé','Dressing','Vue panoramique','Service Butler','Peignoir & chaussons']
+    },
+    'appartement': {
+      name: 'Appartement',
+      nameAr: 'شقة فندقية',
+      price: '15,000',
+      images: ['/images/room-royal.jpg', '/images/room-presidential.jpg'],
+      desc: 'شقة فندقية متكاملة بمطبخ وغرف متعددة، مثالية للعائلات والإقامات الطويلة.',
+      features: ['WiFi gratuit','Climatisation','TV Satellite','Cuisine équipée','Jacuzzi','Salon privé','Salle à manger','2+ Chambres','Service chambre 24h','Lave-linge']
+    },
+    'single-vip': {
+      name: 'Single VIP',
+      nameAr: 'سينغل VIP',
+      price: '8,000',
+      images: ['/images/room-executive.jpg', '/images/room-royal.jpg'],
+      desc: 'تجربة VIP حصرية للفرد مع خدمة Butler شخصية وامتيازات لا مثيل لها.',
+      features: ['WiFi gratuit','Climatisation','TV Satellite','Mini-bar premium','Jacuzzi','Butler privé','Accueil VIP','Vue panoramique','Peignoir & chaussons','Early check-in']
+    },
+    'double-vip': {
+      name: 'Double VIP',
+      nameAr: 'دبل VIP',
+      price: '9,000',
+      images: ['/images/room-junior.jpg', '/images/room-presidential.jpg'],
+      desc: 'تجربة VIP مزدوجة بفخامة تامة وخصوصية مطلقة وخدمات استثنائية على مدار الساعة.',
+      features: ['WiFi gratuit','Climatisation','TV Satellite','Mini-bar premium','Jacuzzi','Butler privé','Dressing','Accueil VIP','Vue panoramique','Late check-out']
+    }
+  };
+
+  var currentImgIndex = 0;
+  var currentImages = [];
+
+  function openRoom(id) {
+    var r = ROOMS[id];
+    if (!r) return;
+    var t = T[LANG];
+    var isAr = LANG === 'ar';
+    currentImages = r.images;
+    currentImgIndex = 0;
+
+    // Room name: always show both script name + locale name
+    var locName = isAr ? r.nameAr : r.name;
+    document.getElementById('modal-room-name').textContent = r.name + (isAr ? ' — ' + r.nameAr : '');
+    document.getElementById('modal-price').textContent = r.price;
+
+    // Description in current language
+    var descKey = {
+      'single':'r_single','double':'r_double','triple':'r_triple',
+      'suite-single':'r_suites','suite-double':'r_suited',
+      'appartement':'r_appart','single-vip':'r_svip','double-vip':'r_dvip'
+    }[id];
+    var descEl = document.getElementById('modal-desc');
+    descEl.textContent = t[descKey] || r.desc;
+    descEl.dir = isAr ? 'rtl' : 'ltr';
+    descEl.style.fontFamily = isAr ? "'Noto Serif Arabic',serif" : "'Inter',sans-serif";
+
+    // Gallery
+    var img = document.getElementById('modal-img-main');
+    img.src = r.images[0];
+    img.alt = r.name;
+
+    // Dots
+    var dots = document.getElementById('modal-img-dots');
+    dots.innerHTML = '';
+    if (r.images.length > 1) {
+      r.images.forEach(function(_, i) {
+        var d = document.createElement('div');
+        d.style.cssText = 'width:6px;height:6px;border-radius:50%;background:' + (i===0 ? '#c9a84c' : 'rgba(201,168,76,0.35)') + ';cursor:pointer;transition:background 0.2s;';
+        d.onclick = function() { switchImg(i); };
+        dots.appendChild(d);
+      });
+    }
+
+    // Swipe
+    var gallery = document.getElementById('modal-gallery');
+    gallery.ontouchstart = function(e) { gallery._tx = e.touches[0].clientX; };
+    gallery.ontouchend = function(e) {
+      var dx = e.changedTouches[0].clientX - gallery._tx;
+      if (Math.abs(dx) > 40) switchImg(currentImgIndex + (dx < 0 ? 1 : -1));
+    };
+
+    // Features translated
+    var feat = document.getElementById('modal-features');
+    feat.innerHTML = '';
+    r.features.forEach(function(f) {
+      var span = document.createElement('span');
+      span.style.cssText = 'font-size:10px;color:#e8d090;border:1px solid rgba(201,168,76,0.25);padding:5px 10px;letter-spacing:0.1em;white-space:nowrap;';
+      span.textContent = (FMAP[f] && FMAP[f][LANG]) ? FMAP[f][LANG] : f;
+      feat.appendChild(span);
+    });
+
+    // DA/night label in modal
+    var modalNight = document.getElementById('modal-night-label');
+    if (modalNight) modalNight.textContent = t.label_night;
+
+    var modal = document.getElementById('room-modal');
+    modal.style.display = 'block';
+    modal.scrollTop = 0;
+    document.body.style.overflow = 'hidden';
+  }
+
+  function switchImg(idx) {
+    if (idx < 0 || idx >= currentImages.length) return;
+    currentImgIndex = idx;
+    document.getElementById('modal-img-main').src = currentImages[idx];
+    var dots = document.getElementById('modal-img-dots').children;
+    for (var i = 0; i < dots.length; i++) {
+      dots[i].style.background = i === idx ? '#c9a84c' : 'rgba(201,168,76,0.35)';
+    }
+  }
+
+  function closeRoom() {
+    document.getElementById('room-modal').style.display = 'none';
+    document.body.style.overflow = '';
+  }
+
+  document.addEventListener('keydown', function(e) { if (e.key === 'Escape') closeRoom(); });
+
+  // ── DOM init: tag elements for i18n ───────────────────
+  (function initI18n() {
+    // Tag room card description paragraphs
+    var descParas = document.querySelectorAll('#rooms p.font-arabic[dir="rtl"]');
+    descParas.forEach(function(el, i) { el.setAttribute('data-i18n-room', i); });
+
+    // Tag spec label spans by textContent
+    document.querySelectorAll('#rooms span').forEach(function(el) {
+      var txt = el.textContent.trim();
+      if (txt === 'Guests')  el.setAttribute('data-i18n-spec','g');
+      if (txt === 'Bed')     el.setAttribute('data-i18n-spec','b');
+      if (txt === 'Beds')    el.setAttribute('data-i18n-spec','bs');
+      if (txt === 'Type')    el.setAttribute('data-i18n-spec','tp');
+      if (txt === 'Rooms')   el.setAttribute('data-i18n-spec','r');
+    });
+
+    // Tag breakfast badges
+    document.querySelectorAll('#rooms span').forEach(function(el) {
+      if (el.textContent.includes('Petit déjeuner') || el.textContent.includes('Breakfast') || el.textContent.includes('الفطور')) {
+        el.setAttribute('data-i18n-badge','1');
+      }
+    });
+
+    // Tag DA/night labels
+    document.querySelectorAll('#rooms div').forEach(function(el) {
+      if (el.textContent.trim() === 'DA / الليلة') el.setAttribute('data-i18n-night','1');
+    });
+
+    // Tag experience name & sub spans by assigning classes
+    var expRows = document.querySelectorAll('#experiences .reveal');
+    expRows.forEach(function(row, i) {
+      var spans = row.querySelectorAll('span:not(.font-serif-custom)');
+      if (spans[0]) spans[0].classList.add('exp-name');
+      if (spans[1]) spans[1].classList.add('exp-sub');
+    });
+
+    // Load saved language or default to EN
+    var saved = localStorage.getItem('vescera_lang') || 'en';
+    applyLang(saved);
+  })();
+
+  // ── Intersection Observer ─────────────────────────────
+  const revealEls = document.querySelectorAll('.reveal');
+  const observer = new IntersectionObserver(function(entries) {
+    entries.forEach(function(entry) {
+      if (entry.isIntersecting) {
+        entry.target.classList.add('visible');
+        observer.unobserve(entry.target);
+      }
+    });
+  }, { threshold: 0.1 });
+  revealEls.forEach(function(el) { observer.observe(el); });
+</script>
+</body>
+</html>
