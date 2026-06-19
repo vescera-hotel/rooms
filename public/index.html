@@ -1484,7 +1484,7 @@
         <!-- Price block -->
         <div style="display:flex; align-items:flex-end; justify-content:space-between; margin-bottom:8px;">
           <div>
-            <div style="font-size:9px; text-transform:uppercase; letter-spacing:0.28em; color:rgba(201,168,76,0.38); font-family:'Inter',sans-serif; margin-bottom:3px;">À partir de</div>
+            <div style="font-size:9px; text-transform:uppercase; letter-spacing:0.28em; color:rgba(201,168,76,0.38); font-family:'Inter',sans-serif; margin-bottom:3px;" data-i18n-from>À partir de</div>
             <div style="display:flex; align-items:baseline; gap:7px;">
               <div id="modal-price" style="font-family:'Cormorant Garamond',serif; font-size:48px; font-weight:600; line-height:1; color:#c9a84c; text-shadow:0 0 30px rgba(201,168,76,0.2);"></div>
               <div style="font-size:9px; text-transform:uppercase; letter-spacing:0.22em; color:rgba(201,168,76,0.4); font-family:'Inter',sans-serif;" data-i18n-night>DA / الليلة</div>
@@ -1525,23 +1525,8 @@
         </div>
       </div>
 
-      <!-- ── CTA — SINGLE LUXURY BUTTON ── -->
-      <div style="padding:0 24px 56px; background:#050300; position:relative; z-index:2; margin-top:auto;">
-        <button onclick="closeRoom(); setTimeout(scrollToInquiry, 350);" style="
-          width:100%; height:58px;
-          background:linear-gradient(90deg,#6e5418,#c9a84c,#e8d090,#c9a84c,#6e5418);
-          background-size:300%; animation:shimmer-btn 4s linear infinite;
-          color:#09070200; border:none; cursor:pointer;
-          display:flex; align-items:center; justify-content:center; gap:12px;
-          position:relative; overflow:hidden;
-        ">
-          <div style="position:absolute;inset:0;background:linear-gradient(90deg,#6e5418,#c9a84c,#e8d090,#c9a84c,#6e5418);background-size:300%;animation:shimmer-btn 4s linear infinite;"></div>
-          <div style="position:relative; z-index:1; display:flex; align-items:center; gap:12px;">
-            <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="#0a0905" stroke-width="2" stroke-linecap="round"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg>
-            <span id="modal-cta-text" style="font-family:'Cormorant Garamond',serif; font-size:14px; font-weight:700; letter-spacing:0.3em; text-transform:uppercase; color:#0a0905;">Book Now — احجز الآن</span>
-          </div>
-        </button>
-      </div>
+      <!-- bottom spacer -->
+      <div style="height:48px; background:#050300;"></div>
 
     </div>
   </div>
@@ -1771,7 +1756,8 @@
       modal_wa:   'WhatsApp',
       label_g:'Guests', label_b:'Bed', label_bs:'Beds', label_t:'Type', label_r:'Rooms',
       label_night:'DA / Night',
-      badge:'☕ Breakfast Included',
+      badge:'Breakfast Included',
+      from_label:'From',
       btn:'Explore ←',
       r_single:   'A serene single room with elegant design, perfect for the traveler seeking total comfort and privacy.',
       r_double:   'A double room with modern design and warm ambiance, ideal for couples or travel companions.',
@@ -1801,7 +1787,8 @@
       modal_wa:   'WhatsApp',
       label_g:'Hôtes', label_b:'Lit', label_bs:'Lits', label_t:'Type', label_r:'Chambres',
       label_night:'DA / Nuit',
-      badge:'☕ Petit déjeuner inclus',
+      badge:'Petit déjeuner inclus',
+      from_label:'À partir de',
       btn:'Explorer ←',
       r_single:   'Une chambre individuelle apaisante au design élégant, idéale pour le voyageur en quête de confort et d\'intimité absolus.',
       r_double:   'Une chambre double au design moderne et à l\'ambiance chaleureuse, parfaite pour les couples ou compagnons de voyage.',
@@ -1831,7 +1818,8 @@
       modal_wa:   'واتساب',
       label_g:'ضيوف', label_b:'سرير', label_bs:'أسرّة', label_t:'نوع', label_r:'غرف',
       label_night:'DA / الليلة',
-      badge:'☕ الفطور مُدرج',
+      badge:'الفطور مُدرج',
+      from_label:'من',
       btn:'استكشاف ←',
       r_single:   'غرفة منفردة هادئة بتصميم أنيق، مثالية للمسافر الباحث عن الراحة والخصوصية التامة.',
       r_double:   'غرفة مزدوجة بتصميم عصري وأجواء دافئة، مثالية للزوجين أو رفيقَي السفر.',
@@ -1885,10 +1873,20 @@
       if (map[s]) el.textContent = map[s];
     });
 
-    // ── Breakfast badges ──
+    // ── Breakfast badges (SVG icon + text) ──
+    var bkfSvg = '<svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" style="vertical-align:middle;margin-right:4px;flex-shrink:0;"><path d="M17 8h1a4 4 0 0 1 0 8h-1"/><path d="M3 8h14v9a4 4 0 0 1-4 4H7a4 4 0 0 1-4-4V8z"/><line x1="6" y1="2" x2="6" y2="4"/><line x1="10" y1="2" x2="10" y2="4"/><line x1="14" y1="2" x2="14" y2="4"/></svg>';
     document.querySelectorAll('[data-i18n-badge]').forEach(function(el) {
-      el.textContent = t.badge;
+      el.innerHTML = bkfSvg + t.badge;
     });
+
+    // ── From label in modal ──
+    document.querySelectorAll('[data-i18n-from]').forEach(function(el) {
+      el.textContent = t.from_label || '';
+    });
+
+    // ── Arabic room name in modal: hide when not AR ──
+    var arNameEl = document.getElementById('modal-room-name-ar');
+    if (arNameEl) arNameEl.style.display = isAr ? '' : 'none';
 
     // ── DA/Night labels ──
     document.querySelectorAll('[data-i18n-night]').forEach(function(el) {
@@ -2018,9 +2016,10 @@
     currentImages = r.images;
     currentImgIndex = 0;
 
-    // Room name (English large + Arabic smaller)
+    // Room name: English always visible; Arabic only in AR mode
     document.getElementById('modal-room-name').textContent = r.name;
-    document.getElementById('modal-room-name-ar').textContent = r.nameAr;
+    var arEl = document.getElementById('modal-room-name-ar');
+    if (arEl) { arEl.textContent = r.nameAr; arEl.style.display = isAr ? '' : 'none'; }
 
     // Type badge + ghost number
     var badge = document.getElementById('modal-type-badge');
