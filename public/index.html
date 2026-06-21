@@ -735,6 +735,61 @@
 </head>
 <body>
 
+<!-- ═══ VIDEO INTRO LOADER ═══ -->
+<div id="video-loader" style="
+  position:fixed; inset:0; z-index:9999;
+  background:#000;
+  display:flex; align-items:center; justify-content:center;
+  transition:opacity 1.2s ease;
+">
+  <iframe
+    src="https://player.cloudinary.com/embed/?cloud_name=dlazeylfu&public_id=0619_2_1_1_pk9nzfv&autoplay=true&loop=false&muted=true&controls=false&background=true"
+    allow="autoplay; fullscreen"
+    allowfullscreen
+    style="width:100%; height:100%; border:none; display:block; pointer-events:none;"
+  ></iframe>
+  <button onclick="dismissLoader()" style="
+    position:absolute; bottom:28px; left:50%; transform:translateX(-50%);
+    background:transparent; border:1px solid rgba(201,168,76,0.4);
+    color:rgba(201,168,76,0.85); font-family:'Cormorant Garamond',serif;
+    font-size:11px; letter-spacing:0.35em; text-transform:uppercase;
+    padding:11px 32px; cursor:pointer; z-index:10; transition:all 0.2s;
+  " onmouseover="this.style.background='rgba(201,168,76,0.1)'" onmouseout="this.style.background='transparent'">SKIP  ›</button>
+</div>
+
+<style>
+  #video-loader.hidden { opacity:0; pointer-events:none; }
+  body.loader-active { overflow:hidden; }
+</style>
+
+<script>
+  document.body.classList.add('loader-active');
+  var loaderDismissed = false;
+
+  function dismissLoader() {
+    if (loaderDismissed) return;
+    loaderDismissed = true;
+    var loader = document.getElementById('video-loader');
+    if (!loader) return;
+    loader.style.opacity = '0';
+    document.body.classList.remove('loader-active');
+    setTimeout(function(){ loader.style.display = 'none'; }, 1200);
+  }
+
+  // استمع لرسائل Cloudinary player
+  window.addEventListener('message', function(e) {
+    try {
+      var data = typeof e.data === 'string' ? JSON.parse(e.data) : e.data;
+      if (data && (data.event === 'ended' || data.type === 'ended' || data.eventType === 'ended')) {
+        dismissLoader();
+      }
+    } catch(err) {}
+  });
+
+  // fallback تلقائي بعد 30 ثانية
+  setTimeout(dismissLoader, 30000);
+</script>
+
 <div id="toast">
   <p style="font-size:13px; font-weight:600; color:#e8d090; margin-bottom:4px;">Inquiry Sent / تم الإرسال</p>
   <p style="font-size:12px; color:#b8aa88;">Our concierge will contact you shortly.</p>
