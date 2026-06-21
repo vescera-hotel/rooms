@@ -743,7 +743,7 @@
   transition:opacity 1.2s ease;
 ">
   <iframe id="loader-iframe"
-    src="https://player.cloudinary.com/embed/?cloud_name=dlazeylfu&public_id=0619_2_1_1_pk9nzf&autoplay=true&loop=false&muted=true&controls=false"
+    src="https://player.cloudinary.com/embed/?cloud_name=dlazeylfu&public_id=0619_2_1_1_pk9nzf&autoplay=true&loop=true&muted=true&controls=false&background=true"
     allow="autoplay; fullscreen"
     allowfullscreen
     style="position:absolute;inset:0;width:100%;height:100%;border:none;display:block;pointer-events:none;"
@@ -776,33 +776,40 @@
     setTimeout(function(){ loader.style.display = 'none'; }, 1200);
   }
 
+  var lastTime = 0;
+  var knownDur = 0;
   var earlyTimer = null;
 
-  // استمع لأحداث Cloudinary player عبر postMessage
+  // استمع لأحداث postMessage من Cloudinary
   window.addEventListener('message', function(e) {
     try {
       var data = typeof e.data === 'string' ? JSON.parse(e.data) : e.data;
       if (!data) return;
 
-      var evt = data.event || data.type || '';
+      var evt     = String(data.event || data.type || '');
       var payload = data.data || data.info || data.params || data;
+      var dur     = parseFloat(payload.duration || 0);
+      var curr    = parseFloat(payload.currentTime || payload.current_time || 0);
 
-      // نحصل على المدة من أي حدث يحملها ونضبط التايمر
-      var dur  = parseFloat(payload.duration || 0);
-      var curr = parseFloat(payload.currentTime || payload.current_time || 0);
+      // سجّل المدة عند أول قراءة لها
+      if (dur > 0 && knownDur === 0) knownDur = dur;
 
-      if (dur > 0 && !earlyTimer) {
-        var msLeft = Math.max((dur - curr - 1) * 1000, 200);
-        earlyTimer = setTimeout(dismissLoader, msLeft);
-      }
-
-      if (/ended|pause|stopped|complete/i.test(String(evt))) {
+      // اكتشاف إعادة التشغيل (loop): إذا انخفض الوقت فجأة بعد > 2 ثانية
+      if (knownDur > 0 && lastTime > 2 && curr < lastTime - 2) {
         dismissLoader();
+        return;
+      }
+      lastTime = curr;
+
+      // اختفاء قبل ثانية من النهاية عبر timer دقيق
+      if (knownDur > 0 && !earlyTimer) {
+        var msLeft = Math.max((knownDur - curr - 1) * 1000, 200);
+        earlyTimer = setTimeout(dismissLoader, msLeft);
       }
     } catch(e2) {}
   });
 
-  // fallback: اختفاء بعد 14 ثانية إذا لم تُكتشف المدة
+  // fallback: اختفاء بعد 14 ثانية
   setTimeout(dismissLoader, 14000);
 </script>
 
