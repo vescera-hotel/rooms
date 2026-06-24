@@ -2028,13 +2028,15 @@
     });
 
     // ── Explore buttons ──
-    var roomIds = ['single','double','triple','suite-single','suite-double','appartement','single-vip','double-vip'];
-    document.querySelectorAll('.gold-btn').forEach(function(btn, i) {
-      if (roomIds[i] !== undefined) {
-        btn.textContent = t.btn;
-        btn.style.letterSpacing = '0.2em';
-        btn.onclick = (function(rid){ return function(){ openRoom(rid); }; })(roomIds[i]);
-      }
+    document.querySelectorAll('.gold-btn').forEach(function(btn) {
+      var card = btn.closest('.rc');
+      if (!card) return;
+      var img = card.querySelector('img[data-room-id]');
+      if (!img) return;
+      var rid = img.getAttribute('data-room-id');
+      btn.textContent = t.btn;
+      btn.style.letterSpacing = '0.2em';
+      btn.onclick = (function(r){ return function(){ openRoom(r); }; })(rid);
     });
 
     // ── Experience names ──
