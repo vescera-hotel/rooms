@@ -788,8 +788,19 @@
     transform:scale(0.88);
     transition:opacity 0.9s ease, transform 0.9s ease;
   " />
+  <div id="loader-tagline" style="
+    margin-top:22px;
+    font-family:'Cormorant Garamond',serif;
+    font-size:15px;
+    font-weight:400;
+    letter-spacing:0.28em;
+    text-transform:uppercase;
+    color:rgba(201,168,76,0.75);
+    opacity:0;
+    transition:opacity 0.9s ease 0.5s;
+  ">Nos tarifs de chambres</div>
   <div id="loader-bar-wrap" style="
-    margin-top:36px;
+    margin-top:24px;
     width:120px; height:1px;
     background:rgba(201,168,76,0.18);
     position:relative; overflow:hidden;
@@ -832,6 +843,8 @@
   requestAnimationFrame(function() {
     setTimeout(function() {
       if (loaderLogo) { loaderLogo.style.opacity = '1'; loaderLogo.style.transform = 'scale(1)'; }
+      var loaderTagline = document.getElementById('loader-tagline');
+      if (loaderTagline) loaderTagline.style.opacity = '1';
       if (loaderBarWrap) loaderBarWrap.style.opacity = '1';
     }, 80);
   });
