@@ -317,6 +317,36 @@
     grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
     gap: 8px;
   }
+  .features-free-wrap {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+    margin-bottom: 4px;
+  }
+  .features-free-label {
+    font-size: 0.78rem;
+    color: var(--text2);
+    font-weight: 600;
+  }
+  .features-free-textarea {
+    width: 100%;
+    min-height: 120px;
+    background: var(--surface2);
+    border: 1px solid var(--border);
+    border-radius: 6px;
+    color: var(--text1);
+    font-size: 0.88rem;
+    font-family: 'Inter', sans-serif;
+    padding: 10px 12px;
+    resize: vertical;
+    line-height: 1.7;
+    box-sizing: border-box;
+    transition: border-color 0.2s;
+  }
+  .features-free-textarea:focus {
+    outline: none;
+    border-color: var(--gold);
+  }
   .feature-cb {
     display: flex;
     align-items: center;
@@ -449,7 +479,7 @@
 </div>
 
 <header>
-  <div class="logo"><img src="/images/logo.png" alt="Hotel Vescera"/> لوحة تحكم فندق فسيرة</div>
+  <div class="logo"><img src="images/logo.png" alt="Hotel Vescera"/> لوحة تحكم فندق فسيرة</div>
   <a href="/" target="_blank">← عرض الموقع</a>
 </header>
 
@@ -719,6 +749,10 @@ function renderRooms(rooms) {
       '</div>' +
       '<div class="features-title">المزايا والخدمات</div>' +
       '<div class="features-grid">' + renderFeatures(room.id, room.features) + '</div>' +
+      '<div class="features-free-wrap">' +
+        '<label class="features-free-label">➕ مزايا إضافية مخصصة — كل ميزة في سطر مستقل</label>' +
+        '<textarea id="' + room.id + '_features_text" class="features-free-textarea" dir="ltr" placeholder="مثال:&#10;Jacuzzi privé&#10;Vue sur jardin&#10;..."></textarea>' +
+      '</div>' +
     '</div>';
     container.appendChild(card);
   });
@@ -765,6 +799,12 @@ function collectRoomData() {
     document.querySelectorAll('[id^="' + id + '_feat_"]').forEach(function(inp) {
       if (inp.checked) features.push(inp.dataset.key);
     });
+    var featuresEl = document.getElementById(id + '_features_text');
+    if (featuresEl) {
+      featuresEl.value.split('\n').map(function(s){ return s.trim(); }).filter(Boolean).forEach(function(f) {
+        if (features.indexOf(f) === -1) features.push(f);
+      });
+    }
     var galleryEl = document.getElementById(id + '_gallery');
     var imgs = galleryEl ? JSON.parse(galleryEl.dataset.images || '[]') : [];
     data[id] = {
