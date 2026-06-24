@@ -470,8 +470,8 @@
   </div>
 
   <!-- Settings -->
-  <div class="section-title" style="display:none;">إعدادات JSONbin</div>
-  <div class="card" style="display:none;">
+  <div class="section-title">إعدادات JSONbin</div>
+  <div class="card">
     <div class="settings-grid">
       <div class="field-group">
         <label>مفتاح API (X-Master-Key)</label>
@@ -784,18 +784,30 @@ function collectRoomData() {
 
 // ── JSONbin API ──
 function getBinId()  { return document.getElementById('bin-id').value.trim() || localStorage.getItem('vescera_bin_id') || ''; }
+function getMasterKey() {
+  var el = document.getElementById('api-key');
+  var val = (el && el.value.trim()) || localStorage.getItem('vescera_master_key') || '';
+  if (val && el) { el.value = val; localStorage.setItem('vescera_master_key', val); }
+  return val;
+}
 
 async function createBin() {
+  var key = getMasterKey();
+  if (!key) { showStatus('أدخل مفتاح API أولاً', 'error'); return; }
   showStatus('جاري إنشاء Bin جديد...', 'info');
   try {
     var payload = { rooms: collectRoomData() };
     if (Object.keys(payload.rooms).length === 0) {
       payload = { rooms: buildDefaultPayload() };
     }
-    var res = await fetch('/api/save-bin', {
+    var res = await fetch('https://api.jsonbin.io/v3/b', {
       method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ binId: getBinId(), payload: payload })
+      headers: {
+        'Content-Type': 'application/json',
+        'X-Master-Key': key,
+        'X-Bin-Name': 'vescera-rooms'
+      },
+      body: JSON.stringify(payload)
     });
     var json = await res.json();
     if (!res.ok) throw new Error(json.message || json.error || res.status);
@@ -804,7 +816,7 @@ async function createBin() {
     renderRooms(currentRooms);
     document.getElementById('rooms-section').classList.add('visible');
     document.getElementById('save-bar').style.display = 'flex';
-    showStatus('تم الحفظ', 'success');
+    showStatus('تم الإنشاء بنجاح', 'success');
   } catch(e) {
     showStatus('فشل الإنشاء: ' + e.message, 'error');
   }
@@ -838,21 +850,23 @@ async function loadBin() {
 async function saveAll() {
   var binId = getBinId();
   if (!binId) { showError('معرّف الـ Bin غير موجود'); return; }
+  var key = getMasterKey();
+  if (!key) { showError('أدخل مفتاح API في قسم الإعدادات أولاً'); return; }
   var btn = document.getElementById('save-btn');
   btn.disabled = true;
   btn.innerHTML = '<span class="spinner"></span> جاري الحفظ...';
   try {
     var payload = { rooms: collectRoomData() };
-    var res = await fetch('/api/save-bin', {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ binId: binId, payload: payload })
+    var res = await fetch('https://api.jsonbin.io/v3/b/' + binId, {
+      method: 'PUT',
+      headers: {
+        'Content-Type': 'application/json',
+        'X-Master-Key': key
+      },
+      body: JSON.stringify(payload)
     });
     var json = await res.json();
-    if (!res.ok) {
-      var errMsg = json.message || json.error || ('HTTP ' + res.status);
-      throw new Error(errMsg);
-    }
+    if (!res.ok) throw new Error(json.message || json.error || ('HTTP ' + res.status));
     showSaveToast();
   } catch(e) {
     showError('فشل الحفظ: ' + e.message);
@@ -899,6 +913,9 @@ var DEFAULT_BIN_ID = '6a395cf6f5f4af5e291defef';
   var savedBin = localStorage.getItem('vescera_bin_id') || DEFAULT_BIN_ID;
   document.getElementById('bin-id').value = savedBin;
   localStorage.setItem('vescera_bin_id', savedBin);
+  // Restore master key from localStorage
+  var savedKey = localStorage.getItem('vescera_master_key') || '';
+  if (savedKey) { var el = document.getElementById('api-key'); if (el) el.value = savedKey; }
   {
     showBinInfo(savedBin);
     document.getElementById('rooms-section').classList.add('visible');
