@@ -750,7 +750,10 @@ function renderRooms(rooms) {
       '<div class="features-title">المزايا والخدمات</div>' +
       '<div class="features-grid">' + renderFeatures(room.id, room.features) + '</div>' +
       '<div class="features-free-wrap">' +
-        '<label class="features-free-label">➕ مزايا إضافية مخصصة — كل ميزة في سطر مستقل</label>' +
+        '<div style="display:flex;align-items:center;justify-content:space-between;gap:8px;">' +
+          '<label class="features-free-label">➕ مزايا إضافية مخصصة — كل ميزة في سطر مستقل</label>' +
+          '<button type="button" onclick="document.getElementById(\'' + room.id + '_features_text\').value=\'\'" style="background:transparent;border:1px solid rgba(201,168,76,0.35);color:rgba(201,168,76,0.7);font-size:0.72rem;letter-spacing:0.1em;padding:3px 10px;border-radius:4px;cursor:pointer;white-space:nowrap;flex-shrink:0;">مسح</button>' +
+        '</div>' +
         '<textarea id="' + room.id + '_features_text" class="features-free-textarea" dir="ltr" placeholder="مثال:&#10;Jacuzzi privé&#10;Vue sur jardin&#10;..."></textarea>' +
       '</div>' +
     '</div>';
