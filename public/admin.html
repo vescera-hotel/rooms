@@ -1,0 +1,1040 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>لوحة تحكم — Hotel Vescera</title>
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  :root {
+    --gold: #b8955a;
+    --gold-light: #d4b07a;
+    --dark: #0f0e0c;
+    --dark2: #1a1814;
+    --dark3: #242220;
+    --border: #2e2c28;
+    --text: #e8e0d0;
+    --text2: #a09080;
+    --danger: #c0392b;
+    --success: #27ae60;
+    --info: #2980b9;
+    --radius: 12px;
+  }
+  body {
+    font-family: 'Segoe UI', Tahoma, Arial, sans-serif;
+    background: var(--dark);
+    color: var(--text);
+    min-height: 100vh;
+    direction: rtl;
+  }
+
+  /* ── Password Gate ── */
+  #pw-gate {
+    position: fixed; inset: 0; z-index: 99999;
+    background: #0a0906;
+    display: flex; align-items: center; justify-content: center;
+    flex-direction: column; gap: 0;
+  }
+  #pw-gate.hidden { display: none; }
+  #pw-box {
+    background: #1a1814;
+    border: 1px solid #2e2c28;
+    border-radius: 16px;
+    padding: 48px 40px 40px;
+    display: flex; flex-direction: column; align-items: center; gap: 20px;
+    width: 320px; max-width: 90vw;
+  }
+  #pw-logo {
+    font-size: 13px; letter-spacing: 0.4em; text-transform: uppercase;
+    color: var(--gold); margin-bottom: 4px; text-align: center;
+  }
+  #pw-title {
+    font-size: 11px; letter-spacing: 0.25em; color: var(--text2);
+    text-transform: uppercase; text-align: center;
+  }
+  #pw-divider {
+    width: 48px; height: 1px; background: var(--gold); opacity: 0.3;
+  }
+  #pw-input {
+    width: 100%; padding: 13px 16px; border-radius: 8px;
+    border: 1px solid #2e2c28; background: #0f0e0c;
+    color: var(--text); font-size: 16px; text-align: center;
+    letter-spacing: 0.2em; outline: none; direction: ltr;
+    transition: border-color 0.2s;
+  }
+  #pw-input:focus { border-color: var(--gold); }
+  #pw-input.shake {
+    animation: pw-shake 0.35s ease;
+    border-color: var(--danger) !important;
+  }
+  @keyframes pw-shake {
+    0%,100%{transform:translateX(0)}
+    25%{transform:translateX(-8px)}
+    75%{transform:translateX(8px)}
+  }
+  #pw-btn {
+    width: 100%; padding: 13px; border-radius: 8px;
+    background: linear-gradient(135deg, #8a6a1f, #c9a84c, #8a6a1f);
+    border: none; color: #0a0906; font-size: 13px; font-weight: 700;
+    letter-spacing: 0.35em; text-transform: uppercase; cursor: pointer;
+    transition: opacity 0.2s;
+  }
+  #pw-btn:hover { opacity: 0.88; }
+  #pw-err {
+    font-size: 11px; color: var(--danger); letter-spacing: 0.1em;
+    min-height: 16px; text-align: center;
+  }
+
+  /* ── Header ── */
+  header {
+    background: var(--dark2);
+    border-bottom: 1px solid var(--border);
+    padding: 18px 32px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    position: sticky;
+    top: 0;
+    z-index: 100;
+  }
+  .logo {
+    font-size: 1.2rem;
+    font-weight: 700;
+    color: var(--gold);
+    letter-spacing: 0.05em;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+  }
+  .logo img { height: 42px; width: auto; display: block; }
+  header a {
+    color: var(--text2);
+    text-decoration: none;
+    font-size: 0.85rem;
+    border: 1px solid var(--border);
+    padding: 6px 16px;
+    border-radius: 6px;
+    transition: all 0.2s;
+  }
+  header a:hover { color: var(--gold); border-color: var(--gold); }
+
+  /* ── Layout ── */
+  main { max-width: 1100px; margin: 0 auto; padding: 32px 24px 80px; }
+
+  /* ── Section title ── */
+  .section-title {
+    font-size: 0.7rem;
+    font-weight: 700;
+    letter-spacing: 0.2em;
+    color: var(--gold);
+    text-transform: uppercase;
+    margin-bottom: 12px;
+  }
+
+  /* ── Cards ── */
+  .card {
+    background: var(--dark2);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    padding: 24px;
+    margin-bottom: 20px;
+  }
+
+  /* ── Settings ── */
+  .settings-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 16px;
+    margin-bottom: 16px;
+  }
+  .field-group { display: flex; flex-direction: column; gap: 6px; }
+  .field-group label { font-size: 0.78rem; color: var(--text2); font-weight: 600; }
+  input[type="text"], input[type="password"], textarea {
+    background: var(--dark3);
+    border: 1px solid var(--border);
+    color: var(--text);
+    padding: 10px 14px;
+    border-radius: 8px;
+    font-size: 0.88rem;
+    width: 100%;
+    outline: none;
+    transition: border-color 0.2s;
+    font-family: inherit;
+    direction: rtl;
+  }
+  input[type="text"]:focus, input[type="password"]:focus, textarea:focus {
+    border-color: var(--gold);
+  }
+  textarea { resize: vertical; min-height: 80px; line-height: 1.6; }
+
+  /* ── Buttons ── */
+  .btn-row { display: flex; gap: 10px; flex-wrap: wrap; }
+  .btn {
+    padding: 10px 22px;
+    border-radius: 8px;
+    font-size: 0.85rem;
+    font-weight: 600;
+    cursor: pointer;
+    border: none;
+    transition: all 0.2s;
+    font-family: inherit;
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+  }
+  .btn-primary { background: var(--gold); color: var(--dark); }
+  .btn-primary:hover { background: var(--gold-light); }
+  .btn-outline { background: transparent; color: var(--text); border: 1px solid var(--border); }
+  .btn-outline:hover { border-color: var(--gold); color: var(--gold); }
+  .btn-danger { background: var(--danger); color: #fff; }
+  .btn-danger:hover { opacity: 0.85; }
+  .btn-success { background: var(--success); color: #fff; font-size: 1rem; padding: 14px 40px; }
+  .btn-success:hover { opacity: 0.9; }
+  .btn:disabled { opacity: 0.4; cursor: not-allowed; }
+
+  /* ── Status banner ── */
+  #status-bar {
+    display: none;
+    padding: 12px 20px;
+    border-radius: 8px;
+    font-size: 0.88rem;
+    margin-bottom: 20px;
+    font-weight: 600;
+  }
+  #status-bar.success { background: rgba(39,174,96,0.15); border: 1px solid var(--success); color: #2ecc71; display: block; }
+  #status-bar.error   { background: rgba(192,57,43,0.15); border: 1px solid var(--danger); color: #e74c3c; display: block; }
+  #status-bar.info    { background: rgba(41,128,185,0.15); border: 1px solid var(--info); color: #5dade2; display: block; }
+
+  /* ── Save success toast ── */
+  #save-toast {
+    position: fixed;
+    top: 80px;
+    left: 50%;
+    transform: translateX(-50%) translateY(-20px);
+    background: #0f1f14;
+    border: 1.5px solid #27ae60;
+    border-radius: 16px;
+    padding: 24px 40px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 12px;
+    box-shadow: 0 8px 40px rgba(39,174,96,0.25), 0 2px 12px rgba(0,0,0,0.6);
+    z-index: 9999;
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 0.3s ease, transform 0.3s ease;
+    min-width: 240px;
+    text-align: center;
+  }
+  #save-toast.show {
+    opacity: 1;
+    transform: translateX(-50%) translateY(0);
+    pointer-events: auto;
+  }
+  #save-toast .toast-check {
+    width: 56px; height: 56px;
+    background: rgba(39,174,96,0.15);
+    border-radius: 50%;
+    display: flex; align-items: center; justify-content: center;
+  }
+  #save-toast .toast-check svg { width: 30px; height: 30px; }
+  #save-toast .toast-title { color: #2ecc71; font-size: 1.05rem; font-weight: 700; }
+  #save-toast .toast-sub   { color: #a0b8a8; font-size: 0.82rem; }
+
+  /* ── Bin info ── */
+  .bin-info {
+    background: var(--dark3);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    padding: 10px 16px;
+    font-size: 0.82rem;
+    color: var(--text2);
+    display: none;
+    align-items: center;
+    justify-content: space-between;
+    gap: 12px;
+    margin-top: 12px;
+  }
+  .bin-info.visible { display: flex; }
+  .bin-id-label { color: var(--gold); font-family: monospace; font-size: 0.9rem; word-break: break-all; }
+
+  /* ── Rooms grid ── */
+  #rooms-section { display: none; }
+  #rooms-section.visible { display: block; }
+
+  .room-card {
+    background: var(--dark2);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    margin-bottom: 24px;
+    overflow: hidden;
+  }
+  .room-header {
+    background: var(--dark3);
+    border-bottom: 1px solid var(--border);
+    padding: 14px 24px;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+  }
+  .room-num {
+    font-size: 0.7rem;
+    font-weight: 800;
+    letter-spacing: 0.2em;
+    color: var(--gold);
+    background: rgba(184,149,90,0.1);
+    border: 1px solid rgba(184,149,90,0.2);
+    padding: 4px 10px;
+    border-radius: 4px;
+  }
+  .room-title { font-size: 1rem; font-weight: 700; color: var(--text); }
+  .room-body { padding: 20px 24px; }
+
+  .fields-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    gap: 14px;
+    margin-bottom: 16px;
+  }
+  .fields-grid .span2 { grid-column: span 2; }
+  .fields-grid .span3 { grid-column: span 3; }
+
+  /* ── Features ── */
+  .features-title {
+    font-size: 0.75rem;
+    font-weight: 700;
+    letter-spacing: 0.1em;
+    color: var(--text2);
+    text-transform: uppercase;
+    margin-bottom: 12px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+  .features-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+    gap: 8px;
+  }
+  .feature-cb {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    background: var(--dark3);
+    border: 1px solid var(--border);
+    border-radius: 6px;
+    padding: 8px 12px;
+    cursor: pointer;
+    transition: all 0.15s;
+    user-select: none;
+  }
+  .feature-cb:hover { border-color: var(--gold-light); }
+  .feature-cb input[type="checkbox"] {
+    width: 16px; height: 16px;
+    accent-color: var(--gold);
+    cursor: pointer;
+    flex-shrink: 0;
+  }
+  .feature-cb.checked { border-color: var(--gold); background: rgba(184,149,90,0.07); }
+  .feature-ar { font-size: 0.82rem; color: var(--text); }
+  .feature-fr { font-size: 0.68rem; color: var(--text2); display: block; }
+
+  /* ── Save bar ── */
+  .save-bar {
+    position: fixed;
+    bottom: 0; left: 0; right: 0;
+    background: var(--dark2);
+    border-top: 1px solid var(--border);
+    padding: 16px 32px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    z-index: 50;
+  }
+  .save-hint { font-size: 0.82rem; color: var(--text2); }
+  .spinner {
+    display: inline-block;
+    width: 16px; height: 16px;
+    border: 2px solid rgba(255,255,255,0.3);
+    border-top-color: #fff;
+    border-radius: 50%;
+    animation: spin 0.7s linear infinite;
+    vertical-align: middle;
+  }
+  @keyframes spin { to { transform: rotate(360deg); } }
+
+  /* ── Responsive ── */
+  @media (max-width: 700px) {
+    .settings-grid, .fields-grid { grid-template-columns: 1fr; }
+    .fields-grid .span2, .fields-grid .span3 { grid-column: span 1; }
+    header { padding: 14px 16px; }
+    main { padding: 20px 14px 80px; }
+  }
+
+  /* ── Image Upload Section ── */
+  .img-upload-section {
+    padding: 14px 0 14px;
+    border-bottom: 1px solid var(--border);
+    margin-bottom: 6px;
+  }
+  .img-upload-label {
+    font-size: 10px; color: var(--text2); text-transform: uppercase;
+    letter-spacing: 0.12em; margin-bottom: 10px; display: block;
+  }
+  .img-gallery {
+    display: flex; flex-direction: row; gap: 8px; flex-wrap: wrap;
+    align-items: flex-start; margin-bottom: 10px; min-height: 60px;
+  }
+  .img-thumb-wrap {
+    position: relative; width: 90px; height: 60px; flex-shrink: 0;
+  }
+  .img-thumb-item {
+    width: 90px; height: 60px; object-fit: cover;
+    border-radius: 6px; border: 1px solid var(--border); display: block;
+  }
+  .img-thumb-del {
+    position: absolute; top: -6px; right: -6px;
+    width: 18px; height: 18px; border-radius: 50%;
+    background: var(--danger); color: #fff; border: none;
+    font-size: 11px; line-height: 18px; text-align: center;
+    cursor: pointer; padding: 0;
+  }
+  .img-upload-placeholder {
+    width: 90px; height: 60px; border-radius: 6px;
+    border: 1px dashed var(--border); display: flex;
+    align-items: center; justify-content: center;
+    color: var(--text2); font-size: 10px;
+  }
+  .img-upload-actions { display: flex; gap: 8px; flex-wrap: wrap; margin-top: 4px; }
+  .btn-img-upload {
+    background: rgba(184,149,90,0.12); border: 1px solid var(--gold);
+    color: var(--gold); padding: 7px 14px; border-radius: 6px;
+    font-size: 12px; cursor: pointer; transition: background 0.2s;
+    letter-spacing: 0.05em;
+  }
+  .btn-img-upload:hover { background: rgba(184,149,90,0.22); }
+  .btn-img-clear {
+    background: transparent; border: 1px solid var(--border);
+    color: var(--text2); padding: 6px 12px; border-radius: 6px;
+    font-size: 11px; cursor: pointer; transition: all 0.2s;
+  }
+  .btn-img-clear:hover { border-color: var(--danger); color: var(--danger); }
+  .cld-config-card {
+    background: var(--dark2); border: 1px solid var(--border);
+    border-radius: var(--radius); padding: 18px 20px; margin-bottom: 12px;
+  }
+  .cld-config-title {
+    font-size: 11px; text-transform: uppercase; letter-spacing: 0.2em;
+    color: var(--gold); margin-bottom: 12px;
+  }
+  .cld-config-row { display: flex; gap: 12px; align-items: flex-end; flex-wrap: wrap; }
+  .cld-config-row .field-group { flex: 1; min-width: 180px; }
+  .cld-note { font-size: 10.5px; color: var(--text2); margin-top: 8px; line-height: 1.6; }
+  .cld-note strong { color: var(--gold-light); }
+</style>
+</head>
+<body>
+
+<!-- ══ PASSWORD GATE ══ -->
+<div id="pw-gate">
+  <div id="pw-box">
+    <div id="pw-logo">Hotel Vescera</div>
+    <div id="pw-title">لوحة التحكم — Admin</div>
+    <div id="pw-divider"></div>
+    <input id="pw-input" type="password" placeholder="••••••••••" autocomplete="current-password" />
+    <button id="pw-btn" onclick="checkPw()">دخول</button>
+    <div id="pw-err"></div>
+  </div>
+</div>
+
+<header>
+  <div class="logo"><img src="/images/logo.png" alt="Hotel Vescera"/> لوحة تحكم فندق فسيرة</div>
+  <a href="/" target="_blank">← عرض الموقع</a>
+</header>
+
+<main>
+
+  <!-- Status -->
+  <div id="status-bar"></div>
+
+  <!-- Save success toast -->
+  <div id="save-toast">
+    <div class="toast-check">
+      <svg viewBox="0 0 24 24" fill="none" stroke="#2ecc71" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+        <polyline points="20 6 9 17 4 12"/>
+      </svg>
+    </div>
+    <div class="toast-title">تم حفظ التغييرات بنجاح</div>
+    <div class="toast-sub">جميع التعديلات محفوظة على الموقع</div>
+  </div>
+
+  <!-- Settings -->
+  <div class="section-title" style="display:none;">إعدادات JSONbin</div>
+  <div class="card" style="display:none;">
+    <div class="settings-grid">
+      <div class="field-group">
+        <label>مفتاح API (X-Master-Key)</label>
+        <input type="password" id="api-key" placeholder="$2a$10$..." autocomplete="off"/>
+      </div>
+      <div class="field-group">
+        <label>معرّف الـ Bin</label>
+        <input type="text" id="bin-id" placeholder="xxxxxxxxxxxxxx" dir="ltr" autocomplete="off"/>
+      </div>
+    </div>
+    <div class="btn-row">
+      <button class="btn btn-primary" onclick="createBin()">إنشاء Bin جديد</button>
+      <button class="btn btn-outline" onclick="loadBin()">تحميل Bin موجود</button>
+      <button class="btn btn-outline" onclick="clearSettings()">مسح الإعدادات</button>
+    </div>
+    <div id="bin-info" class="bin-info" style="display:none!important;"></div>
+  </div>
+
+  <!-- Cloudinary Config -->
+  <div class="cld-config-card">
+    <div class="cld-config-title">إعدادات رفع الصور — Cloudinary</div>
+    <div class="cld-config-row">
+      <div class="field-group">
+        <label>Upload Preset (من Cloudinary → Settings → Upload Presets)</label>
+        <input type="text" id="cld-preset" placeholder="VESCERA" value="VESCERA" dir="ltr"
+               oninput="localStorage.setItem('vescera_cld_preset', this.value.trim())" autocomplete="off"/>
+      </div>
+    </div>
+    <p class="cld-note">
+      Cloud Name: <strong>dnvtijrhw</strong> — 
+      أنشئ <strong>Unsigned Upload Preset</strong> في Cloudinary Dashboard ثم أدخل اسمه هنا. 
+      بعدها يمكنك رفع صورة لكل غرفة مباشرةً من الداشبورد.
+    </p>
+  </div>
+
+  <!-- Rooms section -->
+  <div id="rooms-section">
+    <div class="section-title" style="margin-top:12px;">الغرف</div>
+    <div id="rooms-container"></div>
+  </div>
+
+</main>
+
+<!-- Save bar -->
+<div class="save-bar" id="save-bar" style="display:none;">
+  <span class="save-hint">التعديلات لم تُحفظ بعد</span>
+  <button class="btn btn-success" onclick="saveAll()" id="save-btn">حفظ جميع التعديلات</button>
+</div>
+
+<script>
+// ── All FMAP features ──
+var FEATURES = [
+  { key: 'WiFi gratuit',        ar: 'واي فاي مجاني' },
+  { key: 'Climatisation',       ar: 'تكييف' },
+  { key: 'TV Satellite',        ar: 'قنوات فضائية' },
+  { key: 'Salle de bain privée',ar: 'حمام خاص' },
+  { key: 'Service chambre 24h', ar: 'خدمة غرف 24 ساعة' },
+  { key: 'Coffre-fort',         ar: 'خزنة' },
+  { key: 'Bureau de travail',   ar: 'مكتب عمل' },
+  { key: 'Vue panoramique',     ar: 'إطلالة بانورامية' },
+  { key: 'Espace salon',        ar: 'منطقة جلوس' },
+  { key: 'Salon privé',         ar: 'صالة خاصة' },
+  { key: 'Service Butler',      ar: 'خدمة البتلر' },
+  { key: 'Peignoir & chaussons',ar: 'روب وشباشب' },
+  { key: 'Dressing',            ar: 'غرفة ملابس' },
+  { key: 'Cuisine équipée',     ar: 'مطبخ مجهز' },
+  { key: 'Salle à manger',      ar: 'غرفة طعام' },
+  { key: '2+ Chambres',         ar: 'غرفتان+' },
+  { key: 'Lave-linge',          ar: 'غسالة' },
+  { key: 'Butler privé',        ar: 'بتلر خاص' },
+  { key: 'Accueil VIP',         ar: 'استقبال VIP' },
+  { key: 'Early check-in',      ar: 'دخول مبكر' },
+  { key: 'Late check-out',      ar: 'خروج متأخر' },
+  { key: 'Balcon',              ar: 'شرفة' },
+  { key: 'Terrasse aménagée',   ar: 'سطح مجهز' },
+  { key: 'Jacuzzi',             ar: 'جاكوزي' },
+];
+
+// ── Default rooms data (fallback / initial) ──
+var DEFAULT_ROOMS = {
+  'single': {
+    id: 'single', num: '01', images: [],
+    name: 'Single', nameAr: 'غرفة سينغل', price: '6,800',
+    desc: 'غرفة منفردة هادئة بتصميم أنيق، مثالية للمسافر الباحث عن الراحة والخصوصية التامة.',
+    descAr: 'غرفة منفردة هادئة بتصميم أنيق، مثالية للمسافر الباحث عن الراحة والخصوصية التامة.',
+    descFr: "Une chambre individuelle apaisante au design élégant, idéale pour le voyageur en quête de confort et d'intimité absolus.",
+    descEn: 'A serene single room with elegant design, perfect for the traveler seeking total comfort and privacy.',
+    features: ['WiFi gratuit','Climatisation','TV Satellite','Salle de bain privée','Service chambre 24h','Coffre-fort','Bureau de travail']
+  },
+  'double': {
+    id: 'double', num: '02', images: [],
+    name: 'Double', nameAr: 'غرفة دبل', price: '8,000',
+    desc: 'غرفة مزدوجة بتصميم عصري وأجواء دافئة، مثالية للزوجين أو رفيقَي السفر.',
+    descAr: 'غرفة مزدوجة بتصميم عصري وأجواء دافئة، مثالية للزوجين أو رفيقَي السفر.',
+    descFr: "Une chambre double au design moderne et à l'ambiance chaleureuse, parfaite pour les couples ou compagnons de voyage.",
+    descEn: 'A double room with modern design and warm ambiance, ideal for couples or travel companions.',
+    features: ['WiFi gratuit','Climatisation','TV Satellite','Salle de bain privée','Vue panoramique','Service chambre 24h','Coffre-fort']
+  },
+  'triple': {
+    id: 'triple', num: '03', images: [],
+    name: 'Triple', nameAr: 'غرفة تريبل', price: '9,000',
+    desc: 'غرفة واسعة بثلاثة أسرّة مريحة، مصممة لاستيعاب العائلة أو مجموعة الأصدقاء.',
+    descAr: 'غرفة واسعة بثلاثة أسرّة مريحة، مصممة لاستيعاب العائلة أو مجموعة الأصدقاء.',
+    descFr: "Une chambre spacieuse avec trois lits confortables, conçue pour les familles ou groupes d'amis.",
+    descEn: 'A spacious room with three comfortable beds, designed for families or groups.',
+    features: ['WiFi gratuit','Climatisation','TV Satellite','Salle de bain privée','Espace salon','Service chambre 24h','Coffre-fort']
+  },
+  'suite-single': {
+    id: 'suite-single', num: '04', images: [],
+    name: 'Suite Single', nameAr: 'سويت سينغل', price: '9,500',
+    desc: 'جناح فاخر للفرد بمساحة رحبة وخدمات استثنائية، تجربة إقامة تفوق التوقعات.',
+    descAr: 'جناح فاخر للفرد بمساحة رحبة وخدمات استثنائية، تجربة إقامة تفوق التوقعات.',
+    descFr: "Une suite individuelle luxueuse avec un espace généreux et des services d'exception — une expérience qui dépasse les attentes.",
+    descEn: 'A luxurious single suite with generous space and exceptional services — an experience beyond expectations.',
+    features: ['WiFi gratuit','Climatisation','TV Satellite','Salle de bain privée','Salon privé','Vue panoramique','Service Butler','Coffre-fort','Peignoir & chaussons']
+  },
+  'suite-triple': {
+    id: 'suite-triple', num: '06', images: [],
+    name: 'Suite Triple', nameAr: 'سويت تريبل', price: '11,500',
+    desc: 'جناح ثلاثي فاخر بمساحة واسعة وثلاثة أسرّة مريحة، مثالي للعائلات والمجموعات الباحثة عن الرقي والخصوصية.',
+    descAr: 'جناح ثلاثي فاخر بمساحة واسعة وثلاثة أسرّة مريحة، مثالي للعائلات والمجموعات الباحثة عن الرقي والخصوصية.',
+    descFr: "Une suite triple luxueuse avec un grand espace et trois lits confortables, idéale pour les familles et groupes en quête d'élégance et d'intimité.",
+    descEn: 'A luxurious triple suite with a spacious layout and three comfortable beds, ideal for families and groups seeking elegance and privacy.',
+    features: ['WiFi gratuit','Climatisation','TV Satellite','Salle de bain privée','Salon privé','Espace salon','Vue panoramique','Service chambre 24h','Coffre-fort','Peignoir & chaussons','Balcon']
+  },
+  'suite-double': {
+    id: 'suite-double', num: '05', images: [],
+    name: 'Suite Double', nameAr: 'سويت دبل', price: '10,500',
+    desc: 'جناح مزدوج يدمج الرفاهية والخصوصية في مساحة ساحرة بإطلالة لا تُنسى.',
+    descAr: 'جناح مزدوج يدمج الرفاهية والخصوصية في مساحة ساحرة بإطلالة لا تُنسى.',
+    descFr: 'Une suite double alliant luxe et intimité dans un espace enchanteur avec une vue inoubliable.',
+    descEn: 'A double suite blending luxury and privacy in an enchanting space with an unforgettable view.',
+    features: ['WiFi gratuit','Climatisation','TV Satellite','Salle de bain privée','Salon privé','Dressing','Vue panoramique','Service Butler','Peignoir & chaussons']
+  },
+  'appartement': {
+    id: 'appartement', num: '07', images: [],
+    name: 'Appartement', nameAr: 'شقة فندقية', price: '15,000',
+    desc: 'شقة فندقية متكاملة بغرف متعددة، مثالية للعائلات والإقامات الطويلة.',
+    descAr: 'شقة فندقية متكاملة بغرف متعددة، مثالية للعائلات والإقامات الطويلة.',
+    descFr: 'Un appartement hôtelier complet avec plusieurs chambres, idéal pour les familles et longs séjours.',
+    descEn: 'A fully equipped hotel apartment with multiple rooms, ideal for families and extended stays.',
+    features: ['WiFi gratuit','Climatisation','TV Satellite','Salle de bain privée','Salon privé','Salle à manger','2+ Chambres','Service chambre 24h','Lave-linge','Terrasse aménagée']
+  },
+  'single-vip': {
+    id: 'single-vip', num: '08', images: [],
+    name: 'Single VIP', nameAr: 'سينغل VIP', price: '8,000',
+    desc: 'تجربة VIP حصرية للفرد مع خدمة Butler شخصية وامتيازات لا مثيل لها.',
+    descAr: 'تجربة VIP حصرية للفرد مع خدمة Butler شخصية وامتيازات لا مثيل لها.',
+    descFr: 'Une expérience VIP individuelle exclusive avec service Butler personnel et des privilèges inégalés.',
+    descEn: 'An exclusive VIP single experience with personal Butler service and unmatched privileges.',
+    features: ['WiFi gratuit','Climatisation','TV Satellite','Salle de bain privée','Butler privé','Accueil VIP','Vue panoramique','Peignoir & chaussons','Early check-in','Balcon']
+  },
+  'double-vip': {
+    id: 'double-vip', num: '09', images: [],
+    name: 'Double VIP', nameAr: 'دبل VIP', price: '9,000',
+    desc: 'تجربة VIP مزدوجة بفخامة تامة وخصوصية مطلقة وخدمات استثنائية على مدار الساعة.',
+    descAr: 'تجربة VIP مزدوجة بفخامة تامة وخصوصية مطلقة وخدمات استثنائية على مدار الساعة.',
+    descFr: "Une expérience VIP double d'un luxe incomparable, une intimité totale et des services d'exception 24h/24.",
+    descEn: 'A double VIP experience with unparalleled luxury, complete privacy, and 24/7 exceptional services.',
+    features: ['WiFi gratuit','Climatisation','TV Satellite','Salle de bain privée','Butler privé','Dressing','Accueil VIP','Vue panoramique','Late check-out','Balcon']
+  }
+};
+
+var currentRooms = JSON.parse(JSON.stringify(DEFAULT_ROOMS));
+
+// ── Status messages ──
+function showStatus(msg, type) {
+  var bar = document.getElementById('status-bar');
+  bar.textContent = msg;
+  bar.className = type;
+  if (type !== 'info') setTimeout(function() { bar.className = ''; bar.style.display = 'none'; }, 4000);
+}
+
+function showSaveToast() {
+  var toast = document.getElementById('save-toast');
+  toast.classList.add('show');
+  setTimeout(function() { toast.classList.remove('show'); }, 3000);
+}
+
+// ── Gallery thumbnail helper ──
+function renderGalleryThumbs(roomId, images) {
+  if (!images || images.length === 0) {
+    return '<div class="img-upload-placeholder">لا توجد صور</div>';
+  }
+  return images.map(function(url, i) {
+    return '<div class="img-thumb-wrap">' +
+      '<img class="img-thumb-item" src="' + escHtml(url) + '" />' +
+      '<button class="img-thumb-del" type="button" onclick="removeRoomImg(\'' + roomId + '\',' + i + ')">x</button>' +
+    '</div>';
+  }).join('');
+}
+
+// ── Render rooms ──
+function renderRooms(rooms) {
+  var container = document.getElementById('rooms-container');
+  container.innerHTML = '';
+  Object.values(rooms).forEach(function(room) {
+    var card = document.createElement('div');
+    card.className = 'room-card';
+    card.innerHTML = '<div class="room-header">' +
+      '<span class="room-num">' + room.num + '</span>' +
+      '<span class="room-title">' + room.nameAr + ' — ' + room.name + '</span>' +
+    '</div>' +
+    '<div class="room-body">' +
+      '<div class="img-upload-section">' +
+        '<span class="img-upload-label">صور الغرفة</span>' +
+        '<div id="' + room.id + '_gallery" class="img-gallery" data-images=\'' + JSON.stringify(room.images || []).replace(/'/g, "&#39;") + '\'>' +
+          renderGalleryThumbs(room.id, room.images || []) +
+        '</div>' +
+        '<div class="img-upload-actions">' +
+          '<button type="button" class="btn-img-upload" id="' + room.id + '_upload_btn" onclick="document.getElementById(\'' + room.id + '_file_input\').click()">رفع صورة</button>' +
+          '<button type="button" class="btn-img-clear" onclick="clearRoomImgs(\'' + room.id + '\')">إزالة الكل</button>' +
+        '</div>' +
+        '<input type="file" id="' + room.id + '_file_input" accept="image/*" style="display:none;" onchange="uploadToCloudinary(\'' + room.id + '\', this.files[0]); this.value=\'\';" />' +
+      '</div>' +
+      '<div class="fields-grid">' +
+        '<div class="field-group">' +
+          '<label>الاسم بالفرنسية</label>' +
+          '<input type="text" id="' + room.id + '_name" value="' + escHtml(room.name) + '" dir="ltr"/>' +
+        '</div>' +
+        '<div class="field-group">' +
+          '<label>الاسم بالعربية</label>' +
+          '<input type="text" id="' + room.id + '_nameAr" value="' + escHtml(room.nameAr) + '"/>' +
+        '</div>' +
+        '<div class="field-group">' +
+          '<label>السعر (DA / الليلة)</label>' +
+          '<input type="text" id="' + room.id + '_price" value="' + escHtml(room.price) + '" dir="ltr"/>' +
+        '</div>' +
+        '<div class="field-group span3">' +
+          '<label>الوصف الخارجي (يظهر على الكرت — عربي فقط)</label>' +
+          '<textarea id="' + room.id + '_desc">' + escHtml(room.desc || '') + '</textarea>' +
+        '</div>' +
+        '<div class="field-group span3">' +
+          '<label>الوصف الداخلي — عربي</label>' +
+          '<textarea id="' + room.id + '_descAr">' + escHtml(room.descAr || room.desc || '') + '</textarea>' +
+        '</div>' +
+        '<div class="field-group span3">' +
+          '<label>الوصف الداخلي — فرنسي</label>' +
+          '<textarea id="' + room.id + '_descFr" dir="ltr" style="text-align:left;">' + escHtml(room.descFr || '') + '</textarea>' +
+        '</div>' +
+        '<div class="field-group span3">' +
+          '<label>الوصف الداخلي — إنجليزي</label>' +
+          '<textarea id="' + room.id + '_descEn" dir="ltr" style="text-align:left;">' + escHtml(room.descEn || '') + '</textarea>' +
+        '</div>' +
+      '</div>' +
+      '<div class="features-title">المزايا والخدمات</div>' +
+      '<div class="features-grid">' + renderFeatures(room.id, room.features) + '</div>' +
+    '</div>';
+    container.appendChild(card);
+  });
+
+  // checkbox toggle
+  container.querySelectorAll('.feature-cb').forEach(function(cb) {
+    var inp = cb.querySelector('input[type="checkbox"]');
+    if (inp.checked) cb.classList.add('checked');
+    cb.addEventListener('click', function(e) {
+      if (e.target !== inp) inp.checked = !inp.checked;
+      cb.classList.toggle('checked', inp.checked);
+    });
+  });
+}
+
+function renderFeatures(roomId, activeFeatures) {
+  return FEATURES.map(function(f) {
+    var checked = activeFeatures.indexOf(f.key) !== -1;
+    var safeKey = f.key.replace(/[^a-zA-Z0-9]/g, '_');
+    return '<label class="feature-cb' + (checked ? ' checked' : '') + '">' +
+      '<input type="checkbox" id="' + roomId + '_feat_' + safeKey + '"' + (checked ? ' checked' : '') + ' data-key="' + escHtml(f.key) + '"/>' +
+      '<span><span class="feature-ar">' + f.ar + '</span><span class="feature-fr">' + escHtml(f.key) + '</span></span>' +
+    '</label>';
+  }).join('');
+}
+
+function escHtml(s) {
+  return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
+}
+
+// ── Collect current form data ──
+function collectRoomData() {
+  var data = {};
+  Object.keys(currentRooms).forEach(function(id) {
+    var name   = document.getElementById(id + '_name');
+    var nameAr = document.getElementById(id + '_nameAr');
+    var price  = document.getElementById(id + '_price');
+    var desc   = document.getElementById(id + '_desc');
+    var descAr = document.getElementById(id + '_descAr');
+    var descFr = document.getElementById(id + '_descFr');
+    var descEn = document.getElementById(id + '_descEn');
+    if (!name) return;
+    var features = [];
+    document.querySelectorAll('[id^="' + id + '_feat_"]').forEach(function(inp) {
+      if (inp.checked) features.push(inp.dataset.key);
+    });
+    var galleryEl = document.getElementById(id + '_gallery');
+    var imgs = galleryEl ? JSON.parse(galleryEl.dataset.images || '[]') : [];
+    data[id] = {
+      name:    name.value.trim(),
+      nameAr:  nameAr.value.trim(),
+      price:   price.value.trim(),
+      desc:    desc   ? desc.value.trim()   : '',
+      descAr:  descAr ? descAr.value.trim() : '',
+      descFr:  descFr ? descFr.value.trim() : '',
+      descEn:  descEn ? descEn.value.trim() : '',
+      features: features,
+      images:  imgs
+    };
+  });
+  return data;
+}
+
+// ── JSONbin API ──
+function getBinId()  { return document.getElementById('bin-id').value.trim() || localStorage.getItem('vescera_bin_id') || ''; }
+
+async function createBin() {
+  showStatus('جاري إنشاء Bin جديد...', 'info');
+  try {
+    var payload = { rooms: collectRoomData() };
+    if (Object.keys(payload.rooms).length === 0) {
+      payload = { rooms: buildDefaultPayload() };
+    }
+    var res = await fetch('/api/save-bin', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ binId: getBinId(), payload: payload })
+    });
+    var json = await res.json();
+    if (!res.ok) throw new Error(json.message || json.error || res.status);
+    var binId = json.metadata && json.metadata.id;
+    if (binId) { localStorage.setItem('vescera_bin_id', binId); document.getElementById('bin-id').value = binId; }
+    renderRooms(currentRooms);
+    document.getElementById('rooms-section').classList.add('visible');
+    document.getElementById('save-bar').style.display = 'flex';
+    showStatus('تم الحفظ', 'success');
+  } catch(e) {
+    showStatus('فشل الإنشاء: ' + e.message, 'error');
+  }
+}
+
+async function loadBin() {
+  var binId = getBinId();
+  if (!binId) { showStatus('معرّف الـ Bin غير موجود', 'error'); return; }
+  showStatus('جاري التحميل...', 'info');
+  try {
+    var res = await fetch('https://api.jsonbin.io/v3/b/' + binId + '/latest');
+    var json = await res.json();
+    if (!res.ok) throw new Error(json.message || res.status);
+    var record = json.record;
+    if (record && record.rooms) {
+      Object.keys(record.rooms).forEach(function(id) {
+        if (currentRooms[id]) Object.assign(currentRooms[id], record.rooms[id]);
+      });
+    }
+    localStorage.setItem('vescera_bin_id', binId);
+    document.getElementById('bin-id').value = binId;
+    renderRooms(currentRooms);
+    document.getElementById('rooms-section').classList.add('visible');
+    document.getElementById('save-bar').style.display = 'flex';
+    showStatus('تم تحميل البيانات بنجاح', 'success');
+  } catch(e) {
+    showStatus('فشل التحميل: ' + e.message, 'error');
+  }
+}
+
+async function saveAll() {
+  var binId = getBinId();
+  if (!binId) { showError('معرّف الـ Bin غير موجود'); return; }
+  var btn = document.getElementById('save-btn');
+  btn.disabled = true;
+  btn.innerHTML = '<span class="spinner"></span> جاري الحفظ...';
+  try {
+    var payload = { rooms: collectRoomData() };
+    var res = await fetch('/api/save-bin', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ binId: binId, payload: payload })
+    });
+    var json = await res.json();
+    if (!res.ok) {
+      var errMsg = json.message || json.error || ('HTTP ' + res.status);
+      throw new Error(errMsg);
+    }
+    showSaveToast();
+  } catch(e) {
+    showError('فشل الحفظ: ' + e.message);
+  } finally {
+    btn.disabled = false;
+    btn.innerHTML = 'حفظ جميع التعديلات';
+  }
+}
+
+function showError(msg) {
+  var bar = document.getElementById('status-bar');
+  bar.textContent = msg;
+  bar.className = 'error';
+  bar.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+}
+
+function buildDefaultPayload() {
+  var result = {};
+  Object.keys(DEFAULT_ROOMS).forEach(function(id) {
+    var r = DEFAULT_ROOMS[id];
+    result[id] = { name: r.name, nameAr: r.nameAr, price: r.price, desc: r.desc, features: r.features.slice() };
+  });
+  return result;
+}
+
+function showBinInfo(binId) {
+  // bin-info display removed from UI — no-op
+}
+
+function clearSettings() {
+  if (!confirm('هل تريد مسح إعدادات JSONbin المحفوظة؟')) return;
+  localStorage.removeItem('vescera_bin_id');
+  document.getElementById('api-key').value = '';
+  document.getElementById('bin-id').value = '';
+  document.getElementById('rooms-section').classList.remove('visible');
+  document.getElementById('save-bar').style.display = 'none';
+  showStatus('تم مسح الإعدادات', 'success');
+}
+
+// ── Auto-load from localStorage on page open ──
+var DEFAULT_BIN_ID = '6a395cf6f5f4af5e291defef';
+
+(function init() {
+  var savedBin = localStorage.getItem('vescera_bin_id') || DEFAULT_BIN_ID;
+  document.getElementById('bin-id').value = savedBin;
+  localStorage.setItem('vescera_bin_id', savedBin);
+  {
+    showBinInfo(savedBin);
+    document.getElementById('rooms-section').classList.add('visible');
+    document.getElementById('save-bar').style.display = 'flex';
+    // load rooms display from JSONbin (public read, no key needed)
+    fetch('https://api.jsonbin.io/v3/b/' + savedBin + '/latest')
+      .then(function(r){ return r.json(); })
+      .then(function(data){
+        var rec = data.record && data.record.rooms;
+        if (rec) {
+          Object.keys(rec).forEach(function(k){ if(currentRooms[k]) Object.assign(currentRooms[k], rec[k]); });
+        }
+        renderRooms(currentRooms);
+      }).catch(function(){ renderRooms(currentRooms); });
+  }
+})();
+</script>
+
+<script>
+  // ── Cloudinary Direct Upload (no widget library) ──────
+  var CLD_CLOUD = 'dnvtijrhw';
+  var CLD_UPLOAD_URL = 'https://api.cloudinary.com/v1_1/' + CLD_CLOUD + '/image/upload';
+
+  async function uploadToCloudinary(roomId, file) {
+    if (!file) return;
+    var preset = (document.getElementById('cld-preset') || {}).value.trim()
+                 || localStorage.getItem('vescera_cld_preset') || 'VESCERA';
+
+    var btn = document.getElementById(roomId + '_upload_btn');
+    if (btn) { btn.textContent = 'جاري الرفع...'; btn.disabled = true; }
+
+    try {
+      var formData = new FormData();
+      formData.append('file', file);
+      formData.append('upload_preset', preset);
+      formData.append('folder', 'vescera/rooms');
+
+      var res = await fetch(CLD_UPLOAD_URL, { method: 'POST', body: formData });
+      var data = await res.json();
+
+      if (!res.ok) throw new Error((data.error && data.error.message) || 'HTTP ' + res.status);
+
+      var url = data.secure_url;
+
+      // Append to gallery array
+      var galleryEl = document.getElementById(roomId + '_gallery');
+      if (galleryEl) {
+        var imgs = JSON.parse(galleryEl.dataset.images || '[]');
+        imgs.push(url);
+        galleryEl.dataset.images = JSON.stringify(imgs);
+        galleryEl.innerHTML = renderGalleryThumbs(roomId, imgs);
+      }
+
+      document.getElementById('save-bar').style.display = 'flex';
+      showStatus('تم رفع الصورة بنجاح — لا تنسَ الحفظ', 'success');
+
+    } catch(e) {
+      showStatus('فشل رفع الصورة: ' + e.message, 'error');
+      console.error('Cloudinary upload error:', e);
+    } finally {
+      if (btn) { btn.textContent = 'رفع صورة'; btn.disabled = false; }
+    }
+  }
+
+  function removeRoomImg(roomId, index) {
+    var galleryEl = document.getElementById(roomId + '_gallery');
+    if (!galleryEl) return;
+    var imgs = JSON.parse(galleryEl.dataset.images || '[]');
+    imgs.splice(index, 1);
+    galleryEl.dataset.images = JSON.stringify(imgs);
+    galleryEl.innerHTML = renderGalleryThumbs(roomId, imgs);
+    document.getElementById('save-bar').style.display = 'flex';
+  }
+
+  function clearRoomImgs(roomId) {
+    var galleryEl = document.getElementById(roomId + '_gallery');
+    if (!galleryEl) return;
+    galleryEl.dataset.images = '[]';
+    galleryEl.innerHTML = '<div class="img-upload-placeholder">لا توجد صور</div>';
+    document.getElementById('save-bar').style.display = 'flex';
+  }
+
+  // Init cld-preset input from localStorage
+  (function() {
+    var saved = localStorage.getItem('vescera_cld_preset') || '';
+    var el = document.getElementById('cld-preset');
+    if (el && saved) el.value = saved;
+  })();
+
+  // ── Password Gate Logic ──────────────────────────────
+  (function() {
+    var CORRECT = 'vescera2030';
+    var gate = document.getElementById('pw-gate');
+    var input = document.getElementById('pw-input');
+    var err = document.getElementById('pw-err');
+
+    // If already unlocked this session, skip gate
+    if (sessionStorage.getItem('vescera_admin_auth') === '1') {
+      gate.classList.add('hidden');
+      return;
+    }
+
+    // Block page scrolling while gate is visible
+    document.body.style.overflow = 'hidden';
+
+    function checkPw() {
+      if (input.value === CORRECT) {
+        sessionStorage.setItem('vescera_admin_auth', '1');
+        gate.style.opacity = '0';
+        gate.style.transition = 'opacity 0.4s ease';
+        document.body.style.overflow = '';
+        setTimeout(function() { gate.classList.add('hidden'); }, 400);
+      } else {
+        err.textContent = 'كلمة السر غير صحيحة';
+        input.classList.remove('shake');
+        void input.offsetWidth; // reflow to restart animation
+        input.classList.add('shake');
+        input.value = '';
+        setTimeout(function() {
+          input.classList.remove('shake');
+          err.textContent = '';
+        }, 1500);
+      }
+    }
+
+    // Make checkPw global so the button onclick can call it
+    window.checkPw = checkPw;
+
+    // Allow Enter key
+    input.addEventListener('keydown', function(e) {
+      if (e.key === 'Enter') checkPw();
+    });
+
+    // Focus input
+    setTimeout(function() { input.focus(); }, 100);
+  })();
+</script>
+</body>
+</html>
