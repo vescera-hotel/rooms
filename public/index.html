@@ -776,31 +776,40 @@
 <body>
 
 <!-- ═══ VIDEO INTRO LOADER ═══ -->
-<div id="video-loader" style="
+<div id="page-loader" style="
   position:fixed; inset:0; z-index:9999;
   background:#000;
-  display:flex; align-items:center; justify-content:center;
-  transition:opacity 1.2s ease;
+  display:flex; flex-direction:column; align-items:center; justify-content:center;
+  transition:opacity 1s ease;
 ">
-  <video id="loader-video" autoplay muted playsinline
-    style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover;pointer-events:none;border:none;display:block;"
-    onended="dismissLoader()"
-    onerror="dismissLoader()"
-  >
-    <source src="https://res.cloudinary.com/dlazeylfu/video/upload/0619_2_1_1_pk9nzf.mp4" type="video/mp4" onerror="dismissLoader()" />
-  </video>
-  <button onclick="dismissLoader()" style="
-    position:absolute; bottom:28px; left:50%; transform:translateX(-50%);
-    background:transparent; border:1px solid rgba(201,168,76,0.4);
-    color:rgba(201,168,76,0.85); font-family:'Cormorant Garamond',serif;
-    font-size:11px; letter-spacing:0.35em; text-transform:uppercase;
-    padding:11px 32px; cursor:pointer; z-index:10; transition:all 0.2s;
-  " onmouseover="this.style.background='rgba(201,168,76,0.1)'" onmouseout="this.style.background='transparent'">SKIP  ›</button>
+  <img src="images/logo-vescera.png" alt="Hotel Vescera" id="loader-logo" style="
+    width:200px; max-width:55vw;
+    opacity:0;
+    transform:scale(0.88);
+    transition:opacity 0.9s ease, transform 0.9s ease;
+  " />
+  <div id="loader-bar-wrap" style="
+    margin-top:36px;
+    width:120px; height:1px;
+    background:rgba(201,168,76,0.18);
+    position:relative; overflow:hidden;
+    opacity:0; transition:opacity 0.6s ease 0.4s;
+  ">
+    <div id="loader-bar" style="
+      position:absolute; left:-100%; top:0;
+      width:100%; height:100%;
+      background:linear-gradient(90deg,transparent,#c9a84c,transparent);
+    "></div>
+  </div>
 </div>
 
 <style>
-  #video-loader.hidden { opacity:0; pointer-events:none; }
   body.loader-active { overflow:hidden; }
+  @keyframes loaderSweep {
+    0%   { left:-100%; }
+    100% { left:100%; }
+  }
+  #loader-bar { animation: loaderSweep 1.4s ease-in-out infinite; }
 </style>
 
 <script>
@@ -810,34 +819,25 @@
   function dismissLoader() {
     if (loaderDismissed) return;
     loaderDismissed = true;
-    var loader = document.getElementById('video-loader');
+    var loader = document.getElementById('page-loader');
     if (!loader) return;
     loader.style.opacity = '0';
     document.body.classList.remove('loader-active');
-    setTimeout(function(){ loader.style.display = 'none'; }, 1200);
+    setTimeout(function(){ loader.style.display = 'none'; }, 1000);
   }
 
-  // Attach video events after DOM is ready
-  var vid = document.getElementById('loader-video');
-  if (vid) {
-    vid.addEventListener('ended', dismissLoader);
-    vid.addEventListener('error', dismissLoader);
-    // Only dismiss on actual error — not on stalled/suspend (common on mobile buffering)
-    // Wait for video to be able to play before starting the watchdog
-    vid.addEventListener('canplay', function() {
-      vid.play().catch(dismissLoader);
-    });
-  }
+  // Animate logo in
+  var loaderLogo = document.getElementById('loader-logo');
+  var loaderBarWrap = document.getElementById('loader-bar-wrap');
+  requestAnimationFrame(function() {
+    setTimeout(function() {
+      if (loaderLogo) { loaderLogo.style.opacity = '1'; loaderLogo.style.transform = 'scale(1)'; }
+      if (loaderBarWrap) loaderBarWrap.style.opacity = '1';
+    }, 80);
+  });
 
-  // Fallback: dismiss if video never starts within 8s, or after 30s max
-  var startWatchdog = setTimeout(dismissLoader, 8000);
-  if (vid) {
-    vid.addEventListener('playing', function() {
-      clearTimeout(startWatchdog);
-      // Hard cap: dismiss after 30s no matter what
-      setTimeout(dismissLoader, 30000);
-    });
-  }
+  // Auto-dismiss after 2.5s
+  setTimeout(dismissLoader, 2500);
 </script>
 
 <div id="toast">
