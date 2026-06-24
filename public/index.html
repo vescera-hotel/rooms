@@ -2335,6 +2335,19 @@
                   if (rooms[k].nameAr)   ROOMS[k].nameAr   = rooms[k].nameAr;
                   if (rooms[k].price)    ROOMS[k].price    = rooms[k].price;
                   if (rooms[k].desc)     ROOMS[k].desc     = rooms[k].desc;
+                  // Update card DOM elements
+                  var cardImg2 = document.querySelector('[data-room-id="' + k + '"]');
+                  if (cardImg2) {
+                    var rc = cardImg2.closest('.rc');
+                    if (rc) {
+                      var nameEl = rc.querySelector('.rc-name');
+                      var arEl2  = rc.querySelector('.rc-arabic');
+                      var priceEl = rc.querySelector('.rc-price');
+                      if (nameEl && rooms[k].name)   nameEl.textContent  = rooms[k].name;
+                      if (arEl2  && rooms[k].nameAr) arEl2.textContent   = rooms[k].nameAr;
+                      if (priceEl && rooms[k].price) priceEl.textContent = rooms[k].price;
+                    }
+                  }
                   if (rooms[k].descAr)   ROOMS[k].descAr   = rooms[k].descAr;
                   if (rooms[k].descFr)   ROOMS[k].descFr   = rooms[k].descFr;
                   if (rooms[k].descEn)   ROOMS[k].descEn   = rooms[k].descEn;
