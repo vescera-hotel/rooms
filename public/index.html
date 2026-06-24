@@ -2,7 +2,7 @@
 <html lang="ar">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Hotel Vescera — فندق فسيرة</title>
   <link rel="icon" href="images/logo.jpg" />
   <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -731,6 +731,46 @@
       background: rgba(5,3,0,0.98) !important;
       border-bottom-color: rgba(201,168,76,0.18) !important;
     }
+
+    /* ── SMALL PHONE FIXES (< 360px) ── */
+    @media (max-width: 360px) {
+      .rc-name { font-size: 18px !important; letter-spacing: 0.12em !important; }
+      .rc-price { font-size: 30px !important; }
+      .rc-bottom { flex-direction: column; align-items: flex-start !important; gap: 8px !important; }
+      .rc-price-block { text-align: left !important; }
+      .rc-info { padding: 16px 14px 18px !important; }
+      .rc-stats { gap: 0; }
+      .rc-stat-val { font-size: 11px !important; }
+      .sec-eyebrow { letter-spacing: 0.35em !important; }
+      .rc-wrap { padding: 12px 12px 0 !important; }
+      .rc-divider { padding: 14px 16px !important; }
+      .gold-btn { letter-spacing: 0.2em !important; font-size: 9px !important; }
+    }
+
+    /* ── MODAL SMALL PHONE FIXES ── */
+    @media (max-width: 360px) {
+      #modal-room-name { font-size: 26px !important; letter-spacing: 0.1em !important; }
+      #modal-price { font-size: 36px !important; }
+    }
+
+    /* ── REDUCED MOTION — disable heavy animations for performance ── */
+    @media (prefers-reduced-motion: reduce) {
+      .ember, .god-ray, .hero-aurora, .hero-star,
+      .corona-ring, .reveal, .rc, .experience-item {
+        animation: none !important;
+        transition: none !important;
+        opacity: 1 !important;
+        transform: none !important;
+      }
+      .rc.from-right, .rc.from-left { transform: none !important; opacity: 1 !important; }
+    }
+
+    /* ── TOUCH IMPROVEMENT — bigger tap targets ── */
+    @media (pointer: coarse) {
+      .gold-btn { min-height: 56px; }
+      button { cursor: pointer; }
+      .rc-img img { transition: none !important; }
+    }
   </style>
 </head>
 <body>
@@ -742,12 +782,13 @@
   display:flex; align-items:center; justify-content:center;
   transition:opacity 1.2s ease;
 ">
-  <iframe id="loader-iframe"
-    src="https://player.cloudinary.com/embed/?cloud_name=dlazeylfu&public_id=0619_2_1_1_pk9nzf&autoplay=true&loop=true&muted=true&controls=false&background=true"
-    allow="autoplay; fullscreen"
-    allowfullscreen
-    style="position:absolute;inset:0;width:100%;height:100%;border:none;display:block;pointer-events:none;"
-  ></iframe>
+  <video id="loader-video" autoplay muted playsinline
+    style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover;pointer-events:none;border:none;display:block;"
+    onended="dismissLoader()"
+    onerror="dismissLoader()"
+  >
+    <source src="https://res.cloudinary.com/dlazeylfu/video/upload/0619_2_1_1_pk9nzf.mp4" type="video/mp4" onerror="dismissLoader()" />
+  </video>
   <button onclick="dismissLoader()" style="
     position:absolute; bottom:28px; left:50%; transform:translateX(-50%);
     background:transparent; border:1px solid rgba(201,168,76,0.4);
@@ -776,41 +817,27 @@
     setTimeout(function(){ loader.style.display = 'none'; }, 1200);
   }
 
-  var lastTime = 0;
-  var knownDur = 0;
-  var earlyTimer = null;
+  // Attach video events after DOM is ready
+  var vid = document.getElementById('loader-video');
+  if (vid) {
+    vid.addEventListener('ended', dismissLoader);
+    vid.addEventListener('error', dismissLoader);
+    // Only dismiss on actual error — not on stalled/suspend (common on mobile buffering)
+    // Wait for video to be able to play before starting the watchdog
+    vid.addEventListener('canplay', function() {
+      vid.play().catch(dismissLoader);
+    });
+  }
 
-  // استمع لأحداث postMessage من Cloudinary
-  window.addEventListener('message', function(e) {
-    try {
-      var data = typeof e.data === 'string' ? JSON.parse(e.data) : e.data;
-      if (!data) return;
-
-      var evt     = String(data.event || data.type || '');
-      var payload = data.data || data.info || data.params || data;
-      var dur     = parseFloat(payload.duration || 0);
-      var curr    = parseFloat(payload.currentTime || payload.current_time || 0);
-
-      // سجّل المدة عند أول قراءة لها
-      if (dur > 0 && knownDur === 0) knownDur = dur;
-
-      // اكتشاف إعادة التشغيل (loop): إذا انخفض الوقت فجأة بعد > 2 ثانية
-      if (knownDur > 0 && lastTime > 2 && curr < lastTime - 2) {
-        dismissLoader();
-        return;
-      }
-      lastTime = curr;
-
-      // اختفاء قبل ثانية من النهاية عبر timer دقيق
-      if (knownDur > 0 && !earlyTimer) {
-        var msLeft = Math.max((knownDur - curr - 1) * 1000, 200);
-        earlyTimer = setTimeout(dismissLoader, msLeft);
-      }
-    } catch(e2) {}
-  });
-
-  // fallback: اختفاء بعد 14 ثانية
-  setTimeout(dismissLoader, 14000);
+  // Fallback: dismiss if video never starts within 8s, or after 30s max
+  var startWatchdog = setTimeout(dismissLoader, 8000);
+  if (vid) {
+    vid.addEventListener('playing', function() {
+      clearTimeout(startWatchdog);
+      // Hard cap: dismiss after 30s no matter what
+      setTimeout(dismissLoader, 30000);
+    });
+  }
 </script>
 
 <div id="toast">
@@ -1077,7 +1104,7 @@
     <div style="padding:0 32px;margin-bottom:52px;position:relative;z-index:2;">
       <div style="border-left:1px solid rgba(201,168,76,0.28);padding-left:20px;">
         <p class="font-serif-custom" data-i18n="intro_quote" style="font-style:italic;color:#ede0b8;font-size:19px;line-height:1.85;font-weight:400;text-transform:none;letter-spacing:0.01em;">
-          "Since 2024, VESCERA HOTEL has defined the new language of luxury hospitality across the Middle East."
+          "Since 2014, VESCERA HOTEL has defined the new language of luxury hospitality across the Middle East."
         </p>
       </div>
     </div>
@@ -1085,8 +1112,8 @@
     <!-- Three big stats -->
     <div style="display:grid;grid-template-columns:1fr 1fr 1fr;padding:0 20px;margin-bottom:52px;">
       <div style="display:flex;flex-direction:column;align-items:center;padding:20px 4px;">
-        <span style="font-family:'Cormorant Garamond',serif;font-size:60px;line-height:1;color:#c9a84c;margin-bottom:10px;letter-spacing:-0.03em;">8</span>
-        <span style="font-size:7px;letter-spacing:0.6em;text-transform:uppercase;color:rgba(201,168,76,0.42);font-family:'Inter',sans-serif;">Rooms</span>
+        <span style="font-family:'Cormorant Garamond',serif;font-size:60px;line-height:1;color:#c9a84c;margin-bottom:10px;letter-spacing:-0.03em;">9</span>
+        <span style="font-size:7px;letter-spacing:0.6em;text-transform:uppercase;color:rgba(201,168,76,0.42);font-family:'Inter',sans-serif;">Room Types</span>
       </div>
       <div style="display:flex;flex-direction:column;align-items:center;padding:20px 4px;border-left:1px solid rgba(201,168,76,0.1);border-right:1px solid rgba(201,168,76,0.1);">
         <span style="font-family:'Cormorant Garamond',serif;font-size:60px;line-height:1;color:#c9a84c;margin-bottom:10px;letter-spacing:-0.03em;">24</span>
@@ -1121,7 +1148,7 @@
       <div class="amb" style="top:50%;left:50%;transform:translate(-50%,-50%);width:300px;height:200px;"></div>
       <span class="sec-eyebrow" style="position:relative;z-index:2;">Our Accommodations</span>
       <h2 style="font-size:28px;letter-spacing:0.38em;text-align:center;color:#e8d090;margin-bottom:12px;position:relative;z-index:2;">The Rooms</h2>
-      <p style="font-size:8.5px;letter-spacing:0.4em;text-transform:uppercase;color:rgba(201,168,76,0.3);font-family:'Inter',sans-serif;position:relative;z-index:2;">8 Types — Breakfast Included</p>
+      <p style="font-size:8.5px;letter-spacing:0.4em;text-transform:uppercase;color:rgba(201,168,76,0.3);font-family:'Inter',sans-serif;position:relative;z-index:2;">9 Types — Breakfast Included</p>
       <div class="deco-rule" style="margin-top:32px;width:100%;position:relative;z-index:2;">
         <div class="deco-rule-line"></div>
         <div class="deco-diamond"></div>
@@ -1136,7 +1163,7 @@
         <div class="rc-corner rc-corner-tl"></div><div class="rc-corner rc-corner-tr"></div>
         <div class="rc-corner rc-corner-bl"></div><div class="rc-corner rc-corner-br"></div>
         <div class="rc-img">
-          <img src="images/room-standard.jpg" alt="Single Room" loading="lazy" />
+          <img src="images/room-standard.jpg" alt="Single Room" loading="lazy" data-room-id="single" />
           <div class="rc-img-fade"></div>
           <div class="rc-ghost-num">01</div>
           <div class="rc-num-badge">
@@ -1179,7 +1206,7 @@
         <div class="rc-corner rc-corner-tl"></div><div class="rc-corner rc-corner-tr"></div>
         <div class="rc-corner rc-corner-bl"></div><div class="rc-corner rc-corner-br"></div>
         <div class="rc-img">
-          <img src="images/room-twin.jpg" alt="Double Room" loading="lazy" />
+          <img src="images/room-twin.jpg" alt="Double Room" loading="lazy" data-room-id="double" />
           <div class="rc-img-fade"></div>
           <div class="rc-ghost-num">02</div>
           <div class="rc-num-badge"><div class="rc-num-badge-line"></div><span class="rc-num-badge-text">No. 02</span></div>
@@ -1213,7 +1240,7 @@
         <div class="rc-corner rc-corner-tl"></div><div class="rc-corner rc-corner-tr"></div>
         <div class="rc-corner rc-corner-bl"></div><div class="rc-corner rc-corner-br"></div>
         <div class="rc-img">
-          <img src="images/room-triple.jpg" alt="Triple Room" loading="lazy" />
+          <img src="images/room-triple.jpg" alt="Triple Room" loading="lazy" data-room-id="triple" />
           <div class="rc-img-fade"></div>
           <div class="rc-ghost-num">03</div>
           <div class="rc-num-badge"><div class="rc-num-badge-line"></div><span class="rc-num-badge-text">No. 03</span></div>
@@ -1247,7 +1274,7 @@
         <div class="rc-corner rc-corner-tl"></div><div class="rc-corner rc-corner-tr"></div>
         <div class="rc-corner rc-corner-bl"></div><div class="rc-corner rc-corner-br"></div>
         <div class="rc-img">
-          <img src="images/room-suite.jpg" alt="Suite Single" loading="lazy" />
+          <img src="images/room-suite.jpg" alt="Suite Single" loading="lazy" data-room-id="suite-single" />
           <div class="rc-img-fade"></div>
           <div class="rc-ghost-num">04</div>
           <div class="rc-num-badge"><div class="rc-num-badge-line"></div><span class="rc-num-badge-text">No. 04</span></div>
@@ -1281,7 +1308,7 @@
         <div class="rc-corner rc-corner-tl"></div><div class="rc-corner rc-corner-tr"></div>
         <div class="rc-corner rc-corner-bl"></div><div class="rc-corner rc-corner-br"></div>
         <div class="rc-img">
-          <img src="images/room-suite.jpg" alt="Suite Double" loading="lazy" />
+          <img src="images/room-suite.jpg" alt="Suite Double" loading="lazy" data-room-id="suite-double" />
           <div class="rc-img-fade"></div>
           <div class="rc-ghost-num">05</div>
           <div class="rc-num-badge"><div class="rc-num-badge-line"></div><span class="rc-num-badge-text">No. 05</span></div>
@@ -1309,16 +1336,50 @@
 
     <div class="rc-divider"><svg width="180" height="14" viewBox="0 0 180 14"><line x1="0" y1="7" x2="72" y2="7" stroke="#c9a84c" stroke-width="0.5" opacity="0.4"/><polygon points="90,1 97,7 90,13 83,7" fill="none" stroke="#c9a84c" stroke-width="0.7" opacity="0.6"/><line x1="108" y1="7" x2="180" y2="7" stroke="#c9a84c" stroke-width="0.5" opacity="0.4"/></svg></div>
 
-    <!-- 06 — Appartement · from-left -->
+    <!-- 06 — Suite Triple · from-left -->
     <div class="rc-wrap">
       <div class="rc from-left">
         <div class="rc-corner rc-corner-tl"></div><div class="rc-corner rc-corner-tr"></div>
         <div class="rc-corner rc-corner-bl"></div><div class="rc-corner rc-corner-br"></div>
         <div class="rc-img">
-          <img src="images/room-suite.jpg" alt="Appartement" loading="lazy" />
+          <img src="images/room-triple.jpg" alt="Suite Triple" loading="lazy" data-room-id="suite-triple" />
           <div class="rc-img-fade"></div>
           <div class="rc-ghost-num">06</div>
           <div class="rc-num-badge"><div class="rc-num-badge-line"></div><span class="rc-num-badge-text">No. 06</span></div>
+        </div>
+        <div class="rc-info">
+          <div class="rc-title-row">
+            <div><div class="rc-name">Suite Triple</div><div class="rc-arabic">سويت تريبل</div></div>
+            <span class="rc-badge">Suite</span>
+          </div>
+          <div class="rc-sep"><div class="rc-sep-line"></div><div class="rc-sep-diamond"></div><div class="rc-sep-line"></div></div>
+          <div class="rc-stats">
+            <div class="rc-stat"><span class="rc-stat-label">Guests</span><span class="rc-stat-val">3</span></div>
+            <div class="rc-stat"><span class="rc-stat-label">Beds</span><span class="rc-stat-val">3 Beds</span></div>
+            <div class="rc-stat"><span class="rc-stat-label">Type</span><span class="rc-stat-val">Suite</span></div>
+          </div>
+          <span class="rc-bkf">☕ Petit déjeuner inclus</span>
+          <div class="rc-bottom">
+            <p class="rc-desc" dir="rtl">جناح ثلاثي فاخر بمساحة واسعة وثلاثة أسرّة مريحة، مثالي للعائلات والمجموعات.</p>
+            <div class="rc-price-block"><div class="rc-price">11,500</div><div class="rc-price-unit">DA / الليلة</div></div>
+          </div>
+          <button class="gold-btn" onclick="scrollToInquiry()">Inquire — استعلام</button>
+        </div>
+      </div>
+    </div>
+
+    <div class="rc-divider"><svg width="180" height="14" viewBox="0 0 180 14"><line x1="0" y1="7" x2="72" y2="7" stroke="#c9a84c" stroke-width="0.5" opacity="0.4"/><polygon points="90,1 97,7 90,13 83,7" fill="none" stroke="#c9a84c" stroke-width="0.7" opacity="0.6"/><line x1="108" y1="7" x2="180" y2="7" stroke="#c9a84c" stroke-width="0.5" opacity="0.4"/></svg></div>
+
+    <!-- 07 — Appartement · from-right -->
+    <div class="rc-wrap">
+      <div class="rc from-left">
+        <div class="rc-corner rc-corner-tl"></div><div class="rc-corner rc-corner-tr"></div>
+        <div class="rc-corner rc-corner-bl"></div><div class="rc-corner rc-corner-br"></div>
+        <div class="rc-img">
+          <img src="images/room-suite.jpg" alt="Appartement" loading="lazy" data-room-id="appartement" />
+          <div class="rc-img-fade"></div>
+          <div class="rc-ghost-num">07</div>
+          <div class="rc-num-badge"><div class="rc-num-badge-line"></div><span class="rc-num-badge-text">No. 07</span></div>
         </div>
         <div class="rc-info">
           <div class="rc-title-row">
@@ -1349,10 +1410,10 @@
         <div class="rc-corner rc-corner-tl"></div><div class="rc-corner rc-corner-tr"></div>
         <div class="rc-corner rc-corner-bl"></div><div class="rc-corner rc-corner-br"></div>
         <div class="rc-img">
-          <img src="images/room-triple.jpg" alt="Single VIP" loading="lazy" />
+          <img src="images/room-triple.jpg" alt="Single VIP" loading="lazy" data-room-id="single-vip" />
           <div class="rc-img-fade"></div>
-          <div class="rc-ghost-num">07</div>
-          <div class="rc-num-badge"><div class="rc-num-badge-line"></div><span class="rc-num-badge-text">No. 07</span></div>
+          <div class="rc-ghost-num">08</div>
+          <div class="rc-num-badge"><div class="rc-num-badge-line"></div><span class="rc-num-badge-text">No. 08</span></div>
         </div>
         <div class="rc-info">
           <div class="rc-title-row">
@@ -1383,10 +1444,10 @@
         <div class="rc-corner rc-corner-tl"></div><div class="rc-corner rc-corner-tr"></div>
         <div class="rc-corner rc-corner-bl"></div><div class="rc-corner rc-corner-br"></div>
         <div class="rc-img">
-          <img src="images/room-twin.jpg" alt="Double VIP" loading="lazy" />
+          <img src="images/room-twin.jpg" alt="Double VIP" loading="lazy" data-room-id="double-vip" />
           <div class="rc-img-fade"></div>
-          <div class="rc-ghost-num">08</div>
-          <div class="rc-num-badge"><div class="rc-num-badge-line"></div><span class="rc-num-badge-text">No. 08</span></div>
+          <div class="rc-ghost-num">09</div>
+          <div class="rc-num-badge"><div class="rc-num-badge-line"></div><span class="rc-num-badge-text">No. 09</span></div>
         </div>
         <div class="rc-info">
           <div class="rc-title-row">
@@ -1506,6 +1567,21 @@
         <div id="modal-ghost-num" style="position:absolute; bottom:-16px; right:8px; font-family:'Cormorant Garamond',serif; font-size:110px; font-weight:700; color:rgba(201,168,76,0.06); line-height:1; pointer-events:none; user-select:none;"></div>
         <!-- Image dots -->
         <div id="modal-img-dots" style="position:absolute; bottom:14px; right:22px; display:flex; gap:6px;"></div>
+        <!-- Nav arrows -->
+        <button id="modal-arrow-prev" onclick="slideshowNav(-1)" aria-label="prev" style="
+          display:none; position:absolute; left:10px; top:50%; transform:translateY(-50%);
+          background:rgba(5,3,0,0.55); backdrop-filter:blur(8px); -webkit-backdrop-filter:blur(8px);
+          border:1px solid rgba(201,168,76,0.3); color:#c9a84c;
+          width:36px; height:36px; border-radius:50%; cursor:pointer;
+          font-size:18px; line-height:1; z-index:10; transition:background 0.2s;
+        ">&#8249;</button>
+        <button id="modal-arrow-next" onclick="slideshowNav(1)" aria-label="next" style="
+          display:none; position:absolute; right:10px; top:50%; transform:translateY(-50%);
+          background:rgba(5,3,0,0.55); backdrop-filter:blur(8px); -webkit-backdrop-filter:blur(8px);
+          border:1px solid rgba(201,168,76,0.3); color:#c9a84c;
+          width:36px; height:36px; border-radius:50%; cursor:pointer;
+          font-size:18px; line-height:1; z-index:10; transition:background 0.2s;
+        ">&#8250;</button>
       </div>
 
       <!-- ── BACK BUTTON (floats over hero) ── -->
@@ -1656,7 +1732,7 @@
           </div>
           <div style="display:flex; align-items:center; gap:10px;">
             <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="rgba(201,168,76,0.5)" stroke-width="1.5" stroke-linecap="round"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07A19.5 19.5 0 0 1 4.99 8.73a19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 3.9 2h3a2 2 0 0 1 2 1.72c.127.96.361 1.903.7 2.81a2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0 1 22 16.92z"/></svg>
-            <span style="font-size:10px; color:rgba(184,170,136,0.7); letter-spacing:0.25em; font-family:'Inter',sans-serif;">033 530303</span>
+            <span style="font-size:10px; color:rgba(184,170,136,0.7); letter-spacing:0.25em; font-family:'Inter',sans-serif;">039 199 342 &nbsp;|&nbsp; 033 534 877</span>
           </div>
           <div style="display:flex; align-items:center; gap:10px;">
             <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="rgba(201,168,76,0.5)" stroke-width="1.5" stroke-linecap="round"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>
@@ -1787,6 +1863,8 @@
     'Accueil VIP':         {en:'VIP Welcome',          fr:'Accueil VIP',           ar:'استقبال VIP'},
     'Early check-in':      {en:'Early Check-in',       fr:'Early check-in',        ar:'دخول مبكر'},
     'Late check-out':      {en:'Late Check-out',       fr:'Late check-out',        ar:'خروج متأخر'},
+    'Balcon':              {en:'Balcony',              fr:'Balcon',                ar:'شرفة'},
+    'Terrasse aménagée':   {en:'Furnished Rooftop',    fr:'Terrasse aménagée',     ar:'سطح مجهز'},
   };
 
   var T = {
@@ -1796,7 +1874,7 @@
       hero_line2a:  'YOUR',
       hero_line2b:  'ROOM',
       hero_main:    'Where every moment is a memory',
-      intro_quote:  '"Since 2024, VESCERA HOTEL has defined the new language of luxury hospitality across the Middle East."',
+      intro_quote:  '"Since 2014, VESCERA HOTEL has defined the new language of luxury hospitality across the Middle East."',
       intro_ar:     'A sanctuary where elegance meets authenticity — redefining the art of luxury living.',
       exp_title:    'Curated Experiences',
       exp_2:'Fine Dining',      exp_2s:'World Cuisine',
@@ -1881,6 +1959,8 @@
 
   // Room desc key order (matches DOM order)
   var ROOM_DESC_KEYS = ['r_single','r_double','r_triple','r_suites','r_suited','r_appart','r_svip','r_dvip'];
+  // Room IDs in same order (for JSONbin desc lookup)
+  var ROOM_IDS_ORDER = ['single','double','triple','suite-single','suite-double','appartement','single-vip','double-vip'];
   // Experience names key order
   var EXP_KEYS = [
     ['exp_2','exp_2s'],['exp_3','exp_3s'],
@@ -1906,11 +1986,18 @@
     var descs = document.querySelectorAll('#rooms p[data-i18n-room]');
     descs.forEach(function(el, i) {
       var k = ROOM_DESC_KEYS[i];
-      if (k && t[k]) {
-        el.textContent = t[k];
-        el.dir = isAr ? 'rtl' : 'ltr';
-        el.style.fontFamily = isAr ? "'Noto Serif Arabic',serif" : "'Inter',sans-serif";
+      var roomId = ROOM_IDS_ORDER[i];
+      var r = ROOMS[roomId];
+      var customDesc;
+      if (lang === 'ar') {
+        customDesc = r && (r.desc || r.descAr);
+      } else {
+        var descField = lang === 'fr' ? 'descFr' : 'descEn';
+        customDesc = r && r[descField];
       }
+      el.textContent = customDesc || (k && t[k]) || '';
+      el.dir = isAr ? 'rtl' : 'ltr';
+      el.style.fontFamily = isAr ? "'Noto Serif Arabic',serif" : "'Inter',sans-serif";
     });
 
     // ── Room spec labels (Guests / Bed / Beds / Type / Rooms) ──
@@ -2005,7 +2092,15 @@
       price: '9,500',
       images: ['/images/room-suite.jpg', '/images/room-triple.jpg'],
       desc: 'جناح فاخر للفرد بمساحة رحبة وخدمات استثنائية، تجربة إقامة تفوق التوقعات.',
-      features: ['WiFi gratuit','Climatisation','TV Satellite','Jacuzzi','Salon privé','Vue panoramique','Service Butler','Coffre-fort','Peignoir & chaussons']
+      features: ['WiFi gratuit','Climatisation','TV Satellite','Salle de bain privée','Salon privé','Vue panoramique','Service Butler','Coffre-fort','Peignoir & chaussons']
+    },
+    'suite-triple': {
+      name: 'Suite Triple',
+      nameAr: 'سويت تريبل',
+      price: '11,500',
+      images: ['/images/room-triple.jpg'],
+      desc: 'جناح ثلاثي فاخر بمساحة واسعة وثلاثة أسرّة مريحة، مثالي للعائلات والمجموعات الباحثة عن الرقي والخصوصية.',
+      features: ['WiFi gratuit','Climatisation','TV Satellite','Salle de bain privée','Salon privé','Espace salon','Vue panoramique','Service chambre 24h','Coffre-fort','Peignoir & chaussons','Balcon']
     },
     'suite-double': {
       name: 'Suite Double',
@@ -2013,7 +2108,7 @@
       price: '10,500',
       images: ['/images/room-suite.jpg', '/images/room-suite.jpg'],
       desc: 'جناح مزدوج يدمج الرفاهية والخصوصية في مساحة ساحرة بإطلالة لا تُنسى.',
-      features: ['WiFi gratuit','Climatisation','TV Satellite','Jacuzzi','Salon privé','Dressing','Vue panoramique','Service Butler','Peignoir & chaussons']
+      features: ['WiFi gratuit','Climatisation','TV Satellite','Salle de bain privée','Salon privé','Dressing','Vue panoramique','Service Butler','Peignoir & chaussons']
     },
     'appartement': {
       name: 'Appartement',
@@ -2021,7 +2116,7 @@
       price: '15,000',
       images: ['/images/room-suite.jpg', '/images/room-suite.jpg'],
       desc: 'شقة فندقية متكاملة بمطبخ وغرف متعددة، مثالية للعائلات والإقامات الطويلة.',
-      features: ['WiFi gratuit','Climatisation','TV Satellite','Cuisine équipée','Jacuzzi','Salon privé','Salle à manger','2+ Chambres','Service chambre 24h','Lave-linge']
+      features: ['WiFi gratuit','Climatisation','TV Satellite','Salle de bain privée','Salon privé','Salle à manger','2+ Chambres','Service chambre 24h','Lave-linge','Terrasse aménagée']
     },
     'single-vip': {
       name: 'Single VIP',
@@ -2029,7 +2124,7 @@
       price: '8,000',
       images: ['/images/room-triple.jpg', '/images/room-suite.jpg'],
       desc: 'تجربة VIP حصرية للفرد مع خدمة Butler شخصية وامتيازات لا مثيل لها.',
-      features: ['WiFi gratuit','Climatisation','TV Satellite','Jacuzzi','Butler privé','Accueil VIP','Vue panoramique','Peignoir & chaussons','Early check-in']
+      features: ['WiFi gratuit','Climatisation','TV Satellite','Salle de bain privée','Butler privé','Accueil VIP','Vue panoramique','Peignoir & chaussons','Early check-in','Balcon']
     },
     'double-vip': {
       name: 'Double VIP',
@@ -2037,12 +2132,28 @@
       price: '9,000',
       images: ['/images/room-twin.jpg', '/images/room-suite.jpg'],
       desc: 'تجربة VIP مزدوجة بفخامة تامة وخصوصية مطلقة وخدمات استثنائية على مدار الساعة.',
-      features: ['WiFi gratuit','Climatisation','TV Satellite','Jacuzzi','Butler privé','Dressing','Accueil VIP','Vue panoramique','Late check-out']
+      features: ['WiFi gratuit','Climatisation','TV Satellite','Salle de bain privée','Butler privé','Dressing','Accueil VIP','Vue panoramique','Late check-out','Balcon']
     }
   };
 
   var currentImgIndex = 0;
   var currentImages = [];
+  var slideshowTimer = null;
+
+  function startSlideshow() {
+    clearInterval(slideshowTimer);
+    if (currentImages.length < 2) return;
+    slideshowTimer = setInterval(function() {
+      var next = (currentImgIndex + 1) % currentImages.length;
+      switchImg(next);
+    }, 3000);
+  }
+
+  function slideshowNav(dir) {
+    var next = (currentImgIndex + dir + currentImages.length) % currentImages.length;
+    switchImg(next);
+    startSlideshow();
+  }
 
   var ROOM_BADGES = {
     'single':'Standard','double':'Standard','triple':'Standard',
@@ -2083,7 +2194,8 @@
       'appartement':'r_appart','single-vip':'r_svip','double-vip':'r_dvip'
     }[id];
     var descEl = document.getElementById('modal-desc');
-    descEl.textContent = t[descKey] || r.desc;
+    var descField = LANG === 'ar' ? 'descAr' : LANG === 'fr' ? 'descFr' : 'descEn';
+    descEl.textContent = (r && r[descField]) || t[descKey] || r.desc;
     descEl.dir = isAr ? 'rtl' : 'ltr';
     descEl.style.fontFamily = isAr ? "'Noto Serif Arabic',serif" : "'Inter',sans-serif";
 
@@ -2099,7 +2211,7 @@
       r.images.forEach(function(_, i) {
         var d = document.createElement('div');
         d.style.cssText = 'width:6px;height:6px;border-radius:50%;background:' + (i===0 ? '#c9a84c' : 'rgba(201,168,76,0.35)') + ';cursor:pointer;transition:background 0.2s;';
-        d.onclick = function() { switchImg(i); };
+        d.onclick = function() { switchImg(i); startSlideshow(); };
         dots.appendChild(d);
       });
     }
@@ -2109,7 +2221,7 @@
     gallery.ontouchstart = function(e) { gallery._tx = e.touches[0].clientX; };
     gallery.ontouchend = function(e) {
       var dx = e.changedTouches[0].clientX - gallery._tx;
-      if (Math.abs(dx) > 40) switchImg(currentImgIndex + (dx < 0 ? 1 : -1));
+      if (Math.abs(dx) > 40) { slideshowNav(dx < 0 ? 1 : -1); }
     };
 
     // Features translated
@@ -2126,6 +2238,13 @@
     var modalNight = document.getElementById('modal-night-label');
     if (modalNight) modalNight.textContent = t.label_night;
 
+    // Show/hide nav arrows
+    var hasMany = r.images.length > 1;
+    var arrPrev = document.getElementById('modal-arrow-prev');
+    var arrNext = document.getElementById('modal-arrow-next');
+    if (arrPrev) arrPrev.style.display = hasMany ? 'block' : 'none';
+    if (arrNext) arrNext.style.display = hasMany ? 'block' : 'none';
+
     var modal = document.getElementById('room-modal');
     modal.style.display = 'block';
     modal.scrollTop = 0;
@@ -2137,6 +2256,8 @@
     // Ken-Burns on hero image
     var heroImg = document.getElementById('modal-img-main');
     if (heroImg) { heroImg.style.transform = 'scale(1.06)'; setTimeout(function(){ heroImg.style.transform = 'scale(1)'; }, 50); }
+    // Start auto slideshow
+    startSlideshow();
   }
 
   function switchImg(idx) {
@@ -2150,6 +2271,8 @@
   }
 
   function closeRoom() {
+    clearInterval(slideshowTimer);
+    slideshowTimer = null;
     document.getElementById('room-modal').style.display = 'none';
     document.body.style.overflow = '';
   }
@@ -2192,9 +2315,54 @@
       if (spans[1]) spans[1].classList.add('exp-sub');
     });
 
-    // Load saved language or default to EN
+    // Load saved language — fetch JSONbin overrides first if configured
     var saved = localStorage.getItem('vescera_lang') || 'en';
-    applyLang(saved);
+    if (!localStorage.getItem('vescera_bin_id')) localStorage.setItem('vescera_bin_id','6a395cf6f5f4af5e291defef');
+    (async function() {
+      var binId = localStorage.getItem('vescera_bin_id');
+      if (binId) {
+        try {
+          var r = await fetch('https://api.jsonbin.io/v3/b/' + binId + '/latest');
+          if (r.ok) {
+            var data = await r.json();
+            var rooms = data.record && data.record.rooms;
+            if (rooms) {
+              Object.keys(rooms).forEach(function(k) {
+                if (ROOMS[k]) {
+                  if (rooms[k].name)     ROOMS[k].name     = rooms[k].name;
+                  if (rooms[k].nameAr)   ROOMS[k].nameAr   = rooms[k].nameAr;
+                  if (rooms[k].price)    ROOMS[k].price    = rooms[k].price;
+                  if (rooms[k].desc)     ROOMS[k].desc     = rooms[k].desc;
+                  if (rooms[k].descAr)   ROOMS[k].descAr   = rooms[k].descAr;
+                  if (rooms[k].descFr)   ROOMS[k].descFr   = rooms[k].descFr;
+                  if (rooms[k].descEn)   ROOMS[k].descEn   = rooms[k].descEn;
+                  if (rooms[k].features) ROOMS[k].features = rooms[k].features;
+                  // Apply Cloudinary images override
+                  if (rooms[k].images && rooms[k].images.length > 0) {
+                    ROOMS[k].images = rooms[k].images;
+                    var cardImg = document.querySelector('[data-room-id="' + k + '"]');
+                    if (cardImg) {
+                      var fallbackSrc = cardImg.src;
+                      cardImg.src = rooms[k].images[0];
+                      cardImg.onerror = function() { this.src = fallbackSrc; this.onerror = null; };
+                    }
+                  } else if (rooms[k].image) {
+                    ROOMS[k].images = [rooms[k].image];
+                    var cardImg = document.querySelector('[data-room-id="' + k + '"]');
+                    if (cardImg) {
+                      var fallbackSrc = cardImg.src;
+                      cardImg.src = rooms[k].image;
+                      cardImg.onerror = function() { this.src = fallbackSrc; this.onerror = null; };
+                    }
+                  }
+                }
+              });
+            }
+          }
+        } catch(e) { /* fallback to hardcoded data */ }
+      }
+      applyLang(saved);
+    })();
   })();
 
   // ── Intersection Observer ─────────────────────────────
@@ -2220,6 +2388,14 @@
     });
   }, { threshold: 0.12, rootMargin: '0px 0px -40px 0px' });
   rcCards.forEach(function(el) { rcObserver.observe(el); });
+
+  // ── Scroll to inquiry (footer contact section) ────────
+  function scrollToInquiry() {
+    var footer = document.querySelector('footer');
+    if (footer) {
+      footer.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    }
+  }
 
   // ── Hero word staggered reveal ─────────────────────────
   var heroWords = document.querySelectorAll('.hero-word');
